@@ -9,6 +9,7 @@ module.exports = class Fsm {
     this._owner = owner;
     this._states = states;
     this._current = undefined;
+    eventEmiter.register(this);
   }
   
   id() {
@@ -17,7 +18,13 @@ module.exports = class Fsm {
   
   owner() {
     return this._owner;
-  } 
+  }
+
+  current(){
+
+    return this._current;
+
+  }
   /**
    * Ciclo:
    * 1. Si el mensaje es "update"
@@ -32,14 +39,29 @@ module.exports = class Fsm {
         this._current.onUpdate(eventEmitter, this);
       }
     } else {
-      const state = this._states.find((s) => s.accepts(event))
+      
+      const state = this._states.find((s) => s.accepts(event,this._current))
+
+      if (this._current === undefined){
+        this._current == this._states[0];
+
+      }
+
       const accepted = state && state !== this._current;
       if (accepted) {
-        if (this._current) {
-          this._current.onExit(eventEmitter, this);
+        if (this._current == "Descansando") {
+          if (state == "herido"){
+            this._current.onInjured(eventEmitter, this);
+            this._current = "Enojado";
+          }
+          else{
+            this._current.onElementoutArea(eventEmitter, this);
+            this._current = "Molesto";
+          }     
         }
-        this._current = state;
-        this._current.onEnter(eventEmitter, this);
+        else if (this._current == "Descansando"){
+        
+        }
       }
     }
   }  

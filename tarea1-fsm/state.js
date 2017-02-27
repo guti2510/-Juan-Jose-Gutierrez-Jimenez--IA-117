@@ -9,7 +9,7 @@ module.exports = class State {
   /**
    * Si el estado reconoce el mensaje regresa verdadero.
    */
-  accepts(event) {
+  accepts(event,_current) {
     return false;
   }
   /**
@@ -17,6 +17,13 @@ module.exports = class State {
    */
   onEnter(eventEmitter, fsm) {     
   }
+
+  onInjured(eventEmitter, fsm) {     
+  }
+
+  onElementoutArea(eventEmitter, fsm) {     
+  }
+
   /**
    * Si el estado esta activo se llama con cada ciclo
    */
