@@ -1,8 +1,12 @@
 
 public class Main {
 
-	
-	char mapaciudad[][] = {{'%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%'},
+	static int ciudadfilas1 = 16;
+	static int ciudadcolumnas1 = 31;
+
+	static int ciudadfilas2 = 23;
+	static int ciudadcolumnas2 = 54;
+	static char mapaciudad[][] = {{'%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%'},
 						   {'%',' ','D',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','%'},
 						   {'%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%'},
 						   {'%',' ','%','A','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%'},
@@ -28,8 +32,36 @@ public class Main {
 	
 
 	
-	public static void main(String[] args) {
+	public static void printCiudad(){
 		
+	   int i = 0;
+	   int j = 0;
+       for( i = 0; i< ciudadfilas1; i++){
+    	   for ( j = 0 ; j< ciudadcolumnas1; j++){
+    		   System.out.print(mapaciudad[i][j]);
+    	   }
+    	   System.out.println(" ");
+       }
+       
+
+       for( i = 16; i< ciudadfilas2; i++){
+    	   for ( j = 0 ; j< ciudadcolumnas2; j++){
+    		   
+    		   if (mapaciudad[i][j] == '0'){
+    			   System.out.print(" ");
+    			   
+    		   }else{
+    			   System.out.print(mapaciudad[i][j]);
+    		   }
+    	   }
+    	   System.out.println(" ");
+       }
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		printCiudad();
 
 	}
 
