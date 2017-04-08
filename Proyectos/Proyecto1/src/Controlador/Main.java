@@ -1,4 +1,4 @@
-
+package Controlador;
 
 public class Main {
 
@@ -96,8 +96,10 @@ public class Main {
 		int posiciones[] = buscarTaxipos();
 		int posicionX = posiciones[0];
 		int posicionY = posiciones[1];
-
+		
 		Taxi taxiinicial = new Taxi(posicionX,posicionY,0);
+		
+		
 		
 		
 	}
@@ -113,9 +115,18 @@ public class Main {
 	}
 	
 	
-	public static void Animar (int pNanosegundos){
+	public static void Animar (int pNanosegundos) throws InterruptedException{
 		
-		
+		while (true){
+
+			if (pNanosegundos == 0){
+				printCiudad();
+				break;
+			}
+			printCiudad();
+			Thread.sleep(pNanosegundos*1000);
+		}
+
 	}
 	
 	public static void Ruta (boolean pEstado){
@@ -123,9 +134,5 @@ public class Main {
 		
 	}
 	
-	public static void main(String[] args) {
-		printCiudad();
-		Pasear();
-	}
 
 }
