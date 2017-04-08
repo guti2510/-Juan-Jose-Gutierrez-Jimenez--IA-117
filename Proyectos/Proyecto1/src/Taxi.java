@@ -17,6 +17,13 @@ public class Taxi {
 	public Taxi(){
 		
 	}
+	public Taxi(int x, int y, int pGcost)
+    {
+		posX = x;
+		posY = y;
+		Gcost = pGcost;
+
+    }
 	public Taxi(int x, int y, int pGcost,int destino_x, int destino_y)
     {
 		posX = x;

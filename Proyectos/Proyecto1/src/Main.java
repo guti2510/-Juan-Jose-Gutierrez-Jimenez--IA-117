@@ -1,4 +1,5 @@
 
+
 public class Main {
 
 	static int ciudadfilas1 = 16;
@@ -6,8 +7,10 @@ public class Main {
 
 	static int ciudadfilas2 = 23;
 	static int ciudadcolumnas2 = 54;
+	
+	
 	static char mapaciudad[][] = {{'%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%','%'},
-						   {'%',' ','D',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','%'},
+						   {'%',' ','T',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','%'},
 						   {'%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%'},
 						   {'%',' ','%','A','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%',' ','%'},
 						   {'%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%'},
@@ -57,12 +60,72 @@ public class Main {
     	   System.out.println(" ");
        }
 		
+	
+	}
+	
+	public static int[] buscarTaxipos(){
+		
+	   int posX = 0;
+	   int posY = 0;
+	   int i = 0;
+	   int j = 0;
+       for( i = 0; i< ciudadfilas1; i++){
+    	   for ( j = 0 ; j< ciudadcolumnas1; j++){
+    		   if (mapaciudad[i][j] == 'T'){
+    			   posX = i;
+    			   posY = j;
+    		   }
+    	   }
+       }
+       
+
+       for( i = 16; i< ciudadfilas2; i++){
+    	   for ( j = 0 ; j< ciudadcolumnas2; j++){
+    		   if (mapaciudad[i][j] == 'T'){
+    			   posX = i;
+    			   posY = j;
+    		   }
+    	   }
+       }
+	
+       return new int[] {posX, posY};
+	}
+
+	public static void Pasear (){
+		
+		int posiciones[] = buscarTaxipos();
+		int posicionX = posiciones[0];
+		int posicionY = posiciones[1];
+
+		Taxi taxiinicial = new Taxi(posicionX,posicionY,0);
+		
+		
+	}
+	
+	public static void Buscar (){
+		
+		
+	}
+	
+	public static void Mostrar (boolean pEstado){
+		
+		
 	}
 	
 	
+	public static void Animar (int pNanosegundos){
+		
+		
+	}
+	
+	public static void Ruta (boolean pEstado){
+		
+		
+	}
+	
 	public static void main(String[] args) {
 		printCiudad();
-
+		Pasear();
 	}
 
 }
