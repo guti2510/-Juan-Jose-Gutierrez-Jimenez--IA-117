@@ -117,7 +117,13 @@ public class Main {
 	
 	public static void Animar (int pNanosegundos) throws InterruptedException{
 		
-		while (true){
+		
+		Thread hilo = new Proceso("Proceso 1");
+		Thread hilo2 = new Proceso("Proceso 2");
+		
+		hilo.start();
+		hilo2.start();
+		/*while (true){
 
 			if (pNanosegundos == 0){
 				printCiudad();
@@ -126,7 +132,7 @@ public class Main {
 			printCiudad();
 			Thread.sleep(pNanosegundos*1000);
 		}
-
+		*/
 	}
 	
 	public static void Ruta (boolean pEstado){
