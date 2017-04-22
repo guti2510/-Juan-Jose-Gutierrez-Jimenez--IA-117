@@ -64,12 +64,10 @@ public class VistaPrincipal {
 		JButton btnNewButton = new JButton("Pasear");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					Main.Pasear();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					
+					Thread hiloapasear = new Proceso("Proceso PASEAR","Pasear");
+					hiloapasear.start();
+
 			}
 		});
 		btnNewButton.setBounds(30, 116, 97, 25);
@@ -87,7 +85,7 @@ public class VistaPrincipal {
 				tiempo = txtNanosegundos.getText();
 				int nanosegundos = Integer.parseInt(tiempo);
 
-				Thread hiloanimar = new Proceso("Proceso 1",nanosegundos);
+				Thread hiloanimar = new Proceso("Proceso 1",nanosegundos, "Animar");
 				hiloanimar.start();
 
 			}

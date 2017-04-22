@@ -21,6 +21,8 @@ public class Main {
     static LinkedList<Node> closelist =new LinkedList<Node>();
     
     static LinkedList<Character> cuadrasvisitadas =new LinkedList<Character>(); 
+    
+    static Taxi Taxi = new Taxi();
 	
 	static char mapaciudad[][] = {{'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
 						   {'#','T',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -106,54 +108,54 @@ public class Main {
 
 	public static void Pasear () throws InterruptedException{
 		
+		
 		int posiciones[] = buscarTaxipos();
 		int posicionX = posiciones[0];
 		int posicionY = posiciones[1];
 		
-		Taxi taxiinicial = new Taxi(posicionX,posicionY,0);
-		cuadrasvisitadas.add('A');
-		encontrarCuadra(taxiinicial);
+		Taxi.setPosX(posicionX);
+		Taxi.setPosY(posicionY);
+		//Taxi Taxi = new Taxi(posicionX,posicionY,0);
+		Taxi.estado = "Paseando";
 		
-		System.out.println("Cuadra visitada:"+cvisitada);
-		String movimiento = "";
+		while (Taxi.estado == "Paseando"){
+			
+			int posiciones2[] = buscarTaxipos();
+			posicionX = posiciones2[0];
+			posicionY = posiciones2[1];
+			encontrarCuadra(Taxi);
+			
+			System.out.println("Cuadra visitada:"+cvisitada);
+			String movimiento = "";
+			
+			//REMUEVO LA POSICION ACTUAL DEL T QUE NO NECESITO
+			path.removeLast();
+			path.removeLast();
+			while (path.size() != 0 ){
+				
+				int nuevaposY = path.getLast();
+				path.removeLast();
+				int nuevaposX = path.getLast();
+				path.removeLast();
+				
+				if (nuevaposX > posicionX){
+					movimiento = "Abajo";
+				}
+				else if(nuevaposX < posicionX){
+					movimiento = "Arriba";
+				}
+	            else if(nuevaposY > posicionY){
+	            	movimiento = "Derecha";
+				}
+	            else if(nuevaposY < posicionY){
+	            	movimiento = "Izquierda";
+				}	
+				//moverTaxi(nuevaposX,nuevaposY,movimiento);
+				moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
+				Thread.sleep(tiempoespera);
+			}
 		
-		//REMUEVO LA POSICION ACTUAL DEL T QUE NO NECESITO
-		path.removeLast();
-		path.removeLast();
-		for (int i = 0; i<path.size()+2; i++){
-			
-			int nuevaposY = path.getLast();
-			path.removeLast();
-			int nuevaposX = path.getLast();
-			path.removeLast();
-			
-			if (nuevaposX > posicionX){
-				movimiento = "Abajo";
-			}
-			else if(nuevaposX < posicionX){
-				movimiento = "Arriba";
-			}
-            else if(nuevaposY > posicionY){
-            	movimiento = "Derecha";
-			}
-            else if(nuevaposY < posicionY){
-            	movimiento = "Izquierda";
-			}	
-			//moverTaxi(nuevaposX,nuevaposY,movimiento);
-			moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
-			Thread.sleep(tiempoespera);
 		}
-		
-		/*
-		
-		taxiinicial.MoverDerecha();
-		
-		int posX = taxiinicial.getPosX();
-		int posY = taxiinicial.getPosY();
-		moverTaxi(posX,posY,"Derecha");
-		*/
-		
-		
 	}
 	
 	private static void moverTaxi(int posX, int posY, String movimiento) {
