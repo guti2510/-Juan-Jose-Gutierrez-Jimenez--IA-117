@@ -14,6 +14,8 @@ public class Main {
 	static int ciudadfilas2 = 23;
 	static int ciudadcolumnas2 = 54;
 	
+	static int tiempoespera;
+	
 	static LinkedList<Integer> path =new LinkedList<Integer>();  
     static LinkedList<Node> openlist =new LinkedList<Node>();  
     static LinkedList<Node> closelist =new LinkedList<Node>();
@@ -21,8 +23,8 @@ public class Main {
     static LinkedList<Character> cuadrasvisitadas =new LinkedList<Character>(); 
 	
 	static char mapaciudad[][] = {{'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
-						   {'#',' ','T',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
+						   {'#','T',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+						   {'#',' ','%','o','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ','%','A','%',' ','%','B','%',' ','%','C','%',' ','%','D','%',' ','%','E','%',' ','%','F','%',' ','%','G','%',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -102,7 +104,7 @@ public class Main {
        return new int[] {posX, posY};
 	}
 
-	public static void Pasear (){
+	public static void Pasear () throws InterruptedException{
 		
 		int posiciones[] = buscarTaxipos();
 		int posicionX = posiciones[0];
@@ -113,6 +115,34 @@ public class Main {
 		encontrarCuadra(taxiinicial);
 		
 		System.out.println("Cuadra visitada:"+cvisitada);
+		String movimiento = "";
+		
+		//REMUEVO LA POSICION ACTUAL DEL T QUE NO NECESITO
+		path.removeLast();
+		path.removeLast();
+		for (int i = 0; i<path.size()+2; i++){
+			
+			int nuevaposY = path.getLast();
+			path.removeLast();
+			int nuevaposX = path.getLast();
+			path.removeLast();
+			
+			if (nuevaposX > posicionX){
+				movimiento = "Abajo";
+			}
+			else if(nuevaposX < posicionX){
+				movimiento = "Arriba";
+			}
+            else if(nuevaposY > posicionY){
+            	movimiento = "Derecha";
+			}
+            else if(nuevaposY < posicionY){
+            	movimiento = "Izquierda";
+			}	
+			//moverTaxi(nuevaposX,nuevaposY,movimiento);
+			moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
+			Thread.sleep(tiempoespera);
+		}
 		
 		/*
 		
@@ -128,7 +158,6 @@ public class Main {
 	
 	private static void moverTaxi(int posX, int posY, String movimiento) {
 		
-		mapaciudad[posX][posY] = 'T';
 		
 		if (movimiento == "Derecha"){
 			mapaciudad[posX][posY-1] = ' ';
@@ -143,7 +172,27 @@ public class Main {
 			mapaciudad[posX+1][posY] = ' ';
 		}
 		
+		mapaciudad[posX][posY] = 'T';
 	}
+	
+    private static void moverTaxiMarcando(int posX, int posY, String movimiento) {
+		
+		
+		if (movimiento == "Derecha"){
+			mapaciudad[posX][posY-1] = '*';
+		}
+		else if (movimiento == "Izquierda"){
+			mapaciudad[posX][posY+1] = '*';
+		}
+		else if (movimiento == "Abajo"){
+			mapaciudad[posX-1][posY] = '*';		
+		}
+		else if (movimiento == "Arriba"){
+			mapaciudad[posX+1][posY] = '*';
+		}
+		
+		mapaciudad[posX][posY] = 'T';
+	} 
 
 	public static void Buscar (){
 		
@@ -158,7 +207,7 @@ public class Main {
 	
 	public static void Animar (int pNanosegundos) throws InterruptedException{
 		
-		
+		tiempoespera = pNanosegundos*1000;
 		while (true){
 
 			if (pNanosegundos == 0){
@@ -200,7 +249,7 @@ public class Main {
 
 			//Reviso que esten cerca de la cuadra
 			//ARRIBA
-			if ( mapaciudad[nearXposition-1][nearYposition] == '%'){
+			if ( mapaciudad[nearXposition-1][nearYposition] == '%' || mapaciudad[nearXposition-1][nearYposition] == 'o'){
 				//Aqui encontramos el destino
 				
 				char nombrecuadra =  buscarCuadra(nearXposition-1,nearYposition);
@@ -215,7 +264,7 @@ public class Main {
 				
 			}
 			//ABAJO
-			else if (mapaciudad[nearXposition+1][nearYposition] == '%'){
+			else if (mapaciudad[nearXposition+1][nearYposition] == '%' || mapaciudad[nearXposition+1][nearYposition] == 'o'){
 				
 				char nombrecuadra = buscarCuadra(nearXposition+1,nearYposition);
 				boolean cuadravisitada = revisarCuadra(nombrecuadra);
@@ -229,7 +278,7 @@ public class Main {
 				
 			}
 			//IZQUIERDA
-			else if (mapaciudad[nearXposition][nearYposition-1] == '%' ){
+			else if (mapaciudad[nearXposition][nearYposition-1] == '%' || mapaciudad[nearXposition][nearYposition-1] == 'o' ){
 				
 				char nombrecuadra =  buscarCuadra(nearXposition,nearYposition-1);
 				boolean cuadravisitada = revisarCuadra(nombrecuadra);
@@ -243,7 +292,7 @@ public class Main {
 				
 			}
 			//DERECHA
-			else if (mapaciudad[nearXposition][nearYposition+1] == '%'){
+			else if (mapaciudad[nearXposition][nearYposition+1] == '%' || mapaciudad[nearXposition][nearYposition+1] == 'o'){
 				
 				char nombrecuadra =  buscarCuadra(nearXposition,nearYposition+1);
 				boolean cuadravisitada = revisarCuadra(nombrecuadra);

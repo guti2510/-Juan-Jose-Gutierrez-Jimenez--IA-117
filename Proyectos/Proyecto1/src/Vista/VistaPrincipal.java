@@ -64,7 +64,12 @@ public class VistaPrincipal {
 		JButton btnNewButton = new JButton("Pasear");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Main.Pasear();
+				try {
+					Main.Pasear();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnNewButton.setBounds(30, 116, 97, 25);
