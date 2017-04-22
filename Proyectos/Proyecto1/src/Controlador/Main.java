@@ -21,6 +21,8 @@ public class Main {
     static LinkedList<Node> closelist =new LinkedList<Node>();
     
     static LinkedList<Character> cuadrasvisitadas =new LinkedList<Character>(); 
+    static LinkedList<Cliente> listaclientes =new LinkedList<Cliente>();
+    
     
     static Taxi Taxi = new Taxi();
 	
@@ -32,7 +34,7 @@ public class Main {
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ','%','H','%',' ','%','I','%',' ','%','J','%',' ','%','K','%',' ','%','L','%',' ','%','M','%',' ','%','N','%',' ','#'},
-						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
+						   {'#',' ','%','%','%',' ','%','%','%',' ','%','o','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ','%','O','%',' ','%','P','%',' ','%','Q','%',' ','%','R','%',' ','%','S','%',' ','%','+','%',' ','%','U','%',' ','#'},
@@ -44,68 +46,35 @@ public class Main {
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','0','0','0','0','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'}, 
 						   {'#',' ','%','3','%',' ','%','4','%',' ','%','5','%',' ','%','6','%',' ','%','7','%',' ','%','8','%',' ','%','9','%',' ',' ',' ',' ',' ',' ',' ',' ','%','a','%',' ','%','b','%',' ','%','c','%',' ','%','d','%',' ','#'},
-						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
+						   {'#',' ','%','%','%',' ','%','o','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#','T',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','0','0','0','0','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','0','0','0','0','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}};
 	
 	static char cvisitada;
-	
-	public static void printCiudad(){
-		
-	   int i = 0;
-	   int j = 0;
-       for( i = 0; i< ciudadfilas1; i++){
-    	   for ( j = 0 ; j< ciudadcolumnas1; j++){
-    		   System.out.print(mapaciudad[i][j]);
-    	   }
-    	   System.out.println(" ");
-       }
-       
 
-       for( i = 16; i< ciudadfilas2; i++){
-    	   for ( j = 0 ; j< ciudadcolumnas2; j++){
-    		   
-    		   if (mapaciudad[i][j] == '0'){
-    			   System.out.print(" ");
-    			   
-    		   }else{
-    			   System.out.print(mapaciudad[i][j]);
-    		   }
-    	   }
-    	   System.out.println(" ");
-       }
-		
+	/*  ---------------------------------------------------------------------------------------------------------------*/
+	/*  ----------------------------------- FUNCIONES PRINCIPALES ----------------------------------------------------- */
+	/*  ---------------------------------------------------------------------------------------------------------------*/
 	
+	public static void Animar (float pNanosegundos) throws InterruptedException{
+		
+		
+		Cliente cliente = new Cliente(3,2,'A','M');
+		listaclientes.add(cliente);
+		
+		tiempoespera = pNanosegundos*1000;
+		while (true){
+
+			if (pNanosegundos == 0){
+				printCiudad();
+				break;
+			}
+			printCiudad();
+			Thread.sleep((long) tiempoespera);
+		}
+		
 	}
 	
-	public static int[] buscarTaxipos(){
-		
-	   int posX = 0;
-	   int posY = 0;
-	   int i = 0;
-	   int j = 0;
-       for( i = 0; i< ciudadfilas1; i++){
-    	   for ( j = 0 ; j< ciudadcolumnas1; j++){
-    		   if (mapaciudad[i][j] == 'T'){
-    			   posX = i;
-    			   posY = j;
-    		   }
-    	   }
-       }
-       
-
-       for( i = 16; i< ciudadfilas2; i++){
-    	   for ( j = 0 ; j< ciudadcolumnas2; j++){
-    		   if (mapaciudad[i][j] == 'T'){
-    			   posX = i;
-    			   posY = j;
-    		   }
-    	   }
-       }
-	
-       return new int[] {posX, posY};
-	}
-
 	public static void Pasear () throws InterruptedException{
 		
 		
@@ -170,6 +139,145 @@ public class Main {
 		}
 	}
 	
+	public static void Buscar () throws InterruptedException{
+		
+		path.clear();
+	    openlist.clear();
+	    closelist.clear();
+	    cuadrasvisitadas.clear();
+	    
+		int posiciones[] = buscarTaxipos();
+		int posicionX = posiciones[0];
+		int posicionY = posiciones[1];
+		
+		Taxi.setPosX(posicionX);
+		Taxi.setPosY(posicionY);
+		
+		Taxi.estado = "Buscar";
+		while (Taxi.estado == "Buscar"){
+			
+			encontrarCuadra(Taxi);
+			
+			System.out.println("Cuadra visitada:"+cvisitada);
+			String movimiento = "";
+			
+			//REMUEVO LA POSICION ACTUAL DEL T QUE NO NECESITO
+			path.removeLast();
+			path.removeLast();
+			while (path.size() != 0 ){
+				
+				int nuevaposY = path.getLast();
+				path.removeLast();
+				int nuevaposX = path.getLast();
+				path.removeLast();
+				
+				if (nuevaposX > posicionX){
+					movimiento = "Abajo";
+				}
+				else if(nuevaposX < posicionX){
+					movimiento = "Arriba";
+				}
+	            else if(nuevaposY > posicionY){
+	            	movimiento = "Derecha";
+				}
+	            else if(nuevaposY < posicionY){
+	            	movimiento = "Izquierda";
+				}	
+				moverTaxiBuscando(nuevaposX,nuevaposY,movimiento);
+				posicionX = nuevaposX;
+				posicionY = nuevaposY;
+				//moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
+				Thread.sleep((long) tiempoespera);
+			}
+			int posiciones2[] = buscarTaxipos();
+			posicionX = posiciones2[0];
+			posicionY = posiciones2[1];
+			
+			System.out.println("BUSCANDO");
+			System.out.println("Pos TAXI X: "+posicionX);
+			System.out.println("Pos TAXI Y: "+posicionY);
+			Taxi.setPosX(posicionX);
+			Taxi.setPosY(posicionY);
+		    path.clear();
+		    openlist.clear();
+		    closelist.clear();
+	
+		
+		}
+	}
+	
+	public static void Mostrar (boolean pEstado){
+		
+		
+	}
+	
+
+	
+	public static void Ruta (boolean pEstado){
+		
+		
+	}
+	
+	/*  ----------------------------------- FUNCIONES SECUNDARIAS ----------------------------------------------------- */
+	
+	
+	
+	private static boolean buscarCliente(int nearXposition, int nearYposition) {
+		
+		int i = nearXposition-1;
+		int j = nearYposition-1;
+		char posverificar = ' ';
+		int contador = 0;
+		boolean clientecerca = false;
+		for (int cantidad = 0; cantidad<9; cantidad++){
+			
+			if (contador == 3){
+				i++;
+				contador = 0;
+				j = nearYposition-1;
+			}
+			posverificar = mapaciudad[i][j];
+			
+			if (posverificar == 'o'){
+				clientecerca = true;
+				return clientecerca;
+			}
+			
+			contador++;
+			j++;
+		}
+		
+		return clientecerca;
+	}
+	
+	private static int[] buscarClientePos(int nearXposition, int nearYposition) {
+		
+		int i = nearXposition-1;
+		int j = nearYposition-1;
+		char posverificar = ' ';
+		int contador = 0;
+		
+		for (int cantidad = 0; cantidad<9; cantidad++){
+			
+			if (contador == 3){
+				i++;
+				contador = 0;
+				j = nearYposition-1;
+			}
+			posverificar = mapaciudad[i][j];
+			
+			if (posverificar == 'o'){
+				return new int[] {i, j};
+			}
+			
+			contador++;
+			j++;
+		}
+		
+		return new int[] {i, j};
+	}
+	
+	
 	private static void moverTaxi(int posX, int posY, String movimiento) {
 		
 		
@@ -187,9 +295,82 @@ public class Main {
 		}
 		
 		mapaciudad[posX][posY] = 'T';
+
 	}
 	
-    private static void moverTaxiMarcando(int posX, int posY, String movimiento) {
+	private static void moverTaxiBuscando(int posX, int posY, String movimiento) {
+		
+		
+		if (movimiento == "Derecha"){
+			mapaciudad[posX][posY-1] = ' ';
+		}
+		else if (movimiento == "Izquierda"){
+			mapaciudad[posX][posY+1] = ' ';
+		}
+		else if (movimiento == "Abajo"){
+			mapaciudad[posX-1][posY] = ' ';		
+		}
+		else if (movimiento == "Arriba"){
+			mapaciudad[posX+1][posY] = ' ';
+		}
+		
+		mapaciudad[posX][posY] = 'T';
+		//Busca Clientes
+		if(buscarCliente(posX,posY)){
+			buscarClientePos(posX,posY);
+			int posiciones[] = buscarClientePos(posX,posY);
+			int clienteX = posiciones[0];
+			int clienteY = posiciones[1];
+			
+			recogerCliente(clienteX,clienteY);
+			
+			
+		}
+	}
+	
+    private static void recogerCliente(int clienteX, int clienteY) {
+		
+    	mapaciudad[clienteX][clienteY] = '%';
+    	char destino = clienteDestino(clienteX,clienteY);
+    	Taxi.estado = "Ocupado";
+    	
+    	while (Taxi.estado == "Ocupado" ){
+    		
+    		
+    	}
+		
+	}
+
+	private static char clienteDestino(int clienteX, int clienteY) {
+
+		char destino = ' ';
+		
+		
+		for (int i = 0; i<listaclientes.size(); i++){
+			
+			Cliente clientetemp = new Cliente();
+			clientetemp = listaclientes.get(i);
+			
+			int postempX = clientetemp.getPosX();
+			int postempY = clientetemp.getPosY();
+			
+			if (postempX == clienteX && postempY == clienteY){
+				destino = clientetemp.getDestino();
+				return destino;
+			}
+			
+			
+		}
+
+		return destino;
+	}
+
+	private static void removerCliente(int clienteX, int clienteY) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void moverTaxiMarcando(int posX, int posY, String movimiento) {
 		
 		
 		if (movimiento == "Derecha"){
@@ -208,45 +389,13 @@ public class Main {
 		mapaciudad[posX][posY] = 'T';
 	} 
 
-	public static void Buscar (){
-		
-		Taxi.estado = "Buscar";
-		while (Taxi.estado == "Buscar"){
-			System.out.println("BUSCANDO");
-		
-		}
-	}
 	
-	public static void Mostrar (boolean pEstado){
-		
-		
-	}
-	
-	
-	public static void Animar (float pNanosegundos) throws InterruptedException{
-		
-		tiempoespera = pNanosegundos*1000;
-		while (true){
-
-			if (pNanosegundos == 0){
-				printCiudad();
-				break;
-			}
-			printCiudad();
-			Thread.sleep((long) tiempoespera);
-		}
-		
-	}
 	
 	public static void CambiarTiempo (float pNanosegundos){
 		tiempoespera  = pNanosegundos*1000;
 
 	}
 	
-	public static void Ruta (boolean pEstado){
-		
-		
-	}
 
 	public static void encontrarCuadra(Taxi taxi){
 		
@@ -280,6 +429,11 @@ public class Main {
 				if (cuadravisitada == false){
 					cvisitada = nombrecuadra;
 					cuadrasvisitadas.add(nombrecuadra);
+					
+					if (cuadrasvisitadas.size() == 39 ){
+						cuadrasvisitadas.clear();
+						cuadrasvisitadas.add(nombrecuadra);
+					}
 					createPath(popednode);
 					break;
 					
@@ -294,6 +448,12 @@ public class Main {
 				if (cuadravisitada == false){
 					cvisitada = nombrecuadra;
 					cuadrasvisitadas.add(nombrecuadra);
+					
+					if (cuadrasvisitadas.size() == 39 ){
+						cuadrasvisitadas.clear();
+						cuadrasvisitadas.add(nombrecuadra);
+					}
+					
 					createPath(popednode);
 					break;
 					
@@ -308,6 +468,12 @@ public class Main {
 				if (cuadravisitada == false){
 					cvisitada = nombrecuadra;
 					cuadrasvisitadas.add(nombrecuadra);
+					
+					if (cuadrasvisitadas.size() == 39 ){
+						cuadrasvisitadas.clear();
+						cuadrasvisitadas.add(nombrecuadra);
+					}
+					
 					createPath(popednode);
 					break;
 					
@@ -322,6 +488,12 @@ public class Main {
 				if (cuadravisitada == false){
 					cvisitada = nombrecuadra;
 					cuadrasvisitadas.add(nombrecuadra);
+					
+					if (cuadrasvisitadas.size() == 39 ){
+						cuadrasvisitadas.clear();
+						cuadrasvisitadas.add(nombrecuadra);
+					}
+					
 					createPath(popednode);
 					break;
 					
@@ -565,5 +737,61 @@ public class Main {
 		path.add(temporal.positionY);
 		System.out.println(temporal.positionX + " - "+temporal.positionY);
 	}
+	
+	public static void printCiudad(){
+		
+		   int i = 0;
+		   int j = 0;
+	       for( i = 0; i< ciudadfilas1; i++){
+	    	   for ( j = 0 ; j< ciudadcolumnas1; j++){
+	    		   System.out.print(mapaciudad[i][j]);
+	    	   }
+	    	   System.out.println(" ");
+	       }
+	       
+
+	       for( i = 16; i< ciudadfilas2; i++){
+	    	   for ( j = 0 ; j< ciudadcolumnas2; j++){
+	    		   
+	    		   if (mapaciudad[i][j] == '0'){
+	    			   System.out.print(" ");
+	    			   
+	    		   }else{
+	    			   System.out.print(mapaciudad[i][j]);
+	    		   }
+	    	   }
+	    	   System.out.println(" ");
+	       }
+			
+		
+		}
+		
+		public static int[] buscarTaxipos(){
+			
+		   int posX = 0;
+		   int posY = 0;
+		   int i = 0;
+		   int j = 0;
+	       for( i = 0; i< ciudadfilas1; i++){
+	    	   for ( j = 0 ; j< ciudadcolumnas1; j++){
+	    		   if (mapaciudad[i][j] == 'T'){
+	    			   posX = i;
+	    			   posY = j;
+	    		   }
+	    	   }
+	       }
+	       
+
+	       for( i = 16; i< ciudadfilas2; i++){
+	    	   for ( j = 0 ; j< ciudadcolumnas2; j++){
+	    		   if (mapaciudad[i][j] == 'T'){
+	    			   posX = i;
+	    			   posY = j;
+	    		   }
+	    	   }
+	       }
+		
+	       return new int[] {posX, posY};
+		}
 	
 }

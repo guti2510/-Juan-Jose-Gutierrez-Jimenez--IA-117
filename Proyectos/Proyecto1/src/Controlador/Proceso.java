@@ -52,7 +52,12 @@ public class Proceso extends Thread {
 		}
 		else if (accion == "Buscar"){
 			
-				Main.Buscar();
+				try {
+					Main.Buscar();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 		}
 		

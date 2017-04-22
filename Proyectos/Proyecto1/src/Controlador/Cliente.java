@@ -8,6 +8,15 @@ public class Cliente {
 	char cuadra;
 	char destino;
 	
+	public Cliente(){
+		
+		
+	}
+	public Cliente(int pPosX,int pPosY, char pCuadra,char  pDestino){
+		
+		
+	}
+	
 	public int getPosX() {
 		return posX;
 	}
