@@ -3,10 +3,15 @@ package Controlador;
 public class Proceso extends Thread {
 
 
-	public int nanosegundos;
+	public float nanosegundos;
 	public String accion;
 	
-	public Proceso (String msg, int pnanosegundos, String paccion){
+	
+	public Proceso (String msg){
+		super(msg);
+	}
+	
+	public Proceso (String msg, float pnanosegundos, String paccion){
 		super(msg);
 		nanosegundos = pnanosegundos;
 		accion = paccion;
@@ -19,6 +24,11 @@ public class Proceso extends Thread {
 	
 	public void CambiarAccion(String pNuevaAccion){
 		accion = pNuevaAccion;	
+	}
+	
+	public void CambiarSegundos(float pNanosegund){
+		nanosegundos = pNanosegund;
+		Main.CambiarTiempo(pNanosegund);
 	}
 	
 	public void run(){
@@ -42,12 +52,8 @@ public class Proceso extends Thread {
 		}
 		else if (accion == "Buscar"){
 			
-			try {
 				Main.Buscar();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
 		}
 		
 		

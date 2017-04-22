@@ -23,7 +23,10 @@ public class VistaPrincipal {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-
+	Thread hiloprincipal;
+	Thread hiloanimar;
+	
+	boolean presionado = false;
 	/**
 	 * Launch the application.
 	 */
@@ -65,8 +68,8 @@ public class VistaPrincipal {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					
-					Thread hiloapasear = new Proceso("Proceso PASEAR","Pasear");
-					hiloapasear.start();
+					hiloprincipal = new Proceso("Hilo Principal","Pasear");
+					hiloprincipal.start();
 
 			}
 		});
@@ -74,19 +77,38 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Buscar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				((Proceso) hiloprincipal).CambiarAccion("Buscar");
+				
+			}
+		});
 		btnNewButton_1.setBounds(139, 116, 97, 25);
 		layeredPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Animar");
 		btnNewButton_2.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
-				String tiempo;
-				tiempo = txtNanosegundos.getText();
-				int nanosegundos = Integer.parseInt(tiempo);
+				if (presionado == false){
+					String tiempo;
+					tiempo = txtNanosegundos.getText();
+					int nanosegundos = Integer.parseInt(tiempo);
+	
+					hiloanimar = new Proceso("Proceso Animar",nanosegundos, "Animar");
+					hiloanimar.start();
+					presionado = true;
+				}
+				else{
+					
+					String tiempo;
+					tiempo = txtNanosegundos.getText();
+					float nanosegundos = Float.parseFloat(tiempo);
+					((Proceso) hiloanimar).CambiarSegundos(nanosegundos);
 
-				Thread hiloanimar = new Proceso("Proceso 1",nanosegundos, "Animar");
-				hiloanimar.start();
+				}
 
 			}
 		});

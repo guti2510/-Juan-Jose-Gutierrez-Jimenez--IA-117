@@ -14,7 +14,7 @@ public class Main {
 	static int ciudadfilas2 = 23;
 	static int ciudadcolumnas2 = 54;
 	
-	static int tiempoespera;
+	static float tiempoespera;
 	
 	static LinkedList<Integer> path =new LinkedList<Integer>();  
     static LinkedList<Node> openlist =new LinkedList<Node>();  
@@ -25,7 +25,7 @@ public class Main {
     static Taxi Taxi = new Taxi();
 	
 	static char mapaciudad[][] = {{'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
-						   {'#','T',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','o','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ','%','A','%',' ','%','B','%',' ','%','C','%',' ','%','D','%',' ','%','E','%',' ','%','F','%',' ','%','G','%',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
@@ -45,7 +45,7 @@ public class Main {
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'}, 
 						   {'#',' ','%','3','%',' ','%','4','%',' ','%','5','%',' ','%','6','%',' ','%','7','%',' ','%','8','%',' ','%','9','%',' ',' ',' ',' ',' ',' ',' ',' ','%','a','%',' ','%','b','%',' ','%','c','%',' ','%','d','%',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
-						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','0','0','0','0','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+						   {'#','T',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','0','0','0','0','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','0','0','0','0','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}};
 	
 	static char cvisitada;
@@ -120,9 +120,7 @@ public class Main {
 		
 		while (Taxi.estado == "Paseando"){
 			
-			int posiciones2[] = buscarTaxipos();
-			posicionX = posiciones2[0];
-			posicionY = posiciones2[1];
+			
 			encontrarCuadra(Taxi);
 			
 			System.out.println("Cuadra visitada:"+cvisitada);
@@ -150,11 +148,25 @@ public class Main {
 	            else if(nuevaposY < posicionY){
 	            	movimiento = "Izquierda";
 				}	
-				//moverTaxi(nuevaposX,nuevaposY,movimiento);
-				moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
-				Thread.sleep(tiempoespera);
+				moverTaxi(nuevaposX,nuevaposY,movimiento);
+				posicionX = nuevaposX;
+				posicionY = nuevaposY;
+				//moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
+				Thread.sleep((long) tiempoespera);
 			}
-		
+			int posiciones2[] = buscarTaxipos();
+			posicionX = posiciones2[0];
+			posicionY = posiciones2[1];
+			
+			System.out.println("PASEANDO");
+			System.out.println("Pos TAXI X: "+posicionX);
+			System.out.println("Pos TAXI Y: "+posicionY);
+			Taxi.setPosX(posicionX);
+			Taxi.setPosY(posicionY);
+		    path.clear();
+		    openlist.clear();
+		    closelist.clear();
+			
 		}
 	}
 	
@@ -198,7 +210,11 @@ public class Main {
 
 	public static void Buscar (){
 		
+		Taxi.estado = "Buscar";
+		while (Taxi.estado == "Buscar"){
+			System.out.println("BUSCANDO");
 		
+		}
 	}
 	
 	public static void Mostrar (boolean pEstado){
@@ -207,7 +223,7 @@ public class Main {
 	}
 	
 	
-	public static void Animar (int pNanosegundos) throws InterruptedException{
+	public static void Animar (float pNanosegundos) throws InterruptedException{
 		
 		tiempoespera = pNanosegundos*1000;
 		while (true){
@@ -217,9 +233,14 @@ public class Main {
 				break;
 			}
 			printCiudad();
-			Thread.sleep(pNanosegundos*1000);
+			Thread.sleep((long) tiempoespera);
 		}
 		
+	}
+	
+	public static void CambiarTiempo (float pNanosegundos){
+		tiempoespera  = pNanosegundos*1000;
+
 	}
 	
 	public static void Ruta (boolean pEstado){
@@ -279,20 +300,6 @@ public class Main {
 				}
 				
 			}
-			//IZQUIERDA
-			else if (mapaciudad[nearXposition][nearYposition-1] == '%' || mapaciudad[nearXposition][nearYposition-1] == 'o' ){
-				
-				char nombrecuadra =  buscarCuadra(nearXposition,nearYposition-1);
-				boolean cuadravisitada = revisarCuadra(nombrecuadra);
-				if (cuadravisitada == false){
-					cvisitada = nombrecuadra;
-					cuadrasvisitadas.add(nombrecuadra);
-					createPath(popednode);
-					break;
-					
-				}
-				
-			}
 			//DERECHA
 			else if (mapaciudad[nearXposition][nearYposition+1] == '%' || mapaciudad[nearXposition][nearYposition+1] == 'o'){
 				
@@ -307,6 +314,21 @@ public class Main {
 				}
 				
 			}
+			//IZQUIERDA
+			else if (mapaciudad[nearXposition][nearYposition-1] == '%' || mapaciudad[nearXposition][nearYposition-1] == 'o' ){
+				
+				char nombrecuadra =  buscarCuadra(nearXposition,nearYposition-1);
+				boolean cuadravisitada = revisarCuadra(nombrecuadra);
+				if (cuadravisitada == false){
+					cvisitada = nombrecuadra;
+					cuadrasvisitadas.add(nombrecuadra);
+					createPath(popednode);
+					break;
+					
+				}
+				
+			}
+			
 
 			verificarMovimientos (popednode);
 			
@@ -333,7 +355,7 @@ public class Main {
 			}
 			posverificar = mapaciudad[i][j];
 			
-			if (posverificar != ' ' && posverificar != '%' && posverificar != 'T' && posverificar != 'o'){
+			if (posverificar != ' ' && posverificar != '%' && posverificar != 'T' && posverificar != 'o' && posverificar != '*'){
 				return 	posverificar;
 			}
 			
