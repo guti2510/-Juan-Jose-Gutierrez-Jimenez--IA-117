@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import Controlador.Main;
+import Controlador.Proceso;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -61,6 +62,11 @@ public class VistaPrincipal {
 		frame.getContentPane().add(layeredPane, BorderLayout.CENTER);
 		
 		JButton btnNewButton = new JButton("Pasear");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Main.Pasear();
+			}
+		});
 		btnNewButton.setBounds(30, 116, 97, 25);
 		layeredPane.add(btnNewButton);
 		
@@ -71,15 +77,14 @@ public class VistaPrincipal {
 		JButton btnNewButton_2 = new JButton("Animar");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				String tiempo;
 				tiempo = txtNanosegundos.getText();
 				int nanosegundos = Integer.parseInt(tiempo);
-				try {
-					Main.Animar (nanosegundos);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+
+				Thread hiloanimar = new Proceso("Proceso 1",nanosegundos);
+				hiloanimar.start();
+
 			}
 		});
 		btnNewButton_2.setBounds(30, 78, 97, 25);
