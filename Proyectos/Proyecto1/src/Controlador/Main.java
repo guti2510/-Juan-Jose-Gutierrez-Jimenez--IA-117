@@ -2,8 +2,6 @@ package Controlador;
 
 import java.util.LinkedList;
 
-import Pacman.pacman_astar;
-import Pacman.pacman_astar.node;
 
 
 
@@ -19,6 +17,8 @@ public class Main {
 	static LinkedList<Integer> path =new LinkedList<Integer>();  
     static LinkedList<Node> openlist =new LinkedList<Node>();  
     static LinkedList<Node> closelist =new LinkedList<Node>();
+    
+    static LinkedList<Character> cuadrasvisitadas =new LinkedList<Character>(); 
 	
 	static char mapaciudad[][] = {{'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
 						   {'#',' ','T',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -31,7 +31,7 @@ public class Main {
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
-						   {'#',' ','%','O','%',' ','%','P','%',' ','%','Q','%',' ','%','R','%',' ','%','S','%',' ','%','T','%',' ','%','U','%',' ','#'},
+						   {'#',' ','%','O','%',' ','%','P','%',' ','%','Q','%',' ','%','R','%',' ','%','S','%',' ','%','+','%',' ','%','U','%',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
@@ -39,12 +39,12 @@ public class Main {
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','0','0','0','0','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}, 
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','0','0','0','0','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'}, 
-						   {'#',' ','%','3','%',' ','%','4','%',' ','%','5','%',' ','%','6','%',' ','%','7','%',' ','%','8','%',' ','%','9','%',' ',' ',' ',' ',' ',' ',' ',' ','%','@','%',' ','%','?','%',' ','%','$','%',' ','%','&','%',' ','#'},
+						   {'#',' ','%','3','%',' ','%','4','%',' ','%','5','%',' ','%','6','%',' ','%','7','%',' ','%','8','%',' ','%','9','%',' ',' ',' ',' ',' ',' ',' ',' ','%','a','%',' ','%','b','%',' ','%','c','%',' ','%','d','%',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','0','0','0','0','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','0','0','0','0','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}};
 	
-
+	static char cvisitada;
 	
 	public static void printCiudad(){
 		
@@ -109,11 +109,19 @@ public class Main {
 		int posicionY = posiciones[1];
 		
 		Taxi taxiinicial = new Taxi(posicionX,posicionY,0);
+		cuadrasvisitadas.add('A');
+		encontrarCuadra(taxiinicial);
+		
+		System.out.println("Cuadra visitada:"+cvisitada);
+		
+		/*
+		
 		taxiinicial.MoverDerecha();
 		
 		int posX = taxiinicial.getPosX();
 		int posY = taxiinicial.getPosY();
 		moverTaxi(posX,posY,"Derecha");
+		*/
 		
 		
 	}
@@ -184,33 +192,107 @@ public class Main {
 		boolean notfound = true;
 		while(notfound){
 			
-			Node popednode = popLowestNode();
+			Node popednode = openlist.getFirst();
+			openlist.removeFirst();
 			closelist.add(popednode);
 			nearXposition = popednode.positionX;
 			nearYposition = popednode.positionY;
-			
-		
-			
-			//Reviso Arriba
-			if ((foodX-1 == nearXposition && foodY == nearYposition) || (foodX == nearXposition && foodY-1 == nearYposition) 
-			  || (foodX == nearXposition && foodY+1 == nearYposition) || (foodX+1 == nearXposition && foodY == nearYposition)){
-				//Aqui encontramos el destino
-				node lastnode = instance.new node(foodX, foodY, popednode.Gcost ,popednode );
-				closelist.add(lastnode);
-				break;
-			}
-			
 
-			
-			calculatedParent (popednode, matrix);
+			//Reviso que esten cerca de la cuadra
+			//ARRIBA
+			if ( mapaciudad[nearXposition-1][nearYposition] == '%'){
+				//Aqui encontramos el destino
+				
+				char nombrecuadra =  buscarCuadra(nearXposition-1,nearYposition);
+				boolean cuadravisitada = revisarCuadra(nombrecuadra);
+				if (cuadravisitada == false){
+					cvisitada = nombrecuadra;
+					cuadrasvisitadas.add(nombrecuadra);
+					createPath(popednode);
+					break;
+					
+				}
+				
+			}
+			//ABAJO
+			else if (mapaciudad[nearXposition+1][nearYposition] == '%'){
+				
+				char nombrecuadra = buscarCuadra(nearXposition+1,nearYposition);
+				boolean cuadravisitada = revisarCuadra(nombrecuadra);
+				if (cuadravisitada == false){
+					cvisitada = nombrecuadra;
+					cuadrasvisitadas.add(nombrecuadra);
+					createPath(popednode);
+					break;
+					
+				}
+				
+			}
+			//IZQUIERDA
+			else if (mapaciudad[nearXposition][nearYposition-1] == '%' ){
+				
+				char nombrecuadra =  buscarCuadra(nearXposition,nearYposition-1);
+				boolean cuadravisitada = revisarCuadra(nombrecuadra);
+				if (cuadravisitada == false){
+					cvisitada = nombrecuadra;
+					cuadrasvisitadas.add(nombrecuadra);
+					createPath(popednode);
+					break;
+					
+				}
+				
+			}
+			//DERECHA
+			else if (mapaciudad[nearXposition][nearYposition+1] == '%'){
+				
+				char nombrecuadra =  buscarCuadra(nearXposition,nearYposition+1);
+				boolean cuadravisitada = revisarCuadra(nombrecuadra);
+				if (cuadravisitada == false){
+					cvisitada = nombrecuadra;
+					cuadrasvisitadas.add(nombrecuadra);
+					createPath(popednode);
+					break;
+					
+				}
+				
+			}
+
+			verificarMovimientos (popednode);
 			
 			
 		}
 		
-		createPath();
+		
 		
 	}
 	
+	private static char buscarCuadra(int nearXposition, int nearYposition) {
+		
+		int i = nearXposition-1;
+		int j = nearYposition-1;
+		char posverificar = ' ';
+		int contador = 0;
+		
+		for (int cantidad = 0; cantidad<9; cantidad++){
+			
+			if (contador == 3){
+				i++;
+				contador = 0;
+				j = nearYposition-1;
+			}
+			posverificar = mapaciudad[i][j];
+			
+			if (posverificar != ' ' && posverificar != '%' && posverificar != 'T' && posverificar != 'o'){
+				return 	posverificar;
+			}
+			
+			contador++;
+			j++;
+		}
+		
+		return posverificar;
+	}
+
 	public static void verificarMovimientos(Node pNode){
 		
 		int NodeposX =  pNode.positionX;
@@ -218,7 +300,7 @@ public class Main {
 		int Gcost = pNode.Gcost +1;
 		
 		//Arriba
-		if (NodeposX-1 >= 0 && checkinOpenList(NodeposX-1,NodeposY) == true ){
+		if (mapaciudad[NodeposX-1][NodeposY] != '%' && NodeposX-1 >= 0 && mapaciudad[NodeposX-1][NodeposY] != '#' &&  checkinOpenList(NodeposX-1,NodeposY) == true ){
 			Node nodeUp = new Node();
 			nodeUp = getNodeinOpenList(NodeposX-1,NodeposY);
 			int GcostNodeUp = nodeUp.Gcost;
@@ -229,14 +311,14 @@ public class Main {
 			}
 			
 		}
-		else if (NodeposX-1 >= 0 && mapaciudad[NodeposX-1][NodeposY] != '#' && checkinCloseList(NodeposX-1,NodeposY) == false){
+		else if (mapaciudad[NodeposX-1][NodeposY] != '%' && NodeposX-1 >= 0 && mapaciudad[NodeposX-1][NodeposY] != '#' && checkinCloseList(NodeposX-1,NodeposY) == false){
 			Node nodeUp = new Node(NodeposX-1,NodeposY,Gcost,pNode);
 			openlist.add(nodeUp);
 		}
 		
 		
 		//Izquierda
-		if ( NodeposY-1 >= 0 && checkinOpenList(NodeposX,NodeposY-1) == true ){
+		if ( mapaciudad[NodeposX][NodeposY-1] != '%' && NodeposY-1 >= 0 && mapaciudad[NodeposX][NodeposY-1] != '#'  && checkinOpenList(NodeposX,NodeposY-1) == true ){
 			Node nodeUp = new Node();
 			nodeUp = getNodeinOpenList(NodeposX,NodeposY-1);
 			int GcostNodeUp = nodeUp.Gcost;
@@ -246,13 +328,13 @@ public class Main {
 			}
 			
 		}
-		else if (NodeposY-1 >= 0 && mapaciudad[NodeposX][NodeposY-1] != '#' && checkinCloseList(NodeposX,NodeposY-1) == false){
+		else if ( mapaciudad[NodeposX][NodeposY-1] != '%' && NodeposY-1 >= 0 && mapaciudad[NodeposX][NodeposY-1] != '#' && checkinCloseList(NodeposX,NodeposY-1) == false){
 			Node nodeLeft = new Node(NodeposX,NodeposY-1,Gcost,pNode);
 			openlist.add(nodeLeft);
 		
 		}
 		//Derecha
-		if ( mapaciudad[NodeposX][NodeposY+1] != '#' && checkinOpenList(NodeposX,NodeposY+1) == true ){
+		if (mapaciudad[NodeposX][NodeposY+1] != '%' && mapaciudad[NodeposX][NodeposY+1] != '#' && checkinOpenList(NodeposX,NodeposY+1) == true ){
 			Node nodeUp = new Node();
 			nodeUp = getNodeinOpenList(NodeposX,NodeposY+1);
 			int GcostNodeUp = nodeUp.Gcost;
@@ -262,14 +344,14 @@ public class Main {
 			}
 			
 		}
-		else if (mapaciudad[NodeposX][NodeposY+1] != '#' && checkinCloseList(NodeposX,NodeposY+1) == false){
+		else if (mapaciudad[NodeposX][NodeposY+1] != '%' && mapaciudad[NodeposX][NodeposY+1] != '#' && checkinCloseList(NodeposX,NodeposY+1) == false){
 			Node nodeRight = new Node(NodeposX,NodeposY+1,Gcost,pNode);
 			openlist.add(nodeRight);
 		
 		}
 		
 		//Abajo
-		if ( mapaciudad[NodeposX+1][NodeposY] != '#' && checkinOpenList(NodeposX+1,NodeposY) == true ){
+		if (mapaciudad[NodeposX+1][NodeposY] != '%' &&  mapaciudad[NodeposX+1][NodeposY] != '#' && checkinOpenList(NodeposX+1,NodeposY) == true ){
 			Node nodeUp = new Node();
 			nodeUp = getNodeinOpenList(NodeposX+1,NodeposY);
 			int GcostNodeUp = nodeUp.Gcost;
@@ -279,7 +361,7 @@ public class Main {
 			}
 			
 		}
-		else if (mapaciudad[NodeposX+1][NodeposY] != '#' && checkinCloseList(NodeposX+1,NodeposY) == false ){
+		else if (mapaciudad[NodeposX+1][NodeposY] != '%' && mapaciudad[NodeposX+1][NodeposY] != '#' && checkinCloseList(NodeposX+1,NodeposY) == false ){
 			Node nodeDown= new Node(NodeposX+1,NodeposY,Gcost,pNode);
 			openlist.add(nodeDown);
 		
@@ -287,11 +369,10 @@ public class Main {
 		
 	}
 	
-	public static node popLowestNode(){
+	public static Node popLowestNode(){
 		
-		pacman_astar instance = new pacman_astar();
-		node lowestnode = instance.new node();
-		node temporal = instance.new node();
+		Node lowestnode = new Node();
+		Node temporal = new Node();
 		
 		int lowestcost = 0;
 		int nodetoremove = 0;
@@ -328,6 +409,21 @@ public class Main {
 		}
 		return specificnode;
 		
+	}
+	
+	public static boolean revisarCuadra(char pCuadra){
+		
+		
+		boolean incuadraList = false;
+		for (int i=0; i< cuadrasvisitadas.size() ; i++){
+			char cuadra = cuadrasvisitadas.get(i);
+			if (cuadra == pCuadra){
+				incuadraList = true;
+				return incuadraList;
+			}
+				
+		}
+		return incuadraList;
 	}
 	
 	public static boolean checkinCloseList(int pNodeXpos , int pNodeYpos){
@@ -377,6 +473,24 @@ public class Main {
 				
 		}
 			
+	}
+	
+	//ESTE METODO CREA EL CAMINO
+	public static void createPath(Node pnode){
+		
+		Node temporal = new Node();
+		temporal = pnode;
+		while (temporal.Parent != null){
+			
+			System.out.println(temporal.positionX + " - "+temporal.positionY);
+			path.add(temporal.positionX);
+			path.add(temporal.positionY);
+			temporal = temporal.Parent;
+			
+		}
+		path.add(temporal.positionX);
+		path.add(temporal.positionY);
+		System.out.println(temporal.positionX + " - "+temporal.positionY);
 	}
 	
 }
