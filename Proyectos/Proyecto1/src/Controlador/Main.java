@@ -140,6 +140,10 @@ public class Main {
 				//moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
 				Thread.sleep((long) tiempoespera);
 			}
+			if (mostrar == true){
+				limpiarNumeros();
+			}
+			limpiarCamino();
 			int posiciones2[] = buscarTaxipos();
 			posicionX = posiciones2[0];
 			posicionY = posiciones2[1];
@@ -448,6 +452,10 @@ public class Main {
 			//moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
 			Thread.sleep((long) tiempoespera);
 		}
+		if (mostrar == true){
+			limpiarNumeros();
+		}
+		limpiarCamino();
 		int posiciones2[] = buscarTaxipos();
 		posicionX = posiciones2[0];
 		posicionY = posiciones2[1];
@@ -563,14 +571,20 @@ public class Main {
 			
 			mapaciudad[posX][posY] = 'T';
 			
-					
-			int nextY = path.getLast();
-			path.removeLast();
-			int nextX = path.getLast();
-			path.removeLast();
-			
-			path.addLast(nextX);
-			path.addLast(nextY);
+			int nextY = 0;
+			int nextX = 0;
+			if (path.size() != 0){
+				nextY = path.getLast();
+				path.removeLast();
+				nextX = path.getLast();
+				path.removeLast();
+				
+				listamostrar.add(nextX);
+				listamostrar.add(nextY);
+				
+				path.addLast(nextX);
+				path.addLast(nextY);
+			}
 			
 			if (nextX > posX){
 				movimiento = "Abajo";
@@ -726,6 +740,11 @@ public class Main {
 			//moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
 			Thread.sleep((long) tiempoespera);
 		}
+		if (mostrar == true){
+			limpiarNumeros();
+		}
+		
+		limpiarCamino();
 		int posiciones3[] = buscarTaxipos();
 		posicionX = posiciones3[0];
 		posicionY = posiciones3[1];
