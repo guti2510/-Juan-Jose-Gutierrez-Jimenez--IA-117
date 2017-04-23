@@ -25,6 +25,7 @@ public class VistaPrincipal {
 	private JTextField textFieldClientes;
 	Thread hiloPasear;
 	Thread hiloBuscar;
+	Thread hiloParquear;
 	Thread hiloanimar;
 	
 	boolean presionado = false;
@@ -193,6 +194,31 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_6);
 		
 		JButton btnNewButton_7 = new JButton("Parquear");
+		btnNewButton_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String cuadradest;
+				cuadradest = textField_2.getText();
+				char cuadradestfinal = cuadradest.charAt(0);
+				
+				
+				if (presionadoprincipal == false){
+
+					hiloParquear = new Proceso("Proceso Animar", "Parquear",cuadradestfinal);
+					hiloParquear.start();
+					presionado = true;
+				}
+				else{
+					
+					hiloBuscar.stop();
+					hiloPasear.stop();
+					hiloPasear = new Proceso("Hilo Pasear ","Parquear",cuadradestfinal);
+					hiloPasear.start();
+
+				}
+				
+			}
+		});
 		btnNewButton_7.setBounds(29, 391, 97, 25);
 		layeredPane.add(btnNewButton_7);
 		

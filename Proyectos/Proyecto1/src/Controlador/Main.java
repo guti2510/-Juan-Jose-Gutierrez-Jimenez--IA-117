@@ -150,6 +150,7 @@ public class Main {
 	
 	public static void Buscar () throws InterruptedException{
 		
+		//AQUI AGREGO EL CLIENTE QUE YA ESTA EN EL MAPA
 		Cliente cliente = new Cliente(2,7,'A','M');
 		listaclientes.add(cliente);
 		
@@ -304,6 +305,8 @@ public class Main {
     		
     		posClienteNuevoX = posClienteNuevoX  -1;
     	}
+    	
+    	
 
     	mapaciudad[posClienteNuevoX][posClienteNuevoY] = 'o';
     	Cliente nuevocliente = new Cliente(posClienteNuevoX,posClienteNuevoY,origen,destino);
@@ -312,10 +315,72 @@ public class Main {
 		
 	}
 	
-	public static void Parquear(char destino){
+	public static void Parquear(char destino) throws InterruptedException{
 		
 		
+		Taxi.estado = "Parqueando";	
+		accion = "Parqueando";
+
+		path.clear();
+	    openlist.clear();
+	    closelist.clear();
+	    cuadrasvisitadas.clear();
+	    
+		int posiciones[] = buscarTaxipos();
+		int posicionX = posiciones[0];
+		int posicionY = posiciones[1];
 		
+		Taxi.setPosX(posicionX);
+		Taxi.setPosY(posicionY);
+
+		encontrarCuadraParquear(Taxi,destino);
+		
+		System.out.println("Cuadra visitada:"+cvisitada);
+		String movimiento = "";
+		
+		//REMUEVO LA POSICION ACTUAL DEL T QUE NO NECESITO
+		path.removeLast();
+		path.removeLast();
+		while (path.size() != 0 ){
+			
+			int nuevaposY = path.getLast();
+			path.removeLast();
+			int nuevaposX = path.getLast();
+			path.removeLast();
+			
+			if (nuevaposX > posicionX){
+				movimiento = "Abajo";
+			}
+			else if(nuevaposX < posicionX){
+				movimiento = "Arriba";
+			}
+            else if(nuevaposY > posicionY){
+            	movimiento = "Derecha";
+			}
+            else if(nuevaposY < posicionY){
+            	movimiento = "Izquierda";
+			}	
+			moverTaxi(nuevaposX,nuevaposY,movimiento);
+			posicionX = nuevaposX;
+			posicionY = nuevaposY;
+			//moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
+			Thread.sleep((long) tiempoespera);
+		}
+		int posiciones2[] = buscarTaxipos();
+		posicionX = posiciones2[0];
+		posicionY = posiciones2[1];
+		
+		System.out.println("PARQUEANDO");
+		System.out.println("Pos TAXI X: "+posicionX);
+		System.out.println("Pos TAXI Y: "+posicionY);
+		Taxi.setPosX(posicionX);
+		Taxi.setPosY(posicionY);
+	    path.clear();
+	    openlist.clear();
+	    closelist.clear();
+	    accion = "Esperando";	
+		
+
 	}
 	
 	/*  ----------------------------------- FUNCIONES SECUNDARIAS ----------------------------------------------------- */
@@ -755,6 +820,49 @@ public class Main {
 		}
 		
 		
+		
+	}
+	
+	// ------ P A R Q U E A R -------------------------------------------------------///
+	public static void encontrarCuadraParquear (Taxi taxi, char cuadraparquear){
+		
+		int posinicialX = taxi.getPosX();
+		int posinicialY = taxi.getPosY();
+		
+		path.clear();
+	    openlist.clear();
+	    closelist.clear();
+	    cuadrasvisitadas.clear();
+	    
+	    int posiciones[] = buscarCuadraPos(cuadraparquear);
+    	posCuadraClienteX = posiciones[0];
+    	posCuadraClienteY = posiciones[1];
+		
+		Node initialnode = new Node(posinicialX,posinicialY,0,posCuadraClienteX,posCuadraClienteY);
+		verificarMovimientos2 (initialnode);
+		
+		closelist.add(initialnode);
+		int nearXposition = initialnode.positionX;
+		int nearYposition = initialnode.positionY;
+		boolean notfound = true;
+		while(notfound){
+			
+			Node popednode = popLowestNode();
+			closelist.add(popednode);
+			nearXposition = popednode.positionX;
+			nearYposition = popednode.positionY;
+			
+			//Reviso Arriba
+			if ((posCuadraClienteX-2 == nearXposition && posCuadraClienteY == nearYposition) || (posCuadraClienteX == nearXposition && posCuadraClienteY-2 == nearYposition) 
+			  || (posCuadraClienteX == nearXposition && posCuadraClienteY+2 == nearYposition) || (posCuadraClienteX+2 == nearXposition && posCuadraClienteY == nearYposition)){
+				//Aqui encontramos el destino
+				createPath(popednode);
+				break;
+			}
+			
+			verificarMovimientos2 (popednode);
+			
+		}
 		
 	}
 	

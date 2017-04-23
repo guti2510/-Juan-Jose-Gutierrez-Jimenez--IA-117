@@ -5,7 +5,7 @@ public class Proceso extends Thread {
 
 	public float nanosegundos;
 	public String accion;
-	
+	public char cuadraparquear;
 	
 	public Proceso (String msg){
 		super(msg);
@@ -17,6 +17,12 @@ public class Proceso extends Thread {
 		accion = paccion;
 	}
 	
+	public Proceso (String msg, String paccion,char pcuadraparquear){
+		super(msg);
+		accion = paccion;
+		cuadraparquear = pcuadraparquear;
+	}
+	
 	public Proceso (String msg,String paccion){
 		super(msg);
 		accion = paccion;
@@ -24,8 +30,6 @@ public class Proceso extends Thread {
 	
 	public void CambiarAccion(String pNuevaAccion) throws InterruptedException{
 		accion = pNuevaAccion;
-		
-
 	}
 	
 	public void CambiarSegundos(float pNanosegund){
@@ -67,6 +71,16 @@ public class Proceso extends Thread {
 				}
 
 		}
+		else if (accion == "Parquear"){
+			
+			try {
+				Main.Parquear(cuadraparquear);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	}
 		
 		
 	}
