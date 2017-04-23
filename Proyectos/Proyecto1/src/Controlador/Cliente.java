@@ -13,8 +13,10 @@ public class Cliente {
 		
 	}
 	public Cliente(int pPosX,int pPosY, char pCuadra,char  pDestino){
-		
-		
+		posX = pPosX;
+		posY = pPosY;
+		cuadra = pCuadra;
+		destino	= pDestino;
 	}
 	
 	public int getPosX() {

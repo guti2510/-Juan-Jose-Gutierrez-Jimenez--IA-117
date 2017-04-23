@@ -27,6 +27,7 @@ public class VistaPrincipal {
 	Thread hiloanimar;
 	
 	boolean presionado = false;
+	boolean presionadoprincipal = false;
 	/**
 	 * Launch the application.
 	 */
@@ -68,8 +69,16 @@ public class VistaPrincipal {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					
+				if (presionadoprincipal == false){
 					hiloprincipal = new Proceso("Hilo Principal","Pasear");
 					hiloprincipal.start();
+					presionadoprincipal = true;
+				}
+				else{
+					
+					((Proceso) hiloprincipal).CambiarAccion("Pasear");
+					
+				}
 
 			}
 		});
@@ -80,7 +89,17 @@ public class VistaPrincipal {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				((Proceso) hiloprincipal).CambiarAccion("Buscar");
+				if (presionadoprincipal == false){
+					hiloprincipal = new Proceso("Hilo Principal","Buscar");
+					hiloprincipal.start();
+					presionadoprincipal = true;
+				}
+				else{
+					
+					((Proceso) hiloprincipal).CambiarAccion("Buscar");
+					
+				}
+				
 				
 			}
 		});
@@ -95,7 +114,7 @@ public class VistaPrincipal {
 				if (presionado == false){
 					String tiempo;
 					tiempo = txtNanosegundos.getText();
-					int nanosegundos = Integer.parseInt(tiempo);
+					float nanosegundos = Float.parseFloat(tiempo);
 	
 					hiloanimar = new Proceso("Proceso Animar",nanosegundos, "Animar");
 					hiloanimar.start();
