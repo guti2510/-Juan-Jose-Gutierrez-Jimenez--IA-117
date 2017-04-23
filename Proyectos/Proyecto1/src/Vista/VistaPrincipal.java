@@ -22,7 +22,7 @@ public class VistaPrincipal {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textFieldClientes;
 	Thread hiloprincipal;
 	Thread hiloanimar;
 	
@@ -153,6 +153,17 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_4);
 		
 		JButton btnNewButton_5 = new JButton("Clientes");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				String tiempo;
+				tiempo = textFieldClientes.getText();
+				int numeroclients = Integer.parseInt(tiempo);
+				Main.Clientes(numeroclients);
+				
+			}
+		});
 		btnNewButton_5.setBounds(29, 247, 97, 25);
 		layeredPane.add(btnNewButton_5);
 		
@@ -191,10 +202,10 @@ public class VistaPrincipal {
 		lblNewLabel_2.setBounds(267, 341, 126, 16);
 		layeredPane.add(lblNewLabel_2);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(139, 248, 116, 22);
-		layeredPane.add(textField_3);
-		textField_3.setColumns(10);
+		textFieldClientes = new JTextField();
+		textFieldClientes.setBounds(139, 248, 116, 22);
+		layeredPane.add(textFieldClientes);
+		textFieldClientes.setColumns(10);
 		
 		JLabel lblNumeroDeClientes = new JLabel("Numero de clientes que desea agregar");
 		lblNumeroDeClientes.setBounds(267, 251, 252, 16);

@@ -221,6 +221,22 @@ public class Main {
 		
 	}
 	
+	public static void Clientes(int numeroclientes){
+		
+		
+	}
+	
+	public static void Cliente (char origen, char destino){
+		
+		
+	}
+	
+	public static void Parquear(char destino){
+		
+		
+		
+	}
+	
 	/*  ----------------------------------- FUNCIONES SECUNDARIAS ----------------------------------------------------- */
 	
 	
@@ -1019,5 +1035,6 @@ public class Main {
 		
 	       return new int[] {posX, posY};
 		}
+		
 	
 }
