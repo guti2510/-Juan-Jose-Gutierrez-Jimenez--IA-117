@@ -19,8 +19,8 @@ public class VistaPrincipal {
 
 	private JFrame frame;
 	private JTextField txtNanosegundos;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldOrigen;
+	private JTextField textFieldDestino;
 	private JTextField textField_2;
 	private JTextField textFieldClientes;
 	Thread hiloPasear;
@@ -162,9 +162,9 @@ public class VistaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				
-				String tiempo;
-				tiempo = textFieldClientes.getText();
-				int numeroclients = Integer.parseInt(tiempo);
+				String numclien;
+				numclien = textFieldClientes.getText();
+				int numeroclients = Integer.parseInt(numclien);
 				Main.Clientes(numeroclients);
 				
 			}
@@ -173,6 +173,22 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_5);
 		
 		JButton btnNewButton_6 = new JButton("Cliente");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				String cuadraorign;
+				cuadraorign = textFieldOrigen.getText();
+				char cuadrorigenfinal = cuadraorign.charAt(0);
+				
+				String cuadradest;
+				cuadradest = textFieldDestino.getText();
+				char cuadradestfinal = cuadradest.charAt(0);
+				
+				Main.Cliente(cuadrorigenfinal,cuadradestfinal);
+			
+			}
+			
+		});
 		btnNewButton_6.setBounds(29, 302, 97, 25);
 		layeredPane.add(btnNewButton_6);
 		
@@ -180,15 +196,15 @@ public class VistaPrincipal {
 		btnNewButton_7.setBounds(29, 391, 97, 25);
 		layeredPane.add(btnNewButton_7);
 		
-		textField = new JTextField();
-		textField.setBounds(139, 303, 116, 22);
-		layeredPane.add(textField);
-		textField.setColumns(10);
+		textFieldOrigen = new JTextField();
+		textFieldOrigen.setBounds(139, 303, 116, 22);
+		layeredPane.add(textFieldOrigen);
+		textFieldOrigen.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(139, 338, 116, 22);
-		layeredPane.add(textField_1);
-		textField_1.setColumns(10);
+		textFieldDestino = new JTextField();
+		textFieldDestino.setBounds(139, 338, 116, 22);
+		layeredPane.add(textFieldDestino);
+		textFieldDestino.setColumns(10);
 		
 		textField_2 = new JTextField();
 		textField_2.setBounds(139, 392, 126, 22);

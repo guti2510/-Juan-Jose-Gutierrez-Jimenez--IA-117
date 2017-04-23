@@ -23,7 +23,7 @@ public class Main {
     
     static LinkedList<Character> cuadrasvisitadas =new LinkedList<Character>(); 
     static LinkedList<Cliente> listaclientes =new LinkedList<Cliente>();
-    
+    static LinkedList<Character> listacuadras =new LinkedList<Character>(); 
     
     static Taxi Taxi = new Taxi();
 	
@@ -38,7 +38,7 @@ public class Main {
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','o','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
-						   {'#',' ','%','O','%',' ','%','P','%',' ','%','Q','%',' ','%','R','%',' ','%','S','%',' ','%','+','%',' ','%','U','%',' ','#'},
+						   {'#',' ','%','O','%',' ','%','P','%',' ','%','Q','%',' ','%','R','%',' ','%','S','%',' ','%','a','%',' ','%','U','%',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
@@ -46,7 +46,7 @@ public class Main {
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','0','0','0','0','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}, 
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','0','0','0','0','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'}, 
-						   {'#',' ','%','3','%',' ','%','4','%',' ','%','5','%',' ','%','6','%',' ','%','7','%',' ','%','8','%',' ','%','9','%',' ',' ',' ',' ',' ',' ',' ',' ','%','a','%',' ','%','b','%',' ','%','c','%',' ','%','d','%',' ','#'},
+						   {'#',' ','%','3','%',' ','%','4','%',' ','%','5','%',' ','%','6','%',' ','%','7','%',' ','%','8','%',' ','%','9','%',' ',' ',' ',' ',' ',' ',' ',' ','%','z','%',' ','%','w','%',' ','%','y','%',' ','%','k','%',' ','#'},
 						   {'#',' ','%','%','%',' ','%','o','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','0','0','0','0','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','0','0','0','0','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}};
@@ -65,6 +65,7 @@ public class Main {
 	public static void Animar (float pNanosegundos) throws InterruptedException{
 		
 		tiempoespera = pNanosegundos*1000;
+		cargarCuadras();
 		while (true){
 
 			if (pNanosegundos == 0){
@@ -257,7 +258,14 @@ public class Main {
 			 }
 			 
 			 if (mapaciudad[posicionXrandom][posicionYrandom] == '%'){
+				 
+				 char cuadrainicial = buscarCuadra(posicionXrandom, posicionYrandom);
+				 int numerorandom = (int)(random.nextDouble() * 38 + 0);;
+				 char cuadrafinal = listacuadras.get(numerorandom);
 				 mapaciudad[posicionXrandom][posicionYrandom] = 'o';
+
+				 Cliente nuevocliente = new Cliente(posicionXrandom,posicionYrandom,cuadrainicial,cuadrafinal);
+				 listaclientes.add(nuevocliente);
 				 i++;
 			 }
 	 
@@ -267,6 +275,40 @@ public class Main {
 	
 	public static void Cliente (char origen, char destino){
 		
+		int posiciones[] = buscarCuadraPos(origen);
+    	int posClienteNuevoX = posiciones[0];
+    	int posClienteNuevoY = posiciones[1];
+    	
+    	posClienteNuevoX = posClienteNuevoX-1;
+    	
+    	//SI ARRIBA YA HAY CLIENTE, LO PONEMOS ABAJO
+    	if (mapaciudad[posClienteNuevoX][posClienteNuevoY] == 'o'){
+    		posClienteNuevoX = posClienteNuevoX +2;
+    	}
+    	
+    	//SI ABAJO YA HAY CLIENTE, LO PONES DERECHA
+    	if (mapaciudad[posClienteNuevoX][posClienteNuevoY] == 'o'){
+    		
+    		posClienteNuevoX = posClienteNuevoX - 1;
+    		posClienteNuevoY = posClienteNuevoY + 1;
+    	}
+    	
+    	//SI DERECHA YA HAY CLIENTE, LO PONEMOS IZQUIERDA
+    	if (mapaciudad[posClienteNuevoX][posClienteNuevoY] == 'o'){
+    		
+    		posClienteNuevoY = posClienteNuevoY - 2;
+    	}
+    	
+    	//SI IZQUIERDA YA HAY CLIENTE, LO PONEMOS EZQUINA SUPERIOR IZQUIERDA
+    	if (mapaciudad[posClienteNuevoX][posClienteNuevoY] == 'o'){
+    		
+    		posClienteNuevoX = posClienteNuevoX  -1;
+    	}
+
+    	mapaciudad[posClienteNuevoX][posClienteNuevoY] = 'o';
+    	Cliente nuevocliente = new Cliente(posClienteNuevoX,posClienteNuevoY,origen,destino);
+		listaclientes.add(nuevocliente);
+    	
 		
 	}
 	
@@ -1075,5 +1117,34 @@ public class Main {
 	       return new int[] {posX, posY};
 		}
 		
+		public static void cargarCuadras(){
+			
+		   int i = 0;
+		   int j = 0;
+		   char posverificar;
+		   for( i = 0; i< ciudadfilas1; i++){
+			   for ( j = 0 ; j< ciudadcolumnas1; j++){
+				   
+				   posverificar = mapaciudad[i][j];
+					
+					if (posverificar != ' ' && posverificar != '%' && posverificar != 'T' && posverificar != 'o' && posverificar != '*' && posverificar != '#' && posverificar != '0'){
+						listacuadras.add(posverificar);
+					}
+
+			   }
+		   }
+		   
+		
+		   for( i = 16; i< ciudadfilas2; i++){
+			   for ( j = 0 ; j< ciudadcolumnas2; j++){
+				   posverificar = mapaciudad[i][j];
+					
+					if (posverificar != ' ' && posverificar != '%' && posverificar != 'T' && posverificar != 'o' && posverificar != '*' && posverificar != '#' && posverificar != '0'){
+						listacuadras.add(posverificar);
+					}
+			   }
+		   }
+			
+		}
 	
 }
