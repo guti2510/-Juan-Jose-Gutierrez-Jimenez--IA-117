@@ -22,14 +22,21 @@ public class Proceso extends Thread {
 		accion = paccion;
 	}
 	
-	public void CambiarAccion(String pNuevaAccion){
-		accion = pNuevaAccion;	
+	public void CambiarAccion(String pNuevaAccion) throws InterruptedException{
+		accion = pNuevaAccion;
+		
+
 	}
 	
 	public void CambiarSegundos(float pNanosegund){
 		nanosegundos = pNanosegund;
 		Main.CambiarTiempo(pNanosegund);
 	}
+	
+	public String getAccion (){
+		return accion;
+	}
+	
 	
 	public void run(){
 		

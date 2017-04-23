@@ -1,6 +1,7 @@
 package Controlador;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 
 
@@ -54,6 +55,8 @@ public class Main {
 	
 	static int posCuadraClienteX;
 	static int posCuadraClienteY;
+	
+	static String accion;
 
 	/*  ---------------------------------------------------------------------------------------------------------------*/
 	/*  ----------------------------------- FUNCIONES PRINCIPALES ----------------------------------------------------- */
@@ -69,6 +72,7 @@ public class Main {
 				break;
 			}
 			printCiudad();
+			System.out.println(accion);
 			Thread.sleep((long) tiempoespera);
 		}
 		
@@ -76,6 +80,10 @@ public class Main {
 	
 	public static void Pasear () throws InterruptedException{
 		
+		path.clear();
+	    openlist.clear();
+	    closelist.clear();
+	    cuadrasvisitadas.clear();
 		
 		int posiciones[] = buscarTaxipos();
 		int posicionX = posiciones[0];
@@ -85,10 +93,11 @@ public class Main {
 		Taxi.setPosY(posicionY);
 		//Taxi Taxi = new Taxi(posicionX,posicionY,0);
 		Taxi.estado = "Paseando";
+		accion = "Paseando";
 		
-		while (Taxi.estado == "Paseando"){
+		while (accion == "Paseando"){
 			
-			
+
 			encontrarCuadra(Taxi);
 			
 			System.out.println("Cuadra visitada:"+cvisitada);
@@ -143,7 +152,9 @@ public class Main {
 		Cliente cliente = new Cliente(2,7,'A','M');
 		listaclientes.add(cliente);
 		
-		Taxi.estado = "Buscar";
+		Taxi.estado = "Buscar";	
+		accion = "Buscar";
+
 		path.clear();
 	    openlist.clear();
 	    closelist.clear();
@@ -157,7 +168,7 @@ public class Main {
 		Taxi.setPosY(posicionY);
 		
 		
-		while (Taxi.estado == "Buscar"){
+		while (accion == "Buscar"){
 			
 			encontrarCuadra(Taxi);
 			
@@ -223,6 +234,34 @@ public class Main {
 	
 	public static void Clientes(int numeroclientes){
 		
+		
+		int posicionXrandom;
+		int posicionYrandom;
+		
+		int i = 0;
+		
+		
+		Random random = new Random();
+		while (i < numeroclientes){
+			
+			 posicionXrandom = (int)(random.nextDouble() * 22 + 0);
+			 posicionYrandom = (int)(random.nextDouble() * 53 + 0);
+			 
+			 System.out.println(posicionXrandom);
+			 System.out.println(posicionYrandom);
+			 
+			 if (posicionXrandom <= 15 && posicionYrandom >= 31){
+				 while (posicionYrandom >= 31){
+					 posicionYrandom = (int)(random.nextDouble() * 53 + 0);
+				 }
+			 }
+			 
+			 if (mapaciudad[posicionXrandom][posicionYrandom] == '%'){
+				 mapaciudad[posicionXrandom][posicionYrandom] = 'o';
+				 i++;
+			 }
+	 
+		}
 		
 	}
 	

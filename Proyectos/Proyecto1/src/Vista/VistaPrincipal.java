@@ -23,7 +23,8 @@ public class VistaPrincipal {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textFieldClientes;
-	Thread hiloprincipal;
+	Thread hiloPasear;
+	Thread hiloBuscar;
 	Thread hiloanimar;
 	
 	boolean presionado = false;
@@ -70,13 +71,15 @@ public class VistaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 					
 				if (presionadoprincipal == false){
-					hiloprincipal = new Proceso("Hilo Principal","Pasear");
-					hiloprincipal.start();
+					hiloPasear = new Proceso("Hilo Pasear","Pasear");
+					hiloPasear.start();
 					presionadoprincipal = true;
 				}
 				else{
 					
-					((Proceso) hiloprincipal).CambiarAccion("Pasear");
+					hiloBuscar.stop();
+					hiloPasear = new Proceso("Hilo Pasear ","Pasear");
+					hiloPasear.start();
 					
 				}
 
@@ -90,13 +93,15 @@ public class VistaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (presionadoprincipal == false){
-					hiloprincipal = new Proceso("Hilo Principal","Buscar");
-					hiloprincipal.start();
+					hiloBuscar = new Proceso("Hilo Buscar ","Buscar");
+					hiloBuscar.start();
 					presionadoprincipal = true;
 				}
 				else{
 					
-					((Proceso) hiloprincipal).CambiarAccion("Buscar");
+					hiloPasear.stop();
+					hiloBuscar = new Proceso("Hilo Buscar ","Buscar");
+					hiloBuscar.start();
 					
 				}
 				
