@@ -30,6 +30,10 @@ public class VistaPrincipal {
 	
 	boolean presionado = false;
 	boolean presionadoprincipal = false;
+	
+	boolean buscaractiv = false;
+	boolean pasearactiv = false;
+	boolean parquearactiv = false;
 	/**
 	 * Launch the application.
 	 */
@@ -74,13 +78,20 @@ public class VistaPrincipal {
 				if (presionadoprincipal == false){
 					hiloPasear = new Proceso("Hilo Pasear","Pasear");
 					hiloPasear.start();
+					pasearactiv = true;
 					presionadoprincipal = true;
 				}
 				else{
 					
-					hiloBuscar.stop();
+					//Si buscar esta activo lo detengo
+					if (buscaractiv == true){
+						hiloBuscar.stop();
+					}
+					
+					
 					hiloPasear = new Proceso("Hilo Pasear ","Pasear");
 					hiloPasear.start();
+					pasearactiv = true;
 					
 				}
 
@@ -96,13 +107,20 @@ public class VistaPrincipal {
 				if (presionadoprincipal == false){
 					hiloBuscar = new Proceso("Hilo Buscar ","Buscar");
 					hiloBuscar.start();
+					buscaractiv = true;
 					presionadoprincipal = true;
 				}
 				else{
 					
-					hiloPasear.stop();
+					//Si buscar esta activo lo detengo
+					if (pasearactiv == true){
+						hiloPasear.stop();
+					}
+					
+					
 					hiloBuscar = new Proceso("Hilo Buscar ","Buscar");
 					hiloBuscar.start();
+					buscaractiv = true;
 					
 				}
 				
@@ -206,15 +224,23 @@ public class VistaPrincipal {
 
 					hiloParquear = new Proceso("Proceso Animar", "Parquear",cuadradestfinal);
 					hiloParquear.start();
+					parquearactiv = true;
 					presionado = true;
 				}
 				else{
 					
-					hiloBuscar.stop();
-					hiloPasear.stop();
+					//Si buscar esta activo lo detengo
+					if (pasearactiv == true){
+						hiloPasear.stop();
+					}
+					else if (buscaractiv = true){
+						hiloBuscar.stop();
+					}
+					
+					parquearactiv = true;
 					hiloPasear = new Proceso("Hilo Pasear ","Parquear",cuadradestfinal);
 					hiloPasear.start();
-
+					
 				}
 				
 			}
