@@ -80,8 +80,28 @@ public class Proceso extends Thread {
 				e.printStackTrace();
 			}
 
-	}
+		}
+		else if (accion == "Pasear2"){
+			
+			try {
+				Main.Pasear2();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 		
+		else if (accion == "Buscar2"){
+			
+			try {
+				Main.Buscar2();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 		
 	}
 }

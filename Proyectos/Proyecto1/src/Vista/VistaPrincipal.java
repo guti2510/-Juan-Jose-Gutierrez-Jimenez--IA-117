@@ -14,6 +14,7 @@ import Controlador.Proceso;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class VistaPrincipal {
 
@@ -30,6 +31,13 @@ public class VistaPrincipal {
 	Thread hiloBuscar;
 	Thread hiloParquear;
 	Thread hiloanimar;
+	
+	Thread hiloPasear2;
+	Thread hiloBuscar2;
+	
+	boolean buscaractiv2 = false;
+	boolean pasearactiv2 = false;
+	boolean presionadoprincipal2 = false;
 	
 	boolean presionado = false;
 	boolean presionadoprincipal = false;
@@ -70,7 +78,7 @@ public class VistaPrincipal {
 		
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 589, 505);
+		frame.setBounds(100, 100, 796, 668);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -165,7 +173,8 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_2);
 		
 		JLabel lblTaxi = new JLabel("TAXI");
-		lblTaxi.setBounds(222, 25, 56, 16);
+		lblTaxi.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTaxi.setBounds(307, 34, 56, 16);
 		layeredPane.add(lblTaxi);
 		
 		txtNanosegundos = new JTextField();
@@ -337,6 +346,83 @@ public class VistaPrincipal {
 		lblNewLabel_4 = new JLabel("Off");
 		lblNewLabel_4.setBounds(164, 189, 56, 16);
 		layeredPane.add(lblNewLabel_4);
+		
+		JLabel lblCambios = new JLabel("Modificaciones");
+		lblCambios.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblCambios.setBounds(281, 442, 135, 16);
+		layeredPane.add(lblCambios);
+		
+		JButton btnNewButton_8 = new JButton("Taxi 2");
+		btnNewButton_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Main.Taxi2();
+				
+			}
+		});
+		btnNewButton_8.setBounds(30, 489, 97, 25);
+		layeredPane.add(btnNewButton_8);
+		
+		JButton btnNewButton_9 = new JButton("Pasear2");
+		btnNewButton_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				if (presionadoprincipal2 == false){
+					
+					hiloPasear2 = new Proceso("Hilo Pasear","Pasear2");
+					hiloPasear2.start();
+					pasearactiv2 = true;
+					presionadoprincipal2 = true;
+				}
+				else{
+					
+					//Si buscar esta activo lo detengo
+					if (buscaractiv2 == true){
+						hiloBuscar2.stop();
+					}
+					
+					
+					hiloPasear2 = new Proceso("Hilo Pasear ","Pasear2");
+					hiloPasear2.start();
+					pasearactiv2 = true;
+					
+				}
+				
+				
+			}
+		});
+		btnNewButton_9.setBounds(30, 540, 97, 25);
+		layeredPane.add(btnNewButton_9);
+		
+		JButton btnNewButton_10 = new JButton("Buscar2");
+		btnNewButton_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+							
+				if (presionadoprincipal2 == false){
+					hiloBuscar2 = new Proceso("Hilo Buscar ","Buscar2");
+					hiloBuscar2.start();
+					buscaractiv2 = true;
+					presionadoprincipal2 = true;
+				}
+				else{
+					
+					//Si buscar esta activo lo detengo
+					if (pasearactiv2 == true){
+						hiloPasear2.stop();
+					}
+					
+					
+					hiloBuscar2 = new Proceso("Hilo Buscar ","Buscar2");
+					hiloBuscar2.start();
+					buscaractiv2 = true;
+					
+				}
+				
+			}
+		});
+		btnNewButton_10.setBounds(139, 540, 97, 25);
+		layeredPane.add(btnNewButton_10);
 		initcomponents();
 	}
 
