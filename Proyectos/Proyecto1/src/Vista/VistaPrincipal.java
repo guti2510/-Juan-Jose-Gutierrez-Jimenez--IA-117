@@ -80,7 +80,7 @@ public class VistaPrincipal {
 		
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1243, 669);
+		frame.setBounds(100, 100, 1432, 669);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -176,7 +176,7 @@ public class VistaPrincipal {
 		
 		JLabel lblTaxi = new JLabel("TAXI");
 		lblTaxi.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblTaxi.setBounds(307, 34, 56, 16);
+		lblTaxi.setBounds(106, 32, 56, 16);
 		layeredPane.add(lblTaxi);
 		
 		txtNanosegundos = new JTextField();
@@ -351,7 +351,7 @@ public class VistaPrincipal {
 		
 		JLabel lblCambios = new JLabel("Modificaciones");
 		lblCambios.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblCambios.setBounds(281, 442, 135, 16);
+		lblCambios.setBounds(77, 447, 135, 16);
 		layeredPane.add(lblCambios);
 		
 		JButton btnNewButton_8 = new JButton("Taxi 2");
@@ -427,7 +427,7 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_10);
 		
 		textArea = new JTextArea();
-		textArea.setBounds(495, 79, 718, 454);
+		textArea.setBounds(495, 101, 907, 464);
 		Font font = textArea.getFont();
 	   float size = font.getSize() + 2.0f;
 	   textArea.setFont( font.deriveFont(size) );
@@ -484,8 +484,6 @@ public class VistaPrincipal {
 					fila = fila + caract;
 					fila = fila + caract;
 					
-					fila = fila + caract;
-					fila = fila + caract;
 		    		  
 		    	  }
 			    	
@@ -545,6 +543,32 @@ public class VistaPrincipal {
 
 			    	   
 				   }
+		    	else if (caracter == 'T' ){
+					   
+		    		   fila = fila + ' ';
+		    		
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+
+			    	   
+				   }
+		    	else if (caracter == 't'){
+					   
+		    		   fila = fila + ' ';
+		    		
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				   	}
 		    	else if (caracter == '*'){
 					   
 					   caract = Character.toString(caracter);
@@ -576,7 +600,7 @@ public class VistaPrincipal {
 			    	   
 				}
 		    	
-		    	else if (caracter == 'C' ){
+		    	else if (caracter == 'C' || caracter == 'E' || caracter == 'O'  || caracter == 'R' || caracter == 'U' || caracter == 'N' || caracter == 'G' || caracter == 'W' || caracter == 'X'){
 					   
 			    	   
 					   caract = Character.toString(caracter);
@@ -586,36 +610,7 @@ public class VistaPrincipal {
 			    	   fila = fila + caract;
 			    	   
 				}
-		    	else if (caracter == 'E' ){
-					   
-			    	   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				}
-		    	else if (caracter == 'O' ){
-					   
-			    	   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				}
-		    	else if (caracter == 'R' ){
-					   
-			    	   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				}
+
 		    	else if (caracter != 't' && caracter != ' ' && caracter != '%' && caracter != 'T' && caracter != '*'){
 					   
 					   caract = Character.toString(caracter);
@@ -660,7 +655,25 @@ public class VistaPrincipal {
 				
 			   caracter = mapa[i][j];
 			   
-			   if ( (i == 17 || i == 21 ) && (j == 29 || j == 52 )){
+			   if ((i == 16 || i == 17 || i == 21 || i == 22  ) && (j == 32)){
+				   
+				   caract = Character.toString(' ');
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					
+					fila = fila + caract;
+					fila = fila + caract;
+
+				   
+			   }			   
+			   else if ( (i == 17 || i == 21 ) && (j == 29 || j == 52 )){
 			    	
 				   if (j == 52){
 					   
@@ -669,14 +682,7 @@ public class VistaPrincipal {
 						fila = fila + caract;
 						fila = fila + caract;
 						fila = fila + caract;
-						
-						fila = fila + caract;
-						fila = fila + caract;
-						fila = fila + caract;
-						fila = fila + caract;
-						
-						fila = fila + caract;
-						fila = fila + caract;
+
 					   
 				   }
 				   else {
@@ -685,24 +691,9 @@ public class VistaPrincipal {
 					fila = fila + caract;
 					fila = fila + caract;
 					fila = fila + caract;
+
 					
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
 					
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					
-					fila = fila + caract;
-					fila = fila + caract;
 				   }
 			    	
 			    }
@@ -739,9 +730,65 @@ public class VistaPrincipal {
 		    	   
 		    	   caract = Character.toString(' ');
 		    	   fila = fila + caract;
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
 
 		    	   
 			   }
+			   	else if (caracter == 'T' ){
+				   
+	    		   fila = fila + ' ';
+	    		
+				   caract = Character.toString(caracter);
+		    	   fila = fila + caract;
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
+
+		    	   
+			   	}
+			   
+			   	else if (caracter == 't'){
+					   
+		    		   fila = fila + ' ';
+		    		
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				   	}
+		    	else if (caracter == '*'){
+					   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+	
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				}
+		    	else if (caracter == 'o' ){
+					   
+		    			fila = fila + ' ';
+			    	   
+		    		   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				   }
 			   else if (caracter == '0' ){
 				   
 		    	   
@@ -752,7 +799,21 @@ public class VistaPrincipal {
 		    	   fila = fila + caract;
 		    	   
 			   }
-			   else if (caracter != 't' && caracter != ' ' && caracter != '%' && caracter != 'T' && caracter != 'o' && caracter != '*'){
+			   else if ( caracter == '3' || caracter == '4'  || caracter == '5' || caracter == '6' || caracter == '7' || caracter == '8' || caracter == '9' || caracter == 'z' || caracter == 'w' || caracter == 'y' || caracter == 'k' ){
+				   
+		    	   
+				   caract = Character.toString(caracter);
+		    	   fila = fila + caract;
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
+
+		    	   
+			   }
+			   else if (caracter != 't' && caracter != ' ' && caracter != '%' && caracter != 'T' && caracter != '*'){
 				   
 				   caract = Character.toString(caracter);
 		    	   fila = fila + caract;
@@ -761,13 +822,12 @@ public class VistaPrincipal {
 		    	   fila = fila + caract;
 		    	   
 			   }
-			   
-			   
 		    	else{
 		    		
 			    	caract = Character.toString(caracter);
 			    	fila = fila + caract;
 		    	
+			    	
 		    	}
 			   
 		   }
