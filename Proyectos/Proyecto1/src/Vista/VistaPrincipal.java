@@ -15,6 +15,7 @@ import Controlador.Proceso;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.JTextArea;
 
 public class VistaPrincipal {
 
@@ -26,6 +27,7 @@ public class VistaPrincipal {
 	private JTextField textFieldClientes;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
+	private static JTextArea textArea;
 	
 	Thread hiloPasear;
 	Thread hiloBuscar;
@@ -78,7 +80,7 @@ public class VistaPrincipal {
 		
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 796, 668);
+		frame.setBounds(100, 100, 1243, 669);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -423,9 +425,363 @@ public class VistaPrincipal {
 		});
 		btnNewButton_10.setBounds(139, 540, 97, 25);
 		layeredPane.add(btnNewButton_10);
+		
+		textArea = new JTextArea();
+		textArea.setBounds(495, 79, 718, 454);
+		Font font = textArea.getFont();
+	   float size = font.getSize() + 2.0f;
+	   textArea.setFont( font.deriveFont(size) );
+		layeredPane.add(textArea);
 		initcomponents();
 	}
 
 	private void initcomponents() {
+	}
+	
+	
+	public static void printMapa(){
+		
+		char mapa[][] =	Main.getMapa();
+		
+		int ciudadfilas1 = 16;
+		int ciudadcolumnas1 = 31;
+
+		int ciudadfilas2 = 23;
+		int ciudadcolumnas2 = 54;
+		
+		
+		int i = 0;
+	    int j = 0;
+	    char caracter;
+	    
+	    String caract;
+	    String fila = "";
+	    String mapacompleto = "";
+	    
+	    for( i = 0; i< ciudadfilas1; i++){
+		    for ( j = 0 ; j< ciudadcolumnas1; j++){
+			   
+		    	caracter = mapa[i][j];
+		    	
+		    	
+		    	if ( (i == 1 || i == 5 || i == 9 || i == 13) && (j == 29 )){
+			    	
+		    		
+		    	  if (i == 5 || i == 9 || i == 13){
+		    		  
+		    		caract = Character.toString(' ');
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+		    		  
+		    	  }
+		    	  else {
+		    		  
+		    		  caract = Character.toString(' ');
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					
+					fila = fila + caract;
+					fila = fila + caract;
+		    		  
+		    	  }
+			    	
+ 	
+			    }
+		    	
+		    	else if (caracter == ' ' && (i == 1 || i == 5 || i == 9 || i == 13)){
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+
+		    	}
+		    	else if (caracter == ' ' ){
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+
+		    	}
+		    	else if (caracter == '#'){
+					   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+
+			    	   
+				   }
+		    	else if (caracter == '%'){
+					   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+
+			    	   
+				   }
+		    	else if (caracter == '*'){
+					   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				}
+		    	else if (caracter == 'I' ){
+					   
+			    	   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+
+			    	   
+				}
+		    	
+		    	else if (caracter == 'C' ){
+					   
+			    	   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				}
+		    	else if (caracter == 'E' ){
+					   
+			    	   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				}
+		    	else if (caracter == 'O' ){
+					   
+			    	   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				}
+		    	else if (caracter == 'R' ){
+					   
+			    	   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				}
+		    	else if (caracter != 't' && caracter != ' ' && caracter != '%' && caracter != 'T' && caracter != '*'){
+					   
+					   caract = Character.toString(caracter);
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				   }
+				   else if (caracter == '0' ){
+					   
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+			    	   caract = Character.toString(' ');
+			    	   fila = fila + caract;
+			    	   
+				   }
+				   
+		    	else{
+		    		
+			    	caract = Character.toString(caracter);
+			    	fila = fila + caract;
+		    	
+		    	}
+		    }
+		    
+		    
+		    fila = fila +'\n';
+		    mapacompleto = mapacompleto + fila;
+		    fila = "";
+	    }
+	   
+	
+	   for( i = 16; i< ciudadfilas2; i++){
+		   for ( j = 0 ; j< ciudadcolumnas2; j++){
+			   
+				
+			   caracter = mapa[i][j];
+			   
+			   if ( (i == 17 || i == 21 ) && (j == 29 || j == 52 )){
+			    	
+				   if (j == 52){
+					   
+					   caract = Character.toString(' ');
+						fila = fila + caract;
+						fila = fila + caract;
+						fila = fila + caract;
+						fila = fila + caract;
+						
+						fila = fila + caract;
+						fila = fila + caract;
+						fila = fila + caract;
+						fila = fila + caract;
+						
+						fila = fila + caract;
+						fila = fila + caract;
+					   
+				   }
+				   else {
+			    	caract = Character.toString(' ');
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					fila = fila + caract;
+					
+					fila = fila + caract;
+					fila = fila + caract;
+				   }
+			    	
+			    }
+			   else if (caracter == ' ' ){
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    		caract = Character.toString(caracter);
+		    		fila = fila + caract;
+		    		
+		    	}
+
+			   else if (caracter == '%'){
+				   
+				   caract = Character.toString(caracter);
+		    	   fila = fila + caract;
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
+
+		    	   
+			   }
+			   else if (caracter == '#'){
+				   
+				   caract = Character.toString(caracter);
+		    	   fila = fila + caract;
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
+
+		    	   
+			   }
+			   else if (caracter == '0' ){
+				   
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
+		    	   
+			   }
+			   else if (caracter != 't' && caracter != ' ' && caracter != '%' && caracter != 'T' && caracter != 'o' && caracter != '*'){
+				   
+				   caract = Character.toString(caracter);
+		    	   fila = fila + caract;
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
+		    	   
+			   }
+			   
+			   
+		    	else{
+		    		
+			    	caract = Character.toString(caracter);
+			    	fila = fila + caract;
+		    	
+		    	}
+			   
+		   }
+		   fila = fila +'\n';
+		   
+		   mapacompleto = mapacompleto + fila;
+		   fila = "";
+	   }
+		
+		
+	   
+	   
+	   	textArea.setText(mapacompleto);
+		textArea.setEditable(false);
+
 	}
 }

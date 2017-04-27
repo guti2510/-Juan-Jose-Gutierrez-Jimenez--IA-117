@@ -3,6 +3,8 @@ package Controlador;
 import java.util.LinkedList;
 import java.util.Random;
 
+import Vista.VistaPrincipal;
+
 
 
 
@@ -27,8 +29,6 @@ public class Main {
     static LinkedList<Node> openlist2 =new LinkedList<Node>();  
     static LinkedList<Node> closelist2 =new LinkedList<Node>();
     static LinkedList<Character> cuadrasvisitadas2 =new LinkedList<Character>(); 
-    
-    
     
     
     static LinkedList<Cliente> listaclientes =new LinkedList<Cliente>();
@@ -97,6 +97,8 @@ public class Main {
 			}
 			printCiudad();
 			System.out.println(accion);
+
+			VistaPrincipal.printMapa();
 			Thread.sleep((long) tiempoespera);
 		}
 		
@@ -2331,4 +2333,10 @@ public class Main {
 				
 			}
 		}
+	    
+	    public static char[][] getMapa(){
+	    	
+	    	return mapaciudad;
+ 
+	    }
 }
