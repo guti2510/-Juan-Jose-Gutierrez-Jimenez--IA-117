@@ -450,13 +450,13 @@ public class VistaPrincipal {
 					
 					mostrar2 = true;
 					lblNewLabel_5.setText("On");
-					Main.Mostrar2(mostrar);
+					Main.Mostrar2(mostrar2);
 				}
 				else {
 					
 					mostrar2 = false;
 					lblNewLabel_5.setText("Off");
-					Main.Mostrar2(mostrar);
+					Main.Mostrar2(mostrar2);
 				}
 				
 				

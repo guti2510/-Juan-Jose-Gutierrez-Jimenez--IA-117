@@ -312,6 +312,17 @@ public class Main {
 		}
 		listamostrar.clear();
 	}
+	
+	private static void limpiarNumeros2() {
+
+
+		for( int i = 0; i< listamostrar2.size(); i=i+2){
+			int posx = listamostrar2.get(i);
+			int posy = listamostrar2.get(i+1);
+			mapaciudad[posx][posy] = ' ';
+		}
+		listamostrar2.clear();
+	}
 
 	public static void Ruta (boolean pEstado){
 		
@@ -1852,7 +1863,7 @@ public class Main {
 					}
 					
 					if (mostrar2 == true){
-						limpiarNumeros();
+						limpiarNumeros2();
 					}
 					moverTaxi2(nuevaposX,nuevaposY,movimiento);
 					
@@ -1863,12 +1874,11 @@ public class Main {
 				}
 				
 				if (mostrar2 == true){
-					limpiarNumeros();
+					limpiarNumeros2();
 				}
-				else if (mostrar2 == false){
-					limpiarCamino();
-				}
-				
+
+				limpiarCamino();
+						
 				int posiciones2[] = buscarTaxipos2();
 				posicionX = posiciones2[0];
 				posicionY = posiciones2[1];
@@ -2158,7 +2168,7 @@ public class Main {
 				}
 				
 				if (mostrar2 == true){
-					limpiarNumeros();
+					limpiarNumeros2();
 				}
 				moverTaxi2(nuevaposX,nuevaposY,movimiento);
 
@@ -2169,11 +2179,10 @@ public class Main {
 			}
 			
 			if (mostrar2 == true){
-				limpiarNumeros();
+				limpiarNumeros2();
 			}
-			else if (mostrar2 == false){
-				limpiarCamino();
-			}
+			limpiarCamino();
+
 			
 			int posiciones3[] = buscarTaxipos2();
 			posicionX = posiciones3[0];
@@ -2272,7 +2281,7 @@ public class Main {
 				if (path2.size() != 0){
 					nextY = path2.getLast();
 					path2.removeLast();
-					nextX = path.getLast();
+					nextX = path2.getLast();
 					path2.removeLast();
 					
 					listamostrar2.add(nextX);
