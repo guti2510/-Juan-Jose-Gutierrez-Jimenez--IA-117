@@ -2517,7 +2517,6 @@ public class Main {
 				
 				if (listacuadras.get(i) == cuadraorigen){
 					listacuadras.set(i, cuadradestino);
-					break;
 				}
 				
 			}

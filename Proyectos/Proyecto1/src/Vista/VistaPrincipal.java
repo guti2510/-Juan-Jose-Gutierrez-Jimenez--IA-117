@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JTextArea;
+import java.awt.Color;
 
 public class VistaPrincipal {
 
@@ -96,7 +97,10 @@ public class VistaPrincipal {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
-		layeredPane.setToolTipText("Nanosegundos");
+		layeredPane.setForeground(Color.ORANGE);
+		layeredPane.setOpaque(true);
+		layeredPane.setBackground(new Color(70, 130, 180));
+		layeredPane.setToolTipText("");
 		frame.getContentPane().add(layeredPane, BorderLayout.CENTER);
 		
 		JButton btnNewButton = new JButton("Pasear");
@@ -188,12 +192,16 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_2);
 		
 		JLabel lblTaxi = new JLabel("TAXI");
+		lblTaxi.setForeground(Color.WHITE);
+		lblTaxi.setBackground(Color.WHITE);
 		lblTaxi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblTaxi.setBounds(106, 32, 56, 16);
 		layeredPane.add(lblTaxi);
 		
 		txtNanosegundos = new JTextField();
-		txtNanosegundos.setToolTipText("Nanosegundos");
+		txtNanosegundos.setForeground(Color.WHITE);
+		txtNanosegundos.setBackground(new Color(100, 149, 237));
+		txtNanosegundos.setToolTipText("");
 		txtNanosegundos.setBounds(139, 81, 116, 22);
 		layeredPane.add(txtNanosegundos);
 		txtNanosegundos.setColumns(10);
@@ -316,54 +324,70 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_7);
 		
 		textFieldOrigen = new JTextField();
+		textFieldOrigen.setForeground(Color.WHITE);
+		textFieldOrigen.setBackground(new Color(100, 149, 237));
 		textFieldOrigen.setBounds(139, 303, 116, 22);
 		layeredPane.add(textFieldOrigen);
 		textFieldOrigen.setColumns(10);
 		
 		textFieldDestino = new JTextField();
+		textFieldDestino.setForeground(Color.WHITE);
+		textFieldDestino.setBackground(new Color(100, 149, 237));
 		textFieldDestino.setBounds(139, 338, 116, 22);
 		layeredPane.add(textFieldDestino);
 		textFieldDestino.setColumns(10);
 		
 		textField_2 = new JTextField();
+		textField_2.setForeground(Color.WHITE);
+		textField_2.setBackground(new Color(100, 149, 237));
 		textField_2.setBounds(139, 392, 126, 22);
 		layeredPane.add(textField_2);
 		textField_2.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Indique la Cuadra:");
+		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setBounds(149, 373, 116, 16);
 		layeredPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Cuadra donde se va colocar el cliente");
+		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setBounds(267, 306, 235, 16);
 		layeredPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Destino del cliente");
+		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setBounds(267, 341, 126, 16);
 		layeredPane.add(lblNewLabel_2);
 		
 		textFieldClientes = new JTextField();
+		textFieldClientes.setForeground(Color.WHITE);
+		textFieldClientes.setBackground(new Color(100, 149, 237));
 		textFieldClientes.setBounds(139, 248, 116, 22);
 		layeredPane.add(textFieldClientes);
 		textFieldClientes.setColumns(10);
 		
 		JLabel lblNumeroDeClientes = new JLabel("Numero de clientes que desea agregar");
+		lblNumeroDeClientes.setForeground(Color.WHITE);
 		lblNumeroDeClientes.setBounds(267, 251, 252, 16);
 		layeredPane.add(lblNumeroDeClientes);
 		
 		JLabel lblNanosegundos = new JLabel("Segundos");
+		lblNanosegundos.setForeground(Color.WHITE);
 		lblNanosegundos.setBounds(158, 65, 97, 16);
 		layeredPane.add(lblNanosegundos);
 		
 		lblNewLabel_3 = new JLabel("Off");
+		lblNewLabel_3.setForeground(Color.WHITE);
 		lblNewLabel_3.setBounds(390, 189, 56, 16);
 		layeredPane.add(lblNewLabel_3);
 		
 		lblNewLabel_4 = new JLabel("Off");
+		lblNewLabel_4.setForeground(Color.WHITE);
 		lblNewLabel_4.setBounds(164, 189, 56, 16);
 		layeredPane.add(lblNewLabel_4);
 		
 		JLabel lblCambios = new JLabel("Modificaciones");
+		lblCambios.setForeground(Color.WHITE);
 		lblCambios.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblCambios.setBounds(77, 447, 135, 16);
 		layeredPane.add(lblCambios);
@@ -443,6 +467,8 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_10);
 		
 		textArea = new JTextArea();
+		textArea.setForeground(Color.WHITE);
+		textArea.setBackground(new Color(100, 149, 237));
 		textArea.setBounds(495, 101, 907, 464);
 		Font font = textArea.getFont();
 	   float size = font.getSize() + 2.0f;
@@ -497,10 +523,12 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_12);
 		
 		lblNewLabel_5 = new JLabel("Off");
+		lblNewLabel_5.setForeground(Color.WHITE);
 		lblNewLabel_5.setBounds(294, 522, 56, 16);
 		layeredPane.add(lblNewLabel_5);
 		
 		lblNewLabel_6 = new JLabel("Off");
+		lblNewLabel_6.setForeground(Color.WHITE);
 		lblNewLabel_6.setBounds(408, 522, 56, 16);
 		layeredPane.add(lblNewLabel_6);
 		
@@ -570,19 +598,40 @@ public class VistaPrincipal {
 		layeredPane.add(btnNewButton_14);
 		
 		textField = new JTextField();
-		textField.setBounds(139, 592, 116, 22);
+		textField.setForeground(Color.WHITE);
+		textField.setBackground(new Color(100, 149, 237));
+		textField.setBounds(139, 592, 126, 22);
 		layeredPane.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
+		textField_1.setForeground(Color.WHITE);
+		textField_1.setBackground(new Color(100, 149, 237));
 		textField_1.setBounds(171, 642, 86, 22);
 		layeredPane.add(textField_1);
 		textField_1.setColumns(10);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(267, 642, 86, 22);
+		textField_3.setForeground(Color.WHITE);
+		textField_3.setBackground(new Color(100, 149, 237));
+		textField_3.setBounds(267, 642, 126, 22);
 		layeredPane.add(textField_3);
 		textField_3.setColumns(10);
+		
+		JLabel lblCuadra = new JLabel("Cuadra:");
+		lblCuadra.setForeground(Color.WHITE);
+		lblCuadra.setBounds(180, 627, 56, 16);
+		layeredPane.add(lblCuadra);
+		
+		JLabel lblNombreNuevo = new JLabel("Nombre nuevo:");
+		lblNombreNuevo.setForeground(Color.WHITE);
+		lblNombreNuevo.setBounds(281, 627, 97, 16);
+		layeredPane.add(lblNombreNuevo);
+		
+		JLabel label = new JLabel("Indique la Cuadra:");
+		label.setForeground(Color.WHITE);
+		label.setBounds(149, 578, 116, 16);
+		layeredPane.add(label);
 		initcomponents();
 	}
 
@@ -993,6 +1042,5 @@ public class VistaPrincipal {
 	   
 	   	textArea.setText(mapacompleto);
 		textArea.setEditable(false);
-
 	}
 }
