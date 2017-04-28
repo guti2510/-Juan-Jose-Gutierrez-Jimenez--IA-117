@@ -505,6 +505,25 @@ public class VistaPrincipal {
 		layeredPane.add(lblNewLabel_6);
 		
 		JButton btnNewButton_13 = new JButton("Cambiar Cuadra");
+		btnNewButton_13.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				String cuadraorig;
+				cuadraorig = textField_1.getText();
+				char cuadraorigtfinal = cuadraorig.charAt(0);
+				
+				String cuadradest;
+				cuadradest = textField_3.getText();
+				char cuadradestfinal = cuadradest.charAt(0);
+				
+				
+				Main.CambiarCuadra(cuadraorigtfinal,cuadradestfinal);
+				
+				
+				
+			}
+		});
 		btnNewButton_13.setBounds(30, 641, 132, 25);
 		layeredPane.add(btnNewButton_13);
 		

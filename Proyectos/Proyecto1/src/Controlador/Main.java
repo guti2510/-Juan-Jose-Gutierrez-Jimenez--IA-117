@@ -2411,7 +2411,7 @@ public class Main {
 			//REMUEVO LA POSICION ACTUAL DEL T QUE NO NECESITO
 			path2.removeLast();
 			path2.removeLast();
-			while (path.size() != 0 ){
+			while (path2.size() != 0 ){
 				
 				int nuevaposY = path2.getLast();
 				path2.removeLast();
@@ -2502,6 +2502,28 @@ public class Main {
 				
 			}
 		}
+		
+		
+		public static void CambiarCuadra(char cuadraorigen, char cuadradestino){
+			
+			
+			int posiciones[] = buscarCuadraPos(cuadraorigen);
+	    	int posCuadraX = posiciones[0];
+	    	int posCuadraY = posiciones[1];
+
+			mapaciudad[posCuadraX][posCuadraY] = cuadradestino;
+			
+			for(int i = 0; i< listacuadras.size(); i++){
+				
+				if (listacuadras.get(i) == cuadraorigen){
+					listacuadras.set(i, cuadradestino);
+					break;
+				}
+				
+			}
+			
+		}
+		
 		
 	    public static char[][] getMapa(){
 	    	
