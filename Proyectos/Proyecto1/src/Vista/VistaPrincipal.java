@@ -27,6 +27,8 @@ public class VistaPrincipal {
 	private JTextField textFieldClientes;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_5;
+	private JLabel lblNewLabel_6;
 	private static JTextArea textArea;
 	
 	Thread hiloPasear;
@@ -50,6 +52,9 @@ public class VistaPrincipal {
 	
 	boolean ruta = false;
 	boolean mostrar = false;
+	
+	boolean ruta2 = false;
+	boolean mostrar2 = false;
 	/**
 	 * Launch the application.
 	 */
@@ -89,6 +94,7 @@ public class VistaPrincipal {
 		
 		JButton btnNewButton = new JButton("Pasear");
 		btnNewButton.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 					
 				if (presionadoprincipal == false){
@@ -118,6 +124,7 @@ public class VistaPrincipal {
 		
 		JButton btnNewButton_1 = new JButton("Buscar");
 		btnNewButton_1.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (presionadoprincipal == false){
@@ -148,7 +155,6 @@ public class VistaPrincipal {
 		
 		JButton btnNewButton_2 = new JButton("Animar");
 		btnNewButton_2.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
 				if (presionado == false){
@@ -266,6 +272,7 @@ public class VistaPrincipal {
 		
 		JButton btnNewButton_7 = new JButton("Parquear");
 		btnNewButton_7.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
 				String cuadradest;
@@ -367,6 +374,7 @@ public class VistaPrincipal {
 		
 		JButton btnNewButton_9 = new JButton("Pasear2");
 		btnNewButton_9.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
 				
@@ -399,6 +407,7 @@ public class VistaPrincipal {
 		
 		JButton btnNewButton_10 = new JButton("Buscar2");
 		btnNewButton_10.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 							
 				if (presionadoprincipal2 == false){
@@ -432,6 +441,61 @@ public class VistaPrincipal {
 	   float size = font.getSize() + 2.0f;
 	   textArea.setFont( font.deriveFont(size) );
 		layeredPane.add(textArea);
+		
+		JButton btnNewButton_11 = new JButton("Mostrar2");
+		btnNewButton_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if (mostrar2 == false){
+					
+					mostrar2 = true;
+					lblNewLabel_5.setText("On");
+					Main.Mostrar2(mostrar);
+				}
+				else {
+					
+					mostrar2 = false;
+					lblNewLabel_5.setText("Off");
+					Main.Mostrar2(mostrar);
+				}
+				
+				
+			}
+		});
+		btnNewButton_11.setBounds(253, 540, 97, 25);
+		layeredPane.add(btnNewButton_11);
+		
+		JButton btnNewButton_12 = new JButton("Ruta2");
+		btnNewButton_12.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				if (ruta2 == false){
+					
+					ruta2 = true;
+					lblNewLabel_6.setText("On");
+					Main.Ruta2(ruta2);
+				}
+				else {
+					
+					ruta2 = false;
+					lblNewLabel_6.setText("Off");
+					Main.Ruta2(ruta2);
+				}
+				
+				
+			}
+		});
+		btnNewButton_12.setBounds(374, 540, 97, 25);
+		layeredPane.add(btnNewButton_12);
+		
+		lblNewLabel_5 = new JLabel("Off");
+		lblNewLabel_5.setBounds(294, 522, 56, 16);
+		layeredPane.add(lblNewLabel_5);
+		
+		lblNewLabel_6 = new JLabel("Off");
+		lblNewLabel_6.setBounds(408, 522, 56, 16);
+		layeredPane.add(lblNewLabel_6);
 		initcomponents();
 	}
 

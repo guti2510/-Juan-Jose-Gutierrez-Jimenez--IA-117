@@ -59,7 +59,7 @@ public class Main {
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'},
 						   {'#',' ','%','V','%',' ','%','W','%',' ','%','X','%',' ','%','Y','%',' ','%','Z','%',' ','%','1','%',' ','%','2','%',' ','#'},
-						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','0','0','0','0','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}, 
+						   {'#',' ','o','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','0','0','0','0','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}, 
 						   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','0','0','0','0','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 						   {'#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#','#','#','#','#','#',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','%','%','%',' ','#'}, 
 						   {'#',' ','%','3','%',' ','%','4','%',' ','%','5','%',' ','%','6','%',' ','%','7','%',' ','%','8','%',' ','%','9','%',' ',' ',' ',' ',' ',' ',' ',' ','%','z','%',' ','%','w','%',' ','%','y','%',' ','%','k','%',' ','#'},
@@ -85,7 +85,11 @@ public class Main {
 		
 		//AQUI AGREGO EL CLIENTE QUE YA ESTA EN EL MAPA
 		Cliente cliente = new Cliente(2,7,'A','M');
+		Cliente cliente2 = new Cliente(16,2,'V','Y');
 		listaclientes.add(cliente);
+		listaclientes.add(cliente2);
+		
+		
 		Taxi.setNombre("Taxi 1");
 		tiempoespera = pNanosegundos*1000;
 		cargarCuadras();
@@ -1857,14 +1861,14 @@ public class Main {
 					//moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
 					Thread.sleep((long) tiempoespera);
 				}
-				/*
+				
 				if (mostrar2 == true){
 					limpiarNumeros();
 				}
 				else if (mostrar2 == false){
 					limpiarCamino();
 				}
-				*/
+				
 				int posiciones2[] = buscarTaxipos2();
 				posicionX = posiciones2[0];
 				posicionY = posiciones2[1];
@@ -2090,9 +2094,9 @@ public class Main {
 				int clienteY = posiciones[1];
 				
 				recogerCliente2(clienteX,clienteY);
-				Taxi.estado = "Buscar";
+				Taxi2.estado = "Buscar";
 			    removerCliente(clienteX, clienteY);
-			    Buscar();
+			    Buscar2();
 				
 			}
 		}
@@ -2108,8 +2112,8 @@ public class Main {
 	    	posCuadraClienteX2 = posiciones[0];
 	    	posCuadraClienteY2 = posiciones[1];
 	    	
-	    	System.out.println("CUADRA Cliente X : "+posCuadraClienteX);
-	    	System.out.println("CUADRA Cliente Y : "+posCuadraClienteY);
+	    	System.out.println("CUADRA Cliente X : "+posCuadraClienteX2);
+	    	System.out.println("CUADRA Cliente Y : "+posCuadraClienteY2);
 	    	
 	    	path2.clear();
 		    openlist2.clear();
@@ -2125,7 +2129,7 @@ public class Main {
 	    	
 	    	Taxi2.estado = "Ocupado";
 	    	
-			encontrarCuadraCliente2(Taxi);
+			encontrarCuadraCliente2();
 			
 			System.out.println("Cuadra visitada:"+cvisitada);
 			String movimiento = "";
@@ -2163,14 +2167,14 @@ public class Main {
 				//moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
 				Thread.sleep((long) tiempoespera);
 			}
-			/*
+			
 			if (mostrar2 == true){
 				limpiarNumeros();
 			}
 			else if (mostrar2 == false){
 				limpiarCamino();
 			}
-			*/
+			
 			int posiciones3[] = buscarTaxipos2();
 			posicionX = posiciones3[0];
 			posicionY = posiciones3[1];
@@ -2187,10 +2191,10 @@ public class Main {
 			
 		}
 	    
-	    public static void encontrarCuadraCliente2 (Taxi taxi){
+	    public static void encontrarCuadraCliente2 (){
 			
-			int posinicialX = taxi.getPosX();
-			int posinicialY = taxi.getPosY();
+			int posinicialX = Taxi2.getPosX();
+			int posinicialY = Taxi2.getPosY();
 			
 			path2.clear();
 		    openlist2.clear();
@@ -2329,6 +2333,45 @@ public class Main {
 					listamostrar2.add(posX);
 					listamostrar2.add(posY-1);
 					cantidadcaminos++;
+				}
+				
+			}
+		}
+	    
+	    public static void Mostrar2 (boolean pEstado){
+			
+			if (pEstado == true){
+				mostrar2 = pEstado;
+			}
+			else {
+				
+				limpiarCamino();
+				mostrar2 = false;
+				
+			}
+		}
+	    
+		public static void Ruta2 (boolean pEstado){
+			
+			if (pEstado == true){
+				int posY;
+				int posX;
+				for (int i = path2.size()-1; i >= 0 ; i=i-2){
+					posY = path2.get(i);
+					posX = path2.get(i-1);
+		
+					mapaciudad[posX][posY] = '*';
+				}
+			}
+			else{
+				
+				int posY;
+				int posX;
+				for (int i = path2.size()-1; i >= 0 ; i=i-2){
+					posY = path2.get(i);
+					posX = path2.get(i-1);
+		
+					mapaciudad[posX][posY] = ' ';
 				}
 				
 			}
