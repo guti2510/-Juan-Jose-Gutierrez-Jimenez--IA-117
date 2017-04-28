@@ -103,5 +103,16 @@ public class Proceso extends Thread {
 
 		}
 		
+		else if (accion == "Parquear2"){
+			
+			try {
+				Main.Parquear2(cuadraparquear);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		
 	}
 }

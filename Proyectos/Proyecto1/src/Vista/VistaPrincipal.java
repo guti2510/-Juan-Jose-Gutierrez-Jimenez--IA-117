@@ -23,7 +23,9 @@ public class VistaPrincipal {
 	private JTextField txtNanosegundos;
 	private JTextField textFieldOrigen;
 	private JTextField textFieldDestino;
+
 	private JTextField textField_2;
+
 	private JTextField textFieldClientes;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
@@ -38,9 +40,11 @@ public class VistaPrincipal {
 	
 	Thread hiloPasear2;
 	Thread hiloBuscar2;
+	Thread hiloParquear2;
 	
 	boolean buscaractiv2 = false;
 	boolean pasearactiv2 = false;
+	boolean parquearactiv2 = false;
 	boolean presionadoprincipal2 = false;
 	
 	boolean presionado = false;
@@ -55,6 +59,9 @@ public class VistaPrincipal {
 	
 	boolean ruta2 = false;
 	boolean mostrar2 = false;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_3;
 	/**
 	 * Launch the application.
 	 */
@@ -85,7 +92,7 @@ public class VistaPrincipal {
 		
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1432, 669);
+		frame.setBounds(100, 100, 1432, 726);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -157,14 +164,14 @@ public class VistaPrincipal {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if (presionado == false){
+				if (presionadoprincipal == false){
 					String tiempo;
 					tiempo = txtNanosegundos.getText();
 					float nanosegundos = Float.parseFloat(tiempo);
 	
 					hiloanimar = new Proceso("Proceso Animar",nanosegundos, "Animar");
 					hiloanimar.start();
-					presionado = true;
+					presionadoprincipal = true;
 				}
 				else{
 					
@@ -282,10 +289,10 @@ public class VistaPrincipal {
 				
 				if (presionadoprincipal == false){
 
-					hiloParquear = new Proceso("Proceso Animar", "Parquear",cuadradestfinal);
+					hiloParquear = new Proceso("Hilo Parquear", "Parquear",cuadradestfinal);
 					hiloParquear.start();
 					parquearactiv = true;
-					presionado = true;
+					presionadoprincipal = true;
 				}
 				else{
 					
@@ -298,8 +305,8 @@ public class VistaPrincipal {
 					}
 					
 					parquearactiv = true;
-					hiloPasear = new Proceso("Hilo Pasear ","Parquear",cuadradestfinal);
-					hiloPasear.start();
+					hiloParquear = new Proceso("Hilo Parquear ","Parquear",cuadradestfinal);
+					hiloParquear.start();
 					
 				}
 				
@@ -496,6 +503,67 @@ public class VistaPrincipal {
 		lblNewLabel_6 = new JLabel("Off");
 		lblNewLabel_6.setBounds(408, 522, 56, 16);
 		layeredPane.add(lblNewLabel_6);
+		
+		JButton btnNewButton_13 = new JButton("Cambiar Cuadra");
+		btnNewButton_13.setBounds(30, 641, 132, 25);
+		layeredPane.add(btnNewButton_13);
+		
+		JButton btnNewButton_14 = new JButton("Parquear2");
+		btnNewButton_14.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				String cuadradest;
+				cuadradest = textField.getText();
+				char cuadradestfinal = cuadradest.charAt(0);
+				
+				
+				if (presionadoprincipal2 == false){
+
+					hiloParquear2 = new Proceso("Hilo Parquear 2", "Parquear2",cuadradestfinal);
+					hiloParquear2.start();
+					parquearactiv2 = true;
+					presionadoprincipal2 = true;
+				}
+				else{
+					
+					//Si buscar esta activo lo detengo
+					if (pasearactiv2 == true){
+						hiloPasear2.stop();
+					}
+					else if (buscaractiv2 = true){
+						hiloBuscar2.stop();
+					}
+					
+					parquearactiv2 = true;
+					hiloParquear2 = new Proceso("Hilo Parquear 2", "Parquear2",cuadradestfinal);
+					hiloParquear2.start();
+					
+				}
+				
+				
+				
+			}
+		});
+			
+		btnNewButton_14.setBounds(30, 591, 97, 25);
+		layeredPane.add(btnNewButton_14);
+		
+		textField = new JTextField();
+		textField.setBounds(139, 592, 116, 22);
+		layeredPane.add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(171, 642, 86, 22);
+		layeredPane.add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(267, 642, 86, 22);
+		layeredPane.add(textField_3);
+		textField_3.setColumns(10);
 		initcomponents();
 	}
 

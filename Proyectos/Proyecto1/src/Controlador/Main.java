@@ -2385,10 +2385,129 @@ public class Main {
 				
 			}
 		}
-	    
+		
+		public static void Parquear2 (char destino) throws InterruptedException{
+			
+			
+			Taxi2.estado = "Parqueando";	
+			
+			path2.clear();
+		    openlist2.clear();
+		    closelist2.clear();
+		    cuadrasvisitadas2.clear();
+		    
+			int posiciones[] = buscarTaxipos2();
+			int posicionX = posiciones[0];
+			int posicionY = posiciones[1];
+			
+			Taxi2.setPosX(posicionX);
+			Taxi2.setPosY(posicionY);
+
+			encontrarCuadraParquear2(destino);
+			
+			System.out.println("Cuadra visitada:"+cvisitada);
+			String movimiento = "";
+			
+			//REMUEVO LA POSICION ACTUAL DEL T QUE NO NECESITO
+			path2.removeLast();
+			path2.removeLast();
+			while (path.size() != 0 ){
+				
+				int nuevaposY = path2.getLast();
+				path2.removeLast();
+				int nuevaposX = path2.getLast();
+				path2.removeLast();
+				
+				if (nuevaposX > posicionX){
+					movimiento = "Abajo";
+				}
+				else if(nuevaposX < posicionX){
+					movimiento = "Arriba";
+				}
+	            else if(nuevaposY > posicionY){
+	            	movimiento = "Derecha";
+				}
+	            else if(nuevaposY < posicionY){
+	            	movimiento = "Izquierda";
+				}	
+				
+				if (mostrar2 == true){
+					limpiarNumeros2();
+				}
+				moverTaxi2(nuevaposX,nuevaposY,movimiento);
+
+				posicionX = nuevaposX;
+				posicionY = nuevaposY;
+				//moverTaxiMarcando(nuevaposX,nuevaposY,movimiento);
+				Thread.sleep((long) tiempoespera);
+			}
+			if (mostrar2 == true){
+				limpiarNumeros2();
+			}
+			limpiarCamino();
+			int posiciones2[] = buscarTaxipos2();
+			posicionX = posiciones2[0];
+			posicionY = posiciones2[1];
+			
+			System.out.println("PARQUEANDO");
+			System.out.println("Pos TAXI X: "+posicionX);
+			System.out.println("Pos TAXI Y: "+posicionY);
+			Taxi2.setPosX(posicionX);
+			Taxi2.setPosY(posicionY);
+		    path2.clear();
+		    openlist2.clear();
+		    closelist2.clear();
+		    accion = "Esperando";	
+			
+
+		}
+		
+		public static void encontrarCuadraParquear2 (char cuadraparquear){
+			
+			int posinicialX = Taxi2.getPosX();
+			int posinicialY = Taxi2.getPosY();
+			
+			path2.clear();
+		    openlist2.clear();
+		    closelist2.clear();
+		    cuadrasvisitadas2.clear();
+		    
+		    int posiciones[] = buscarCuadraPos(cuadraparquear);
+	    	posCuadraClienteX2 = posiciones[0];
+	    	posCuadraClienteY2 = posiciones[1];
+			
+			Node initialnode = new Node(posinicialX,posinicialY,0,posCuadraClienteX2,posCuadraClienteY2);
+			verificarMovimientos4 (initialnode);
+			
+			closelist2.add(initialnode);
+			int nearXposition = initialnode.positionX;
+			int nearYposition = initialnode.positionY;
+			boolean notfound = true;
+			while(notfound){
+				
+				Node popednode = popLowestNode2();
+				closelist2.add(popednode);
+				nearXposition = popednode.positionX;
+				nearYposition = popednode.positionY;
+				
+				//Reviso Arriba
+				if ((posCuadraClienteX2-2 == nearXposition && posCuadraClienteY2 == nearYposition) || (posCuadraClienteX2 == nearXposition && posCuadraClienteY2-2 == nearYposition) 
+				  || (posCuadraClienteX2 == nearXposition && posCuadraClienteY2+2 == nearYposition) || (posCuadraClienteX2+2 == nearXposition && posCuadraClienteY2 == nearYposition)){
+					//Aqui encontramos el destino
+					createPath2(popednode);
+					break;
+				}
+				
+				verificarMovimientos4 (popednode);
+				
+			}
+		}
+		
 	    public static char[][] getMapa(){
 	    	
 	    	return mapaciudad;
  
+
 	    }
+
 }
