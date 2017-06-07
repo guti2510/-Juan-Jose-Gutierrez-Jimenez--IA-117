@@ -4,10 +4,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.BorderLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Model.Mapa;
 import Controler.EventEmitter;
@@ -15,6 +18,11 @@ import Controler.Proceso;
 import Model.Taxi;
 
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JTextArea;
@@ -58,19 +66,30 @@ public class VistaPrincipal {
 	boolean ruta = false;
 	boolean mostrar = false;
 	
+	static boolean primeravez = true;
+	
+	static int idstaxis = 1;
+	
 	static Taxi taxi;
 	static Mapa mapaprincipal;
 	
 	static EventEmitter eventEmitter = EventEmitter.getInstance( );
+	
+	private JFileChooser openFileChooser = new JFileChooser();
+	private StringBuilder stringbuilder = new StringBuilder();
+	
+	private PrintStream standardOut;
 	/**
 	 * Launch the application.
 	 */
+	
+	
+	
 	public static void main(String[] args) {
 		
 	
-		Taxi taxi = new Taxi(1,eventEmitter,1,1);
-		Taxi taxi2 = new Taxi(2,eventEmitter,21,1);
-		mapaprincipal = new Mapa();
+		//Taxi taxi = new Taxi(1,eventEmitter,1,1);
+		//Taxi taxi2 = new Taxi(2,eventEmitter,21,1);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -88,6 +107,7 @@ public class VistaPrincipal {
 	 */
 	public VistaPrincipal() {
 		initialize();
+		
 	}
 
 	/**
@@ -123,7 +143,7 @@ public class VistaPrincipal {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
-				eventEmitter.send("pasear",0);
+				eventEmitter.send("buscar",0);
 	
 			}
 		});
@@ -243,7 +263,7 @@ public class VistaPrincipal {
 				cuadradest = textFieldDestino.getText();
 				char cuadradestfinal = cuadradest.charAt(0);
 				
-				//taxi.Cliente(cuadrorigenfinal,cuadradestfinal);
+				Mapa.Cliente(cuadrorigenfinal,cuadradestfinal);
 			
 			}
 			
@@ -375,10 +395,62 @@ public class VistaPrincipal {
 		textArea.setForeground(Color.WHITE);
 		textArea.setBackground(new Color(100, 149, 237));
 		textArea.setBounds(495, 101, 907, 464);
+        
+		
 		Font font = textArea.getFont();
-	   float size = font.getSize() + 2.0f;
-	   textArea.setFont( font.deriveFont(size) );
+	    float size = font.getSize() + 2.0f;
+	    textArea.setFont( font.deriveFont(size) );
 		layeredPane.add(textArea);
+		
+		
+		
+		JLabel pathlabel = new JLabel("");
+		pathlabel.setForeground(Color.WHITE);
+		pathlabel.setBackground(Color.WHITE);
+		pathlabel.setBounds(741, 65, 261, 16);
+		layeredPane.add(pathlabel);
+		
+		JButton filebutton = new JButton("Abrir Mapa..");
+		filebutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int returnValue = openFileChooser.showOpenDialog(frame);
+				
+				if (returnValue == JFileChooser.APPROVE_OPTION){
+					
+					try{
+						File file = openFileChooser.getSelectedFile();
+						
+						Scanner input = new Scanner(file);
+						
+						while(input.hasNext()){
+							stringbuilder.append(input.nextLine());
+							stringbuilder.append("\n");
+						}
+						
+						input.close();
+						
+						mapaprincipal = new Mapa(stringbuilder);
+						pathlabel.setText("Mapa elegido correctamente");
+						printMapa();
+					}
+					catch(Exception e){
+						e.printStackTrace();
+						
+					}
+					
+				}
+				else{
+					
+					pathlabel.setText("No se ha elegido un mapa correctamente");
+				}
+			}
+		});
+		
+		filebutton.setBounds(630, 61, 97, 25);
+		layeredPane.add(filebutton);
+
+		
 		initcomponents();
 	}
 
@@ -390,11 +462,8 @@ public class VistaPrincipal {
 		
 		char mapa[][] =	mapaprincipal.getMapa();
 		
-		int ciudadfilas1 = 16;
-		int ciudadcolumnas1 = 31;
-
-		int ciudadfilas2 = 23;
-		int ciudadcolumnas2 = 54;
+		int ciudadfilas = mapaprincipal.getCiudadFilas();
+		int ciudadcolumnas = mapaprincipal.getCiudadColumnas();
 		
 		
 		int i = 0;
@@ -405,6 +474,7 @@ public class VistaPrincipal {
 	    String fila = "";
 	    String mapacompleto = "";
 	    
+	    /*
 	    for( i = 0; i< ciudadfilas1; i++){
 		    for ( j = 0 ; j< ciudadcolumnas1; j++){
 			   
@@ -594,200 +664,68 @@ public class VistaPrincipal {
 		    mapacompleto = mapacompleto + fila;
 		    fila = "";
 	    }
-	   
+	   */
 	
-	   for( i = 16; i< ciudadfilas2; i++){
-		   for ( j = 0 ; j< ciudadcolumnas2; j++){
+	   for( i = 0; i< ciudadfilas; i++){
+		   for ( j = 0 ; j< ciudadcolumnas; j++){
 			   
-				
+			   
+			   
+			   caract = Character.toString(' ');
+	    	   fila = fila + caract;
+	    	   
 			   caracter = mapa[i][j];
 			   
-			   if ((i == 16 || i == 17 || i == 21 || i == 22  ) && (j == 32)){
+			   if ( caracter == ' ' ){
 				   
-				   caract = Character.toString(' ');
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					
-					fila = fila + caract;
-					fila = fila + caract;
-
+				  
+				   caract = Character.toString(caracter);
+			       fila = fila + caract;
+			       
+			       caract = Character.toString(' ');
+		    	   fila = fila + caract;
+		    	   
+		    	   caract = Character.toString(' ');
+		    	   fila = fila + caract;
+			   }
+			   else if (caracter == '#' || Character.isLowerCase(caracter) || Character.isUpperCase(caracter)){
 				   
-			   }			   
-			   else if ( (i == 17 || i == 21 ) && (j == 29 || j == 52 )){
-			    	
-				   if (j == 52){
-					   
-					   caract = Character.toString(' ');
-						fila = fila + caract;
-						fila = fila + caract;
-						fila = fila + caract;
-						fila = fila + caract;
-
-					   
+				   
+				   if (caracter == 'T' && primeravez == true){
+						 System.out.println("TAXI EN"+ i +" "+ j);
+					     Taxi taxi = new Taxi(idstaxis,eventEmitter,i,j);
+					     idstaxis +=1;
 				   }
-				   else {
-			    	caract = Character.toString(' ');
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-
-					
-					
-				   }
-			    	
-			    }
-			   else if (caracter == ' ' ){
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    	}
-
-			   else if (caracter == '%'){
+				   
 				   
 				   caract = Character.toString(caracter);
-		    	   fila = fila + caract;
-		    	   
-		    	   caract = Character.toString(' ');
-		    	   fila = fila + caract;
-
-		    	   
-			   }
-			   else if (caracter == '#'){
-				   
-				   caract = Character.toString(caracter);
-		    	   fila = fila + caract;
-		    	   
-		    	   caract = Character.toString(' ');
-		    	   fila = fila + caract;
-		    	   
-		    	   caract = Character.toString(' ');
-		    	   fila = fila + caract;
-
-		    	   
-			   }
-			   	else if (caracter == 'T' ){
-				   
-	    		   fila = fila + ' ';
-	    		
-				   caract = Character.toString(caracter);
-		    	   fila = fila + caract;
-		    	   
-		    	   caract = Character.toString(' ');
-		    	   fila = fila + caract;
-
-		    	   
-			   	}
-			   
-			   	else if (caracter == 't'){
-					   
-		    		   fila = fila + ' ';
-		    		
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				   	}
-		    	else if (caracter == '*'){
-					   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-	
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				}
-		    	else if (caracter == 'o' ){
-					   
-		    			fila = fila + ' ';
-			    	   
-		    		   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				   }
-			   else if (caracter == '0' ){
-				   
-		    	   
-		    	   caract = Character.toString(' ');
-		    	   fila = fila + caract;
-		    	   
-		    	   caract = Character.toString(' ');
+			       fila = fila + caract;
+			       
+			       caract = Character.toString(' ');
 		    	   fila = fila + caract;
 		    	   
 			   }
-			   else if ( caracter == '3' || caracter == '4'  || caracter == '5' || caracter == '6' || caracter == '7' || caracter == '8' || caracter == '9' || caracter == 'z' || caracter == 'w' || caracter == 'y' || caracter == 'k' ){
+			   else{
 				   
-		    	   
+				  
 				   caract = Character.toString(caracter);
-		    	   fila = fila + caract;
-		    	   
-		    	   caract = Character.toString(' ');
-		    	   fila = fila + caract;
-		    	   
-		    	   caract = Character.toString(' ');
-		    	   fila = fila + caract;
+			       fila = fila + caract;
 
-		    	   
-			   }
-			   else if (caracter != 't' && caracter != ' ' && caracter != '%' && caracter != 'T' && caracter != '*'){
 				   
-				   caract = Character.toString(caracter);
-		    	   fila = fila + caract;
-		    	   
-		    	   caract = Character.toString(' ');
-		    	   fila = fila + caract;
-		    	   
+				   
 			   }
-		    	else{
-		    		
-			    	caract = Character.toString(caracter);
-			    	fila = fila + caract;
-		    	
-			    	
-		    	}
-			   
+ 
+
 		   }
 		   fila = fila +'\n';
 		   
 		   mapacompleto = mapacompleto + fila;
 		   fila = "";
 	   }
-		
-		
-	   
-	   
+	    primeravez = false;
 	   	textArea.setText(mapacompleto);
 		textArea.setEditable(false);
 	}
+	
+
 }

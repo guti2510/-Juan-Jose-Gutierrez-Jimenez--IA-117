@@ -11,9 +11,11 @@ public class Taxi {
 	public Fsm fsm;
 	
 	States state = new States();
+	@SuppressWarnings("serial")
 	public ArrayList<State> STATES = new ArrayList<State>() {{
 	    add(state.new pasear());
 	    add(state.new buscar());
+	    add(state.new conCliente());
 	}};
 
 	/**
@@ -25,14 +27,29 @@ public class Taxi {
     LinkedList<Node> closelist =new LinkedList<Node>();
     LinkedList<Character> cuadrasvisitadas =new LinkedList<Character>();
     
+    LinkedList<Integer> listamostrar =new LinkedList<Integer>();
+    
+    int posCuadraClienteX;
+    int posCuadraClienteY;
+    
+    int clienteX;
+	int clienteY;
+	
+	char destino;
+    
     char cvisitada;
     boolean mostrar = false;
     
+    boolean validarcambio = false;
+    
     public int posX;
     public int posY;
+    
+    public EventEmitter eventEmiter;
 	
 	public Taxi(int id,EventEmitter eventEmiter, int pPosX,int pPosY) {
 		this.id = id;
+		this.eventEmiter = eventEmiter;
 		this.fsm = new Fsm(this, this.STATES,id,eventEmiter);
 		this.posX = pPosX;
 		this.posY = pPosY;
@@ -129,9 +146,84 @@ public class Taxi {
 		
 	}
 	
-	public void buscar(){
+	public void buscar (){
 		
-		System.out.println("Buscandooo");
+	    openlist.clear();
+	    closelist.clear();
+	    
+	    int posicionX = getPosX();
+		int posicionY = getPosY();
+		
+		setPosX(posicionX);
+		setPosY(posicionY);
+		
+		
+		if (path.isEmpty()){
+			
+			openlist.clear();
+		    closelist.clear();
+		
+			encontrarCuadra();
+			String movimiento = "";
+			
+			//REMUEVO LA POSICION ACTUAL DEL T QUE NO NECESITO
+			path.removeLast();
+			path.removeLast();
+			
+			int nuevaposY = path.getLast();
+			path.removeLast();
+			int nuevaposX = path.getLast();
+			path.removeLast();
+			
+			if (nuevaposX > posicionX){
+				movimiento = "Abajo";
+			}
+			else if(nuevaposX < posicionX){
+				movimiento = "Arriba";
+			}
+	        else if(nuevaposY > posicionY){
+	        	movimiento = "Derecha";
+			}
+	        else if(nuevaposY < posicionY){
+	        	movimiento = "Izquierda";
+			}
+			
+			moverTaxiBuscando(nuevaposX,nuevaposY,movimiento);
+			
+			this.setPosX(nuevaposX);
+			this.setPosY(nuevaposY);
+			
+		}
+		else{
+			
+			String movimiento = "";
+			
+			int nuevaposY = path.getLast();
+			path.removeLast();
+			int nuevaposX = path.getLast();
+			path.removeLast();
+			
+			if (nuevaposX > posicionX){
+				movimiento = "Abajo";
+			}
+			else if(nuevaposX < posicionX){
+				movimiento = "Arriba";
+			}
+	        else if(nuevaposY > posicionY){
+	        	movimiento = "Derecha";
+			}
+	        else if(nuevaposY < posicionY){
+	        	movimiento = "Izquierda";
+			}
+			
+			moverTaxiBuscando(nuevaposX,nuevaposY,movimiento);
+			
+			this.setPosX(nuevaposX);
+			this.setPosY(nuevaposY);
+			
+		}
+		
+
 	}
 	
 	/* ------------------------------------------------------------------------------------------------------------------------------*/
@@ -585,6 +677,396 @@ public class Taxi {
 			}
 			*/
 		}
+	}
+	
+	
+	private void moverTaxiBuscando(int posX, int posY, String movimiento) {
+		
+		
+		if (movimiento == "Derecha"){
+			Mapa.mapaciudad[posX][posY-1] = ' ';
+		}
+		else if (movimiento == "Izquierda"){
+			Mapa.mapaciudad[posX][posY+1] = ' ';
+		}
+		else if (movimiento == "Abajo"){
+			Mapa.mapaciudad[posX-1][posY] = ' ';		
+		}
+		else if (movimiento == "Arriba"){
+			Mapa.mapaciudad[posX+1][posY] = ' ';
+		}
+		
+		Mapa.mapaciudad[posX][posY] = 'T';
+		setPosX(posX);
+		setPosY(posY);
+		//Busca Clientes
+		if(buscarCliente(posX,posY)){
+			
+			int posiciones[] = buscarClientePos(posX,posY);
+			clienteX = posiciones[0];
+			clienteY = posiciones[1];
+			
+			path.clear();
+		    openlist.clear();
+		    closelist.clear();
+		    cuadrasvisitadas.clear();
+			Mapa.mapaciudad[clienteX][clienteY] = '%';
+			
+			
+			
+	    	destino = clienteDestino(clienteX,clienteY);
+	    	System.out.println("DESTINO CLIENTE : "+destino);
+	    	
+	    	
+	    	System.out.println("CUADRA Cliente X : "+posCuadraClienteX);
+	    	System.out.println("CUADRA Cliente Y : "+posCuadraClienteY);
+			
+			eventEmiter.send("Ocupado", this.id);
+			
+			/*
+			recogerCliente(clienteX,clienteY);
+		    removerCliente(clienteX, clienteY);
+		    buscar();
+			*/
+		}
+	}
+	
+	//FUNCION QUE SE LLAMA CUANDO EL TAXI TIENE CLIENTE
+	public void recogerCliente(){
+		
+		
+		if (path.isEmpty() && validarcambio == true){
+			
+			eventEmiter.send("buscar", this.id);
+		}
+		else{
+		    if(path.isEmpty()){
+		    
+		    	int posiciones[] = buscarCuadraPos(destino);
+		    	posCuadraClienteX = posiciones[0];
+		    	posCuadraClienteY = posiciones[1];
+		    	
+			    int posicionX = getPosX();
+				int posicionY = getPosY();
+		
+				encontrarCuadraCliente();
+				
+				System.out.println("Cuadra visitada:"+cvisitada);
+				String movimiento = "";
+				
+				//REMUEVO LA POSICION ACTUAL DEL T QUE NO NECESITO
+				path.removeLast();
+				path.removeLast();
+					
+					int nuevaposY = path.getLast();
+					path.removeLast();
+					int nuevaposX = path.getLast();
+					path.removeLast();
+					
+					if (nuevaposX > posicionX){
+						movimiento = "Abajo";
+					}
+					else if(nuevaposX < posicionX){
+						movimiento = "Arriba";
+					}
+		            else if(nuevaposY > posicionY){
+		            	movimiento = "Derecha";
+					}
+		            else if(nuevaposY < posicionY){
+		            	movimiento = "Izquierda";
+					}
+					
+					
+					if (mostrar == true){
+						limpiarNumeros();
+					}
+					moverTaxi(nuevaposX,nuevaposY,movimiento);
+					
+					setPosX(nuevaposX);
+					setPosY(nuevaposY);
+					
+					//limpiarCamino();
+					validarcambio = true;
+				
+		    }
+		    else{
+		    	
+		    	String movimiento = "";
+				
+		    	int posicionX = getPosX();
+				int posicionY = getPosY();
+		    	
+				int nuevaposY = path.getLast();
+				path.removeLast();
+				int nuevaposX = path.getLast();
+				path.removeLast();
+				
+				if (nuevaposX > posicionX){
+					movimiento = "Abajo";
+				}
+				else if(nuevaposX < posicionX){
+					movimiento = "Arriba";
+				}
+		        else if(nuevaposY > posicionY){
+		        	movimiento = "Derecha";
+				}
+		        else if(nuevaposY < posicionY){
+		        	movimiento = "Izquierda";
+				}
+				
+				if (mostrar == true){
+					limpiarNumeros();
+				}
+				moverTaxi(nuevaposX,nuevaposY,movimiento);
+				
+				this.setPosX(nuevaposX);
+				this.setPosY(nuevaposY);
+		    	
+		    	
+		    }
+		}
+	}
+	
+	private  boolean buscarCliente(int nearXposition, int nearYposition) {
+		
+		int i = nearXposition-1;
+		int j = nearYposition-1;
+		char posverificar = ' ';
+		int contador = 0;
+		boolean clientecerca = false;
+		for (int cantidad = 0; cantidad<9; cantidad++){
+			
+			if (contador == 3){
+				i++;
+				contador = 0;
+				j = nearYposition-1;
+			}
+			posverificar = Mapa.mapaciudad[i][j];
+			
+			if (posverificar == 'o'){
+				clientecerca = true;
+				return clientecerca;
+			}
+			
+			contador++;
+			j++;
+		}
+		
+		return clientecerca;
+	}
+	
+	private int[] buscarClientePos(int nearXposition, int nearYposition) {
+		
+		int i = nearXposition-1;
+		int j = nearYposition-1;
+		char posverificar = ' ';
+		int contador = 0;
+		
+		for (int cantidad = 0; cantidad<9; cantidad++){
+			
+			if (contador == 3){
+				i++;
+				contador = 0;
+				j = nearYposition-1;
+			}
+			posverificar = Mapa.mapaciudad[i][j];
+			
+			if (posverificar == 'o'){
+				return new int[] {i, j};
+			}
+			
+			contador++;
+			j++;
+		}
+		
+		return new int[] {i, j};
+	}
+	
+	private char clienteDestino(int clienteX, int clienteY) {
+
+		char destino = ' ';
+
+		for (int i = 0; i<Mapa.listaclientes.size(); i++){
+			
+			Cliente clientetemp = new Cliente();
+			clientetemp = Mapa.listaclientes.get(i);
+			
+			int postempX = clientetemp.getPosX();
+			int postempY = clientetemp.getPosY();
+			
+			if (postempX == clienteX && postempY == clienteY){
+				destino = clientetemp.getDestino();
+				return destino;
+			}
+			
+			
+		}
+
+		return destino;
+	}
+	
+	private  void removerCliente(int clienteX, int clienteY) {
+		
+		
+		for (int i = 0; i<Mapa.listaclientes.size(); i++){
+			
+			Cliente clientetemp = new Cliente();
+			clientetemp = Mapa.listaclientes.get(i);
+			
+			int postempX = clientetemp.getPosX();
+			int postempY = clientetemp.getPosY();
+			
+			if (postempX == clienteX && postempY == clienteY){
+				Mapa.listaclientes.remove(i);
+			}
+
+		}
+		
+	}
+	
+	private int[] buscarCuadraPos(char destino) {
+		
+		   int posX = 0;
+		   int posY = 0;
+		   int i = 0;
+		   int j = 0;
+	       for( i = 0; i< Mapa.ciudadfilas; i++){
+	    	   for ( j = 0 ; j< Mapa.ciudadcolumnas; j++){
+	    		   if (Mapa.mapaciudad[i][j] == destino){
+	    			   posX = i;
+	    			   posY = j;
+	    		   }
+	    	   }
+	       }
+		
+	       return new int[] {posX, posY};
+
+	}
+	
+	
+	public void encontrarCuadraCliente (){
+		
+		int posinicialX = getPosX();
+		int posinicialY = getPosY();
+		
+		path.clear();
+	    openlist.clear();
+	    closelist.clear();
+	    cuadrasvisitadas.clear();
+		
+		Node initialnode = new Node(posinicialX,posinicialY,0,posCuadraClienteX,posCuadraClienteY);
+		verificarMovimientos2 (initialnode);
+		
+		closelist.add(initialnode);
+		int nearXposition = initialnode.positionX;
+		int nearYposition = initialnode.positionY;
+		boolean notfound = true;
+		while(notfound){
+			
+			Node popednode = popLowestNode();
+			closelist.add(popednode);
+			nearXposition = popednode.positionX;
+			nearYposition = popednode.positionY;
+			
+			//Reviso Arriba
+			if ((posCuadraClienteX-2 == nearXposition && posCuadraClienteY == nearYposition) || (posCuadraClienteX == nearXposition && posCuadraClienteY-2 == nearYposition) 
+			  || (posCuadraClienteX == nearXposition && posCuadraClienteY+2 == nearYposition) || (posCuadraClienteX+2 == nearXposition && posCuadraClienteY == nearYposition)){
+				//Aqui encontramos el destino
+				createPath(popednode);
+				break;
+			}
+			
+			verificarMovimientos2 (popednode);
+			
+		}
+		
+	}
+	
+	public void verificarMovimientos2(Node pNode){
+		
+		int NodeposX =  pNode.positionX;
+		int NodeposY =  pNode.positionY;
+		int Gcost = pNode.Gcost +1;
+		
+		//Arriba
+		if (Mapa.mapaciudad[NodeposX-1][NodeposY] != 'o' && Mapa.mapaciudad[NodeposX-1][NodeposY] != '%' && NodeposX-1 >= 0 && Mapa.mapaciudad[NodeposX-1][NodeposY] != '#' &&  checkinOpenList(NodeposX-1,NodeposY) == true ){
+			Node nodeUp = new Node();
+			nodeUp = getNodeinOpenList(NodeposX-1,NodeposY);
+			int GcostNodeUp = nodeUp.Gcost;
+			
+			if (Gcost < GcostNodeUp ){
+				changeParent(pNode ,NodeposX-1, NodeposY , Gcost );
+				
+			}
+			
+		}
+		else if (Mapa.mapaciudad[NodeposX-1][NodeposY] != 'o' && Mapa.mapaciudad[NodeposX-1][NodeposY] != '%' && NodeposX-1 >= 0 && Mapa.mapaciudad[NodeposX-1][NodeposY] != '#' && checkinCloseList(NodeposX-1,NodeposY) == false){
+			Node nodeUp = new Node(NodeposX-1,NodeposY, posCuadraClienteX,posCuadraClienteY ,Gcost,pNode);
+			openlist.add(nodeUp);
+		}
+		
+		
+		//Izquierda
+		if (Mapa.mapaciudad[NodeposX][NodeposY-1] != 'o' && Mapa.mapaciudad[NodeposX][NodeposY-1] != '%' && NodeposY-1 >= 0 && Mapa.mapaciudad[NodeposX][NodeposY-1] != '#'  && checkinOpenList(NodeposX,NodeposY-1) == true ){
+			Node nodeUp = new Node();
+			nodeUp = getNodeinOpenList(NodeposX,NodeposY-1);
+			int GcostNodeUp = nodeUp.Gcost;
+			
+			if (Gcost < GcostNodeUp ){
+				changeParent(pNode ,NodeposX, NodeposY-1 , Gcost );
+			}
+			
+		}
+		else if (Mapa.mapaciudad[NodeposX][NodeposY-1] != 'o' && Mapa.mapaciudad[NodeposX][NodeposY-1] != '%' && NodeposY-1 >= 0 && Mapa.mapaciudad[NodeposX][NodeposY-1] != '#' && checkinCloseList(NodeposX,NodeposY-1) == false){
+			Node nodeLeft = new Node(NodeposX,NodeposY-1, posCuadraClienteX,posCuadraClienteY ,Gcost,pNode);
+			openlist.add(nodeLeft);
+		
+		}
+		//Derecha
+		if (Mapa.mapaciudad[NodeposX][NodeposY+1] != 'o' && Mapa.mapaciudad[NodeposX][NodeposY+1] != '%' && Mapa.mapaciudad[NodeposX][NodeposY+1] != '#' && checkinOpenList(NodeposX,NodeposY+1) == true ){
+			Node nodeUp = new Node();
+			nodeUp = getNodeinOpenList(NodeposX,NodeposY+1);
+			int GcostNodeUp = nodeUp.Gcost;
+			
+			if (Gcost < GcostNodeUp ){
+				changeParent(pNode ,NodeposX, NodeposY+1 , Gcost );
+			}
+			
+		}
+		else if (Mapa.mapaciudad[NodeposX][NodeposY+1] != 'o' && Mapa.mapaciudad[NodeposX][NodeposY+1] != '%' && Mapa.mapaciudad[NodeposX][NodeposY+1] != '#' && checkinCloseList(NodeposX,NodeposY+1) == false){
+			Node nodeRight = new Node(NodeposX,NodeposY+1, posCuadraClienteX,posCuadraClienteY ,Gcost,pNode);
+			openlist.add(nodeRight);
+		
+		}
+		
+		//Abajo
+		if (Mapa.mapaciudad[NodeposX+1][NodeposY] != 'o' && Mapa.mapaciudad[NodeposX+1][NodeposY] != '%' &&  Mapa.mapaciudad[NodeposX+1][NodeposY] != '#' && checkinOpenList(NodeposX+1,NodeposY) == true ){
+			Node nodeUp = new Node();
+			nodeUp = getNodeinOpenList(NodeposX+1,NodeposY);
+			int GcostNodeUp = nodeUp.Gcost;
+			
+			if (Gcost < GcostNodeUp ){
+				changeParent(pNode ,NodeposX+1, NodeposY , Gcost );
+			}
+			
+		}
+		else if (Mapa.mapaciudad[NodeposX+1][NodeposY] != 'o' && Mapa.mapaciudad[NodeposX+1][NodeposY] != '%' && Mapa.mapaciudad[NodeposX+1][NodeposY] != '#' && checkinCloseList(NodeposX+1,NodeposY) == false ){
+			Node nodeDown= new Node(NodeposX+1,NodeposY, posCuadraClienteX,posCuadraClienteY ,Gcost,pNode);
+			openlist.add(nodeDown);
+		
+		}
+		
+	}
+	
+	private void limpiarNumeros() {
+
+
+		for( int i = 0; i< listamostrar.size(); i=i+2){
+			int posx = listamostrar.get(i);
+			int posy = listamostrar.get(i+1);
+			Mapa.mapaciudad[posx][posy] = ' ';
+		}
+		listamostrar.clear();
 	}
 	
 }
