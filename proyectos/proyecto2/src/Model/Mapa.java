@@ -49,6 +49,9 @@ public class Mapa {
 	public static LinkedList<Cliente> listaclientes =new LinkedList<Cliente>();
 	public static LinkedList<Character> listacuadras =new LinkedList<Character>(); 
 	
+	public static int tiempoactual = 0;
+	public static int tiempodia = 0;
+	
 	public Mapa(StringBuilder stringbuilder) {
 		
 		int x = 0;
@@ -91,7 +94,23 @@ public class Mapa {
 			printCiudad();
 			eventEmitter.update();
 			eventEmitter.send("update",0);
+			tiempoactual += tiempoespera;
+			
+			if (tiempoactual > tiempodia){
+				tiempoactual = 0;
+			}
+			
+			
+			String tiempo;
+			if(tiempoactual < (tiempodia/2) ){
+				tiempo = "Dia";
+			}
+			else{
+				tiempo = "Noche";
+			}
+			
 			VistaPrincipal.printMapa();
+			VistaPrincipal.setTiempo(tiempo);
 			Thread.sleep((long) tiempoespera);
 		}
 		
@@ -187,5 +206,10 @@ public class Mapa {
 		
 	       return new int[] {posX, posY};
 
+	}
+
+	public static void setDia(int diasegundos) {	
+		tiempodia = diasegundos;
+		tiempoactual = 0;
 	}
 }

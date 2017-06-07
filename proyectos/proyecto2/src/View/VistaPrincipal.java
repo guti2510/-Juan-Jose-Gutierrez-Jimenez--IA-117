@@ -79,6 +79,7 @@ public class VistaPrincipal {
 	private StringBuilder stringbuilder = new StringBuilder();
 	
 	private PrintStream standardOut;
+	private JTextField TiempoField;
 	/**
 	 * Launch the application.
 	 */
@@ -136,7 +137,7 @@ public class VistaPrincipal {
 
 			}
 		});
-		btnNewButton.setBounds(30, 116, 97, 25);
+		btnNewButton.setBounds(107, 158, 97, 25);
 		layeredPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Buscar");
@@ -147,7 +148,7 @@ public class VistaPrincipal {
 	
 			}
 		});
-		btnNewButton_1.setBounds(139, 116, 97, 25);
+		btnNewButton_1.setBounds(238, 158, 97, 25);
 		layeredPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Animar");
@@ -158,7 +159,13 @@ public class VistaPrincipal {
 					String tiempo;
 					tiempo = txtNanosegundos.getText();
 					float nanosegundos = Float.parseFloat(tiempo);
-	
+					
+					String dia;
+					dia = TiempoField.getText();
+					int diasegundos = Integer.parseInt(dia);
+					
+					Mapa.setDia(diasegundos);
+					
 					hiloanimar = new Proceso("Proceso Animar",nanosegundos, "Animar");
 					hiloanimar.start();
 					presionadoprincipal = true;
@@ -174,21 +181,21 @@ public class VistaPrincipal {
 
 			}
 		});
-		btnNewButton_2.setBounds(30, 78, 97, 25);
+		btnNewButton_2.setBounds(30, 120, 97, 25);
 		layeredPane.add(btnNewButton_2);
 		
 		JLabel lblTaxi = new JLabel("TAXI");
 		lblTaxi.setForeground(Color.WHITE);
 		lblTaxi.setBackground(Color.WHITE);
 		lblTaxi.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblTaxi.setBounds(106, 32, 56, 16);
+		lblTaxi.setBounds(199, 65, 56, 16);
 		layeredPane.add(lblTaxi);
 		
 		txtNanosegundos = new JTextField();
 		txtNanosegundos.setForeground(Color.WHITE);
 		txtNanosegundos.setBackground(new Color(100, 149, 237));
 		txtNanosegundos.setToolTipText("");
-		txtNanosegundos.setBounds(139, 81, 116, 22);
+		txtNanosegundos.setBounds(139, 123, 116, 22);
 		layeredPane.add(txtNanosegundos);
 		txtNanosegundos.setColumns(10);
 		
@@ -212,7 +219,7 @@ public class VistaPrincipal {
 				
 			}
 		});
-		btnNewButton_3.setBounds(55, 185, 97, 25);
+		btnNewButton_3.setBounds(56, 221, 97, 25);
 		layeredPane.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Ruta");
@@ -233,7 +240,7 @@ public class VistaPrincipal {
 				}
 			}
 		});
-		btnNewButton_4.setBounds(281, 185, 97, 25);
+		btnNewButton_4.setBounds(281, 221, 97, 25);
 		layeredPane.add(btnNewButton_4);
 		
 		JButton btnNewButton_5 = new JButton("Clientes");
@@ -248,7 +255,7 @@ public class VistaPrincipal {
 				
 			}
 		});
-		btnNewButton_5.setBounds(29, 247, 97, 25);
+		btnNewButton_5.setBounds(30, 285, 97, 25);
 		layeredPane.add(btnNewButton_5);
 		
 		JButton btnNewButton_6 = new JButton("Cliente");
@@ -268,7 +275,7 @@ public class VistaPrincipal {
 			}
 			
 		});
-		btnNewButton_6.setBounds(29, 302, 97, 25);
+		btnNewButton_6.setBounds(30, 337, 97, 25);
 		layeredPane.add(btnNewButton_6);
 		
 		JButton btnNewButton_7 = new JButton("Parquear");
@@ -306,76 +313,76 @@ public class VistaPrincipal {
 				
 			}
 		});
-		btnNewButton_7.setBounds(29, 391, 97, 25);
+		btnNewButton_7.setBounds(30, 435, 97, 25);
 		layeredPane.add(btnNewButton_7);
 		
 		textFieldOrigen = new JTextField();
 		textFieldOrigen.setForeground(Color.WHITE);
 		textFieldOrigen.setBackground(new Color(100, 149, 237));
-		textFieldOrigen.setBounds(139, 303, 116, 22);
+		textFieldOrigen.setBounds(139, 338, 116, 22);
 		layeredPane.add(textFieldOrigen);
 		textFieldOrigen.setColumns(10);
 		
 		textFieldDestino = new JTextField();
 		textFieldDestino.setForeground(Color.WHITE);
 		textFieldDestino.setBackground(new Color(100, 149, 237));
-		textFieldDestino.setBounds(139, 338, 116, 22);
+		textFieldDestino.setBounds(139, 371, 116, 22);
 		layeredPane.add(textFieldDestino);
 		textFieldDestino.setColumns(10);
 		
 		textField_2 = new JTextField();
 		textField_2.setForeground(Color.WHITE);
 		textField_2.setBackground(new Color(100, 149, 237));
-		textField_2.setBounds(139, 392, 126, 22);
+		textField_2.setBounds(139, 436, 126, 22);
 		layeredPane.add(textField_2);
 		textField_2.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Indique la Cuadra:");
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setBounds(149, 373, 116, 16);
+		lblNewLabel.setBounds(139, 420, 116, 16);
 		layeredPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Cuadra donde se va colocar el cliente");
 		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBounds(267, 306, 235, 16);
+		lblNewLabel_1.setBounds(267, 341, 235, 16);
 		layeredPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Destino del cliente");
 		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setBounds(267, 341, 126, 16);
+		lblNewLabel_2.setBounds(267, 374, 126, 16);
 		layeredPane.add(lblNewLabel_2);
 		
 		textFieldClientes = new JTextField();
 		textFieldClientes.setForeground(Color.WHITE);
 		textFieldClientes.setBackground(new Color(100, 149, 237));
-		textFieldClientes.setBounds(139, 248, 116, 22);
+		textFieldClientes.setBounds(139, 286, 116, 22);
 		layeredPane.add(textFieldClientes);
 		textFieldClientes.setColumns(10);
 		
 		JLabel lblNumeroDeClientes = new JLabel("Numero de clientes que desea agregar");
 		lblNumeroDeClientes.setForeground(Color.WHITE);
-		lblNumeroDeClientes.setBounds(267, 251, 252, 16);
+		lblNumeroDeClientes.setBounds(265, 289, 252, 16);
 		layeredPane.add(lblNumeroDeClientes);
 		
 		JLabel lblNanosegundos = new JLabel("Segundos");
 		lblNanosegundos.setForeground(Color.WHITE);
-		lblNanosegundos.setBounds(158, 65, 97, 16);
+		lblNanosegundos.setBounds(156, 106, 97, 16);
 		layeredPane.add(lblNanosegundos);
 		
 		lblNewLabel_3 = new JLabel("Off");
 		lblNewLabel_3.setForeground(Color.WHITE);
-		lblNewLabel_3.setBounds(390, 189, 56, 16);
+		lblNewLabel_3.setBounds(390, 225, 56, 16);
 		layeredPane.add(lblNewLabel_3);
 		
 		lblNewLabel_4 = new JLabel("Off");
 		lblNewLabel_4.setForeground(Color.WHITE);
-		lblNewLabel_4.setBounds(164, 189, 56, 16);
+		lblNewLabel_4.setBounds(156, 225, 56, 16);
 		layeredPane.add(lblNewLabel_4);
 		
 		JLabel lblCambios = new JLabel("Modificaciones");
 		lblCambios.setForeground(Color.WHITE);
 		lblCambios.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblCambios.setBounds(77, 447, 135, 16);
+		lblCambios.setBounds(77, 489, 135, 16);
 		layeredPane.add(lblCambios);
 		
 		JButton btnNewButton_8 = new JButton("Taxi 2");
@@ -386,7 +393,7 @@ public class VistaPrincipal {
 				
 			}
 		});
-		btnNewButton_8.setBounds(30, 489, 97, 25);
+		btnNewButton_8.setBounds(30, 518, 97, 25);
 		layeredPane.add(btnNewButton_8);
 		
 		
@@ -410,7 +417,7 @@ public class VistaPrincipal {
 		pathlabel.setBounds(741, 65, 261, 16);
 		layeredPane.add(pathlabel);
 		
-		JButton filebutton = new JButton("Abrir Mapa..");
+		JButton filebutton = new JButton("Cargar Mapa..");
 		filebutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -447,8 +454,20 @@ public class VistaPrincipal {
 			}
 		});
 		
-		filebutton.setBounds(630, 61, 97, 25);
+		filebutton.setBounds(630, 61, 126, 25);
 		layeredPane.add(filebutton);
+		
+		TiempoField = new JTextField();
+		TiempoField.setBackground(new Color(100, 149, 237));
+		TiempoField.setForeground(new Color(100, 149, 237));
+		TiempoField.setBounds(267, 123, 116, 22);
+		layeredPane.add(TiempoField);
+		TiempoField.setColumns(10);
+		
+		JLabel lblTiempoDa = new JLabel("Tiempo D\u00EDa:");
+		lblTiempoDa.setForeground(Color.WHITE);
+		lblTiempoDa.setBounds(281, 106, 112, 16);
+		layeredPane.add(lblTiempoDa);
 
 		
 		initcomponents();
@@ -726,6 +745,9 @@ public class VistaPrincipal {
 	   	textArea.setText(mapacompleto);
 		textArea.setEditable(false);
 	}
-	
 
+	public static void setTiempo(String tiempo) {
+
+		textArea.setBackground(new Color(222, 160, 73));
+	}
 }
