@@ -40,6 +40,7 @@ public class VistaPrincipal {
 	private JTextField textFieldClientes;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
+	private static JLabel lblTiempo;
 	private static JTextArea textArea;
 	
 	Thread hiloPasear;
@@ -414,7 +415,7 @@ public class VistaPrincipal {
 		JLabel pathlabel = new JLabel("");
 		pathlabel.setForeground(Color.WHITE);
 		pathlabel.setBackground(Color.WHITE);
-		pathlabel.setBounds(741, 65, 261, 16);
+		pathlabel.setBounds(766, 65, 261, 16);
 		layeredPane.add(pathlabel);
 		
 		JButton filebutton = new JButton("Cargar Mapa..");
@@ -459,7 +460,7 @@ public class VistaPrincipal {
 		
 		TiempoField = new JTextField();
 		TiempoField.setBackground(new Color(100, 149, 237));
-		TiempoField.setForeground(new Color(100, 149, 237));
+		TiempoField.setForeground(new Color(255, 255, 255));
 		TiempoField.setBounds(267, 123, 116, 22);
 		layeredPane.add(TiempoField);
 		TiempoField.setColumns(10);
@@ -468,6 +469,12 @@ public class VistaPrincipal {
 		lblTiempoDa.setForeground(Color.WHITE);
 		lblTiempoDa.setBounds(281, 106, 112, 16);
 		layeredPane.add(lblTiempoDa);
+		
+		lblTiempo = new JLabel("Tiempo");
+		lblTiempo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTiempo.setForeground(new Color(230, 230, 250));
+		lblTiempo.setBounds(390, 123, 56, 16);
+		layeredPane.add(lblTiempo);
 
 		
 		initcomponents();
@@ -748,6 +755,16 @@ public class VistaPrincipal {
 
 	public static void setTiempo(String tiempo) {
 
-		textArea.setBackground(new Color(222, 160, 73));
+		if (tiempo == "Dia"){
+			textArea.setBackground(new Color(222, 160, 73));
+			lblTiempo.setText("Día");
+			lblTiempo.setForeground(new Color(222, 160, 73));
+
+		}
+		else if (tiempo == "Noche"){
+			textArea.setBackground(new Color(0, 46, 99));
+			lblTiempo.setText("Noche");
+			lblTiempo.setForeground(new Color(0, 46, 99));
+		}
 	}
 }

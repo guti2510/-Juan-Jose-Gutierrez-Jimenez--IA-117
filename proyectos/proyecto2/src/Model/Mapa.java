@@ -94,7 +94,10 @@ public class Mapa {
 			printCiudad();
 			eventEmitter.update();
 			eventEmitter.send("update",0);
-			tiempoactual += tiempoespera;
+			tiempoactual = (int) (tiempoactual + pNanosegundos);
+			
+			System.out.println("TIEMPO:"+tiempoactual);
+			System.out.println("DIA:"+tiempodia);
 			
 			if (tiempoactual > tiempodia){
 				tiempoactual = 0;
@@ -102,15 +105,15 @@ public class Mapa {
 			
 			
 			String tiempo;
-			if(tiempoactual < (tiempodia/2) ){
+			if(tiempoactual <= (tiempodia/2) ){
 				tiempo = "Dia";
 			}
 			else{
 				tiempo = "Noche";
 			}
 			
-			VistaPrincipal.printMapa();
 			VistaPrincipal.setTiempo(tiempo);
+			VistaPrincipal.printMapa();
 			Thread.sleep((long) tiempoespera);
 		}
 		
@@ -210,6 +213,5 @@ public class Mapa {
 
 	public static void setDia(int diasegundos) {	
 		tiempodia = diasegundos;
-		tiempoactual = 0;
 	}
 }
