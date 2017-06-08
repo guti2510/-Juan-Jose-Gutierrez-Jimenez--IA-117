@@ -12,12 +12,13 @@ public class Cliente {
 	public Cliente() {
 		
 	}
-	public Cliente(int pPosX,int pPosY, char pInicio,char  pDestino){
+	public Cliente(int pPosX,int pPosY, char pInicio,char  pDestino,String estado){
 		
 		this.posX = pPosX; 
 		this.posY = pPosY;
 		inicio = pInicio;
 		destino	= pDestino;
+		this.estado = estado;
 	}
 	
 	public char getInicio() {

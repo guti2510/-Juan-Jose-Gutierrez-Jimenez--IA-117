@@ -184,7 +184,7 @@ public class Mapa {
     	
 
     	Mapa.mapaciudad[posClienteNuevoX][posClienteNuevoY] = 'o';
-    	Cliente nuevocliente = new Cliente(posClienteNuevoX,posClienteNuevoY,origen,destino);
+    	Cliente nuevocliente = new Cliente(posClienteNuevoX,posClienteNuevoY,origen,destino,"Esperando");
 		listaclientes.add(nuevocliente);
     	
 		

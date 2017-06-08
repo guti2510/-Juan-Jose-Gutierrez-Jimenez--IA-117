@@ -939,25 +939,6 @@ public class Taxi {
 		return destino;
 	}
 	
-	private  void removerCliente(int clienteX, int clienteY) {
-		
-		
-		for (int i = 0; i<Mapa.listaclientes.size(); i++){
-			
-			Cliente clientetemp = new Cliente();
-			clientetemp = Mapa.listaclientes.get(i);
-			
-			int postempX = clientetemp.getPosX();
-			int postempY = clientetemp.getPosY();
-			
-			if (postempX == clienteX && postempY == clienteY){
-				Mapa.listaclientes.remove(i);
-			}
-
-		}
-		
-	}
-	
 	private int[] buscarCuadraPos(char destino) {
 		
 		   int posX = 0;
