@@ -225,6 +225,19 @@ public class Taxi {
 
 	}
 	
+	public void Mostrar (boolean pEstado){
+		
+		if (pEstado == true){
+			mostrar = pEstado;
+		}
+		else {
+			
+			limpiarCamino();
+			limpiarNumeros();
+			mostrar = false;
+			
+		}
+	}
 	
 	public void Ruta (boolean pEstado){
 		
@@ -617,8 +630,7 @@ public class Taxi {
 			
 		}
 		else{
-			
-			/*
+
 			if (movimiento == "Derecha"){
 				Mapa.mapaciudad[posX][posY-1] = '*';
 			}
@@ -701,7 +713,6 @@ public class Taxi {
 				listamostrar.add(posY-1);
 				cantidadcaminos++;
 			}
-			*/
 		}
 	}
 	
@@ -749,11 +760,6 @@ public class Taxi {
 			
 			eventEmiter.send("Ocupado", this.id);
 			
-			/*
-			recogerCliente(clienteX,clienteY);
-		    removerCliente(clienteX, clienteY);
-		    buscar();
-			*/
 		}
 	}
 	
@@ -763,8 +769,10 @@ public class Taxi {
 		
 		if (path.isEmpty() && validarcambio == true){
 			
+			validarcambio = false;
 			path.clear();
 			eventEmiter.send("buscar", this.id);
+
 		}
 		else{
 		    if(path.isEmpty()){
@@ -802,8 +810,7 @@ public class Taxi {
 		            else if(nuevaposY < posicionY){
 		            	movimiento = "Izquierda";
 					}
-					
-					
+
 					if (mostrar == true){
 						limpiarNumeros();
 					}
@@ -1094,6 +1101,24 @@ public class Taxi {
 			Mapa.mapaciudad[posx][posy] = ' ';
 		}
 		listamostrar.clear();
+	}
+	
+	private void limpiarCamino() {
+		int i = 0;
+		int j = 0;
+		char posverificar;
+		for( i = 0; i< Mapa.ciudadfilas; i++){
+			for ( j = 0 ; j< Mapa.ciudadcolumnas; j++){
+			   
+				posverificar = Mapa.mapaciudad[i][j];
+				
+				if (posverificar == '*'){
+					Mapa.mapaciudad[i][j] = ' ';
+				}
+	
+			}
+		}
+		
 	}
 	
 }

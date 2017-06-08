@@ -95,9 +95,7 @@ public class Mapa {
 			eventEmitter.update();
 			eventEmitter.send("update",0);
 			tiempoactual = (int) (tiempoactual + pNanosegundos);
-			
-			System.out.println("TIEMPO:"+tiempoactual);
-			System.out.println("DIA:"+tiempodia);
+		
 			
 			if (tiempoactual > tiempodia){
 				tiempoactual = 0;

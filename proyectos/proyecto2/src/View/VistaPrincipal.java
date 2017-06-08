@@ -209,13 +209,20 @@ public class VistaPrincipal {
 					
 					mostrar = true;
 					lblNewLabel_4.setText("On");
-					//taxi.Mostrar(mostrar);
+					for (int i = 0; i< mapaprincipal.TaxiList.size(); i++){
+						Taxi taxiactual = mapaprincipal.TaxiList.get(i);
+						taxiactual.Mostrar(mostrar);
+					}
+					
 				}
 				else {
 					
 					mostrar = false;
 					lblNewLabel_4.setText("Off");
-					//taxi.Mostrar(mostrar);
+					for (int i = 0; i< mapaprincipal.TaxiList.size(); i++){
+						Taxi taxiactual = mapaprincipal.TaxiList.get(i);
+						taxiactual.Mostrar(mostrar);
+					}
 				}
 				
 			}
@@ -236,8 +243,7 @@ public class VistaPrincipal {
 						Taxi taxiactual = mapaprincipal.TaxiList.get(i);
 						taxiactual.Ruta(ruta);
 					}
-					
-					//Mapa.Ruta(ruta);
+
 				}
 				else {
 					
@@ -712,7 +718,7 @@ public class VistaPrincipal {
 	    	   
 			   caracter = mapa[i][j];
 			   
-			   if ( caracter == ' ' ){
+			   if ( caracter == ' ' || caracter =='*'){
 				   
 				  
 				   caract = Character.toString(caracter);
@@ -724,7 +730,7 @@ public class VistaPrincipal {
 		    	   caract = Character.toString(' ');
 		    	   fila = fila + caract;
 			   }
-			   else if (caracter == '#' || Character.isLowerCase(caracter) || Character.isUpperCase(caracter) || caracter =='*'){
+			   else if (caracter == '#' || Character.isLowerCase(caracter) || Character.isUpperCase(caracter) ){
 				   
 				   
 				   if (caracter == 'T' && primeravez == true){
