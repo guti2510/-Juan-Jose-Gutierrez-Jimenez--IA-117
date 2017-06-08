@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import Controler.EventEmitter;
 import Controler.Fsm;
 
+
 public class Taxi {
 
 	public int id;
@@ -148,8 +149,6 @@ public class Taxi {
 	
 	public void buscar (){
 		
-	    openlist.clear();
-	    closelist.clear();
 	    
 	    int posicionX = getPosX();
 		int posicionY = getPosY();
@@ -224,6 +223,33 @@ public class Taxi {
 		}
 		
 
+	}
+	
+	
+	public void Ruta (boolean pEstado){
+		
+		if (pEstado == true){
+			int posY;
+			int posX;
+			for (int i = path.size()-1; i >= 0 ; i=i-2){
+				posY = path.get(i);
+				posX = path.get(i-1);
+	
+				Mapa.mapaciudad[posX][posY] = '*';
+			}
+		}
+		else{
+			
+			int posY;
+			int posX;
+			for (int i = path.size()-1; i >= 0 ; i=i-2){
+				posY = path.get(i);
+				posX = path.get(i-1);
+	
+				Mapa.mapaciudad[posX][posY] = ' ';
+			}
+			
+		}
 	}
 	
 	/* ------------------------------------------------------------------------------------------------------------------------------*/
@@ -737,6 +763,7 @@ public class Taxi {
 		
 		if (path.isEmpty() && validarcambio == true){
 			
+			path.clear();
 			eventEmiter.send("buscar", this.id);
 		}
 		else{

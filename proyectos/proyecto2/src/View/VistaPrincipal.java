@@ -231,13 +231,23 @@ public class VistaPrincipal {
 					
 					ruta = true;
 					lblNewLabel_3.setText("On");
-					//taxi.Ruta(ruta);
+					
+					for (int i = 0; i< mapaprincipal.TaxiList.size(); i++){
+						Taxi taxiactual = mapaprincipal.TaxiList.get(i);
+						taxiactual.Ruta(ruta);
+					}
+					
+					//Mapa.Ruta(ruta);
 				}
 				else {
 					
 					ruta = false;
 					lblNewLabel_3.setText("Off");
-					//taxi.Ruta(ruta);
+					
+					for (int i = 0; i< mapaprincipal.TaxiList.size(); i++){
+						Taxi taxiactual = mapaprincipal.TaxiList.get(i);
+						taxiactual.Ruta(ruta);
+					}
 				}
 			}
 		});
@@ -714,12 +724,14 @@ public class VistaPrincipal {
 		    	   caract = Character.toString(' ');
 		    	   fila = fila + caract;
 			   }
-			   else if (caracter == '#' || Character.isLowerCase(caracter) || Character.isUpperCase(caracter)){
+			   else if (caracter == '#' || Character.isLowerCase(caracter) || Character.isUpperCase(caracter) || caracter =='*'){
 				   
 				   
 				   if (caracter == 'T' && primeravez == true){
 						 System.out.println("TAXI EN"+ i +" "+ j);
 					     Taxi taxi = new Taxi(idstaxis,eventEmitter,i,j);
+					     
+					     mapaprincipal.TaxiList.add(taxi);
 					     idstaxis +=1;
 				   }
 				   
