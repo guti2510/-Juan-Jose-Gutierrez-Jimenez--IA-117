@@ -67,7 +67,7 @@ public class VistaPrincipal {
 	
 	static boolean primeravez = true;
 	
-	static int idstaxis = 1;
+	static int idsgenerales = 1;
 	
 	static Taxi taxi;
 	static Mapa mapaprincipal;
@@ -282,8 +282,8 @@ public class VistaPrincipal {
 				cuadradest = textFieldDestino.getText();
 				char cuadradestfinal = cuadradest.charAt(0);
 				
-				Mapa.Cliente(cuadrorigenfinal,cuadradestfinal);
-			
+				Mapa.Cliente(idsgenerales,cuadrorigenfinal,cuadradestfinal,eventEmitter);
+				idsgenerales++;
 			}
 			
 		});
@@ -680,10 +680,10 @@ public class VistaPrincipal {
 				   
 				   if (caracter == 'T' && primeravez == true){
 						 System.out.println("TAXI EN"+ i +" "+ j);
-					     Taxi taxi = new Taxi(idstaxis,eventEmitter,i,j);
+					     Taxi taxi = new Taxi(idsgenerales,eventEmitter,i,j);
 					     
 					     mapaprincipal.TaxiList.add(taxi);
-					     idstaxis +=1;
+					     idsgenerales ++;
 				   }
 				   
 				   

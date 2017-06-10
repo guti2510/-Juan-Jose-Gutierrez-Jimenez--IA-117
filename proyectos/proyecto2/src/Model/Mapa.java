@@ -124,7 +124,7 @@ public class Mapa {
 		
 	}
 	
-	public static void Cliente (char origen, char destino){
+	public static void Cliente (int id, char origen, char destino, EventEmitter eventEmiter){
 		
 		int posiciones[] = buscarCuadraPos(origen);
     	int posClienteNuevoX = posiciones[0];
@@ -159,7 +159,7 @@ public class Mapa {
     	
 
     	Mapa.mapaciudad[posClienteNuevoX][posClienteNuevoY] = 'o';
-    	Cliente nuevocliente = new Cliente(posClienteNuevoX,posClienteNuevoY,origen,destino,"Esperando");
+    	Cliente nuevocliente = new Cliente(id, posClienteNuevoX, posClienteNuevoY, origen, destino, eventEmiter, tiempodia);
 		listaclientes.add(nuevocliente);
     	
 		

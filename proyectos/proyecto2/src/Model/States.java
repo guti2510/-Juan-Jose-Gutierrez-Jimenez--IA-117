@@ -73,7 +73,59 @@ public class States {
 
 		public void onUpdate(Fsm fsm) {
 	        ((Taxi) fsm.owner()).recogerCliente();
-	        System.out.print("TAXI" + fsm.id()+"  " + "con cliente");
+	        System.out.println("TAXI" + fsm.id()+"  " + "con cliente");
+	    }
+
+		@Override
+		public void onExit(Fsm fsm) {
+			// TODO Auto-generated method stub
+			
+		}
+	    
+	}
+	
+	public class hogar implements State{
+		
+		public boolean accepts(String event) {
+	        //criteria to be able to get in that state
+	        return event == "hogar";
+	    }
+
+		public void onEnter(Fsm fsm) {
+			
+	        this.onUpdate(fsm);
+	        
+	    }
+
+		public void onUpdate(Fsm fsm) {
+	        ((Cliente) fsm.owner()).esperandoTaxi();
+	        System.out.println("Cliente" + fsm.id()+"  " + "esperando Taxi");
+	    }
+
+		@Override
+		public void onExit(Fsm fsm) {
+			// TODO Auto-generated method stub
+			
+		}
+	    
+	}
+	
+	public class trabajando implements State{
+		
+		public boolean accepts(String event) {
+	        //criteria to be able to get in that state
+	        return event == "trabajando";
+	    }
+
+		public void onEnter(Fsm fsm) {
+			
+	        this.onUpdate(fsm);
+	        
+	    }
+
+		public void onUpdate(Fsm fsm) {
+	        ((Cliente) fsm.owner()).esperandoTaxi();
+	        System.out.println("Cliente" + fsm.id()+"  " + "esperando Taxi");
 	    }
 
 		@Override
