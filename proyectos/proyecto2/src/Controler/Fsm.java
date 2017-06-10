@@ -24,6 +24,11 @@ public class Fsm {
 	    eventEmiter.register(this);
 		
 	}
+	
+	public String toString(){
+		
+		return myId + " ENTRO ";
+	}
 
 	public int id() {
 	    return this.myId;
@@ -36,7 +41,8 @@ public class Fsm {
 	public void onMessage(Event event) {    
 	    if (event.msg == "update") {
 	        this._current.onUpdate(this);
-	    } else {
+	    } 
+	    else {
 	    	
 	    	State state = null;
 			for (int i = 0; i < states.size(); i++)
@@ -48,19 +54,19 @@ public class Fsm {
 		    	   break;
 		       }
 		    }
-	    
+    
 			boolean accepted = false;
-		 
-		 if (state != this._current && state != null){
-			 accepted = true;
-		 }
-	      if (accepted) {
-	        if (this._current != null) {
-	          this._current.onExit(this);
-	        }
-	        this._current = state;
-	        this._current.onEnter(this);
-	      }
+			 
+			 if (state != null && state != this._current){
+				 accepted = true;
+			 }
+		      if (accepted) {
+		        if (this._current != null) {
+		          this._current.onExit(this);
+		        }
+		        this._current = state;
+		        this._current.onEnter(this);
+		      }
 	    }
 	}  
 	

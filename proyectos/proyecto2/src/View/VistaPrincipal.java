@@ -35,8 +35,6 @@ public class VistaPrincipal {
 	private JTextField textFieldOrigen;
 	private JTextField textFieldDestino;
 
-	private JTextField textField_2;
-
 	private JTextField textFieldClientes;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
@@ -89,9 +87,6 @@ public class VistaPrincipal {
 	
 	public static void main(String[] args) {
 		
-	
-		//Taxi taxi = new Taxi(1,eventEmitter,1,1);
-		//Taxi taxi2 = new Taxi(2,eventEmitter,21,1);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -145,8 +140,7 @@ public class VistaPrincipal {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
-				eventEmitter.send("buscar",0);
-	
+				eventEmitter.send("buscar",0);	
 			}
 		});
 		btnNewButton_1.setBounds(238, 158, 97, 25);
@@ -169,6 +163,7 @@ public class VistaPrincipal {
 					
 					hiloanimar = new Proceso("Proceso Animar",nanosegundos, "Animar");
 					hiloanimar.start();
+					
 					presionadoprincipal = true;
 				}
 				else{
@@ -295,44 +290,6 @@ public class VistaPrincipal {
 		btnNewButton_6.setBounds(30, 337, 97, 25);
 		layeredPane.add(btnNewButton_6);
 		
-		JButton btnNewButton_7 = new JButton("Parquear");
-		btnNewButton_7.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent e) {
-				
-				String cuadradest;
-				cuadradest = textField_2.getText();
-				char cuadradestfinal = cuadradest.charAt(0);
-				
-				
-				if (presionadoprincipal == false){
-
-					hiloParquear = new Proceso("Hilo Parquear", "Parquear",cuadradestfinal);
-					hiloParquear.start();
-					parquearactiv = true;
-					presionadoprincipal = true;
-				}
-				else{
-					
-					//Si buscar esta activo lo detengo
-					if (pasearactiv == true){
-						hiloPasear.stop();
-					}
-					else if (buscaractiv = true){
-						hiloBuscar.stop();
-					}
-					
-					parquearactiv = true;
-					hiloParquear = new Proceso("Hilo Parquear ","Parquear",cuadradestfinal);
-					hiloParquear.start();
-					
-				}
-				
-			}
-		});
-		btnNewButton_7.setBounds(30, 435, 97, 25);
-		layeredPane.add(btnNewButton_7);
-		
 		textFieldOrigen = new JTextField();
 		textFieldOrigen.setForeground(Color.WHITE);
 		textFieldOrigen.setBackground(new Color(100, 149, 237));
@@ -346,18 +303,6 @@ public class VistaPrincipal {
 		textFieldDestino.setBounds(139, 371, 116, 22);
 		layeredPane.add(textFieldDestino);
 		textFieldDestino.setColumns(10);
-		
-		textField_2 = new JTextField();
-		textField_2.setForeground(Color.WHITE);
-		textField_2.setBackground(new Color(100, 149, 237));
-		textField_2.setBounds(139, 436, 126, 22);
-		layeredPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		JLabel lblNewLabel = new JLabel("Indique la Cuadra:");
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setBounds(139, 420, 116, 16);
-		layeredPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Cuadra donde se va colocar el cliente");
 		lblNewLabel_1.setForeground(Color.WHITE);
@@ -399,10 +344,10 @@ public class VistaPrincipal {
 		JLabel lblCambios = new JLabel("Modificaciones");
 		lblCambios.setForeground(Color.WHITE);
 		lblCambios.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblCambios.setBounds(77, 489, 135, 16);
+		lblCambios.setBounds(77, 428, 135, 16);
 		layeredPane.add(lblCambios);
 		
-		JButton btnNewButton_8 = new JButton("Taxi 2");
+		JButton btnNewButton_8 = new JButton("Taxi Nuevo");
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -410,7 +355,7 @@ public class VistaPrincipal {
 				
 			}
 		});
-		btnNewButton_8.setBounds(30, 518, 97, 25);
+		btnNewButton_8.setBounds(30, 467, 97, 25);
 		layeredPane.add(btnNewButton_8);
 		
 		

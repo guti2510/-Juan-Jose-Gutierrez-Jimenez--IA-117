@@ -50,7 +50,7 @@ public class Taxi {
 	
 	public Taxi(int id,EventEmitter eventEmiter, int pPosX,int pPosY) {
 		this.id = id;
-		this.eventEmiter = eventEmiter;
+		this.eventEmiter = eventEmiter;	
 		this.fsm = new Fsm(this, this.STATES,id,eventEmiter);
 		this.posX = pPosX;
 		this.posY = pPosY;

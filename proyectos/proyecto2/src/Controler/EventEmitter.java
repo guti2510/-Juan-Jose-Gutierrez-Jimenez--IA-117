@@ -11,9 +11,9 @@ import Model.Event;
 public class EventEmitter {
 
 	
-	ArrayList<Fsm> listeners = new ArrayList<Fsm>();
-	Map<Integer, Fsm> listenersById = new HashMap<Integer, Fsm>();
-	LinkedList<Action> queue=new LinkedList<Action> ();
+	ArrayList<Fsm> listeners;
+	Map<Integer, Fsm> listenersById;
+	LinkedList<Action> queue;
 
 
    private static EventEmitter singleton = new EventEmitter( );
@@ -21,7 +21,11 @@ public class EventEmitter {
    /* A private Constructor prevents any other
     * class from instantiating.
     */
-   private EventEmitter() { }
+   private EventEmitter() { 
+	   listeners = new ArrayList<Fsm>();
+	   listenersById = new HashMap<Integer, Fsm>();
+	   queue = new LinkedList<Action> ();
+   }
 
    /* Static 'instance' method */
    public static EventEmitter getInstance( ) {
@@ -31,9 +35,9 @@ public class EventEmitter {
 
    public void update(){
 		
-		for(int i = this.queue.size(); i > 0 ; i--) {
+		while(!queue.isEmpty()){
 			
-			Action action = this.queue.pop();
+			Action action = queue.pop();
 			Fsm fsm = action.fsm;
 			fsm.onMessage(action.event);
 
@@ -90,7 +94,7 @@ public class EventEmitter {
    }
    
    public void _addToQueue(Action action) {
-	      this.queue.push(action);
+	      this.queue.add(action);
    }
    
 }
