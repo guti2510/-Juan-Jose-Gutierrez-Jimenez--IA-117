@@ -11,4 +11,8 @@ public class Event {
 		this.id = id;
 	}
 
+	public String toString(){
+		
+		return id + " = "+msg ;
+	}
 }

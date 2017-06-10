@@ -14,13 +14,13 @@ public class States {
 
 		public void onEnter(Fsm fsm) {
 			
-	        this.onUpdate( fsm);
+	        this.onUpdate(fsm);
 	        
 	    }
 
 	    public void onUpdate(Fsm fsm) {
 	        ((Taxi) fsm.owner()).pasear();
-	        System.out.print("TAXI" + fsm.id()+"  "+ "paseando");
+	        System.out.println("TAXI" + fsm.id()+"  "+ "paseando");
 	    }
 
 		@Override
@@ -46,7 +46,7 @@ public class States {
 
 		public void onUpdate(Fsm fsm) {
 	        ((Taxi) fsm.owner()).buscar();
-	        System.out.print("TAXI" + fsm.id()+"  "+ "buscando");
+	        System.out.println("TAXI " + fsm.id()+"  "+ "buscando");
 	    }
 
 		@Override

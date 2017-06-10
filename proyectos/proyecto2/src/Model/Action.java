@@ -10,5 +10,10 @@ public class Action {
 		this.fsm = fsm;
 		this.event = event;
 	}
-
+	
+	public String toString(){
+		
+		return fsm.toString() + " " + event.toString();
+	}
+	
 }
