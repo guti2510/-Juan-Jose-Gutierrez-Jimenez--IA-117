@@ -20,7 +20,7 @@ public class Fsm {
 	    this.states = states;
 	    this.myId = id;
 	    States state = new States();
-	    this._current = state.new pasear();
+	    this._current = null;
 	    eventEmiter.register(this);
 		
 	}
@@ -40,7 +40,9 @@ public class Fsm {
 	
 	public void onMessage(Event event) {    
 	    if (event.msg == "update") {
-	        this._current.onUpdate(this);
+	    	if (this._current != null){
+	    		this._current.onUpdate(this);
+	    	}
 	    } 
 	    else {
 	    	

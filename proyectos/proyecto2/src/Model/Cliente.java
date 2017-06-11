@@ -14,6 +14,8 @@ public class Cliente {
 	public int posY;
 	public char inicio;
 	public char destino;
+	public int posXdestino;
+	public int posYdestino;
 	public int id;
 	public int horastrabaj;
 	
@@ -36,12 +38,17 @@ public class Cliente {
 		this.posY = pPosY;
 		
 		inicio = pInicio;
-		destino	= pDestino;
-		this.id = id;
-		this.eventEmiter = eventEmiter;	
-		this.fsm = new Fsm(this, this.STATES,id,eventEmiter);
 		
+		destino	= pDestino;
+		
+    	int posiciones[] = buscarCuadraPos(destino);
+    	posXdestino = posiciones[0];
+    	posYdestino = posiciones[1];
+    	
+		this.id = id;
+		this.eventEmiter = eventEmiter;		
 		this.horastrabaj =  (int) (tiempodia*0.35);
+		this.fsm = new Fsm(this, this.STATES,id,eventEmiter);
 	}
 	
 	public char getInicio() {
@@ -70,12 +77,31 @@ public class Cliente {
 		posY = pposY;
 	}
 	public void esperandoTaxi() {
-
+		System.out.println("Espernado TAXI");
 	}
 	
 	public void trabajando() {
 		
 		
+	}
+	
+	private int[] buscarCuadraPos(char destino) {
+		
+		   int posX = 0;
+		   int posY = 0;
+		   int i = 0;
+		   int j = 0;
+	       for( i = 0; i< Mapa.ciudadfilas; i++){
+	    	   for ( j = 0 ; j< Mapa.ciudadcolumnas; j++){
+	    		   if (Mapa.mapaciudad[i][j] == destino){
+	    			   posX = i;
+	    			   posY = j;
+	    		   }
+	    	   }
+	       }
+		
+	       return new int[] {posX, posY};
+
 	}
 
 		

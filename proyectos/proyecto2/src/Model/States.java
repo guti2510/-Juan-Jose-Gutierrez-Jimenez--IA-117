@@ -124,8 +124,8 @@ public class States {
 	    }
 
 		public void onUpdate(Fsm fsm) {
-	        ((Cliente) fsm.owner()).esperandoTaxi();
-	        System.out.println("Cliente" + fsm.id()+"  " + "esperando Taxi");
+	        ((Cliente) fsm.owner()).trabajando();
+	        System.out.println("Cliente" + fsm.id()+"  " + " trabajando");
 	    }
 
 		@Override

@@ -283,6 +283,7 @@ public class VistaPrincipal {
 				char cuadradestfinal = cuadradest.charAt(0);
 				
 				Mapa.Cliente(idsgenerales,cuadrorigenfinal,cuadradestfinal,eventEmitter);
+				eventEmitter.send("hogar",idsgenerales);
 				idsgenerales++;
 			}
 			
