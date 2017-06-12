@@ -10,6 +10,7 @@ public class Taxi {
 
 	public int id;
 	public Fsm fsm;
+	public String estado;
 	
 	States state = new States();
 	@SuppressWarnings("serial")
@@ -46,6 +47,8 @@ public class Taxi {
     public int posX;
     public int posY;
     
+    public Cliente clientemontado;
+    
     public EventEmitter eventEmiter;
 	
 	public Taxi(int id,EventEmitter eventEmiter, int pPosX,int pPosY) {
@@ -54,6 +57,7 @@ public class Taxi {
 		this.posX = pPosX;
 		this.posY = pPosY;
 		this.fsm = new Fsm(this, this.STATES,id,eventEmiter);
+		this.estado = "Disponible";
 	}
 
 	public int id() {
@@ -748,16 +752,19 @@ public class Taxi {
 		    closelist.clear();
 		    cuadrasvisitadas.clear();
 			Mapa.mapaciudad[clienteX][clienteY] = '%';
-			
-			
-			
+
 	    	destino = clienteDestino(clienteX,clienteY);
 	    	System.out.println("DESTINO CLIENTE : "+destino);
 	    	
-	    	
-	    	System.out.println("CUADRA Cliente X : "+posCuadraClienteX);
-	    	System.out.println("CUADRA Cliente Y : "+posCuadraClienteY);
-			
+	    	Cliente cliente;
+	    	for (int i = 0; i < Mapa.listaclientes.size();i++){
+	    		cliente = Mapa.listaclientes.get(i);
+	    		if (cliente.posX == clienteX && cliente.posY == clienteY && cliente.destino == destino){
+	    			clientemontado = cliente;
+	    		}
+	    	}
+
+			eventEmiter.send("viajando", clientemontado.id);
 			eventEmiter.send("Ocupado", this.id);
 			
 		}
@@ -766,11 +773,20 @@ public class Taxi {
 	//FUNCION QUE SE LLAMA CUANDO EL TAXI TIENE CLIENTE
 	public void recogerCliente(){
 		
-		
+		this.estado = "Ocupado";
 		if (path.isEmpty() && validarcambio == true){
+			
 			
 			validarcambio = false;
 			path.clear();
+			
+			if (clientemontado.estadopasado == "hogar"){
+				eventEmiter.send("trabajando", clientemontado.id);
+			}
+			else {
+				eventEmiter.send("hogar", clientemontado.id);
+			}
+			this.estado = "Disponible";
 			eventEmiter.send("buscar", this.id);
 
 		}

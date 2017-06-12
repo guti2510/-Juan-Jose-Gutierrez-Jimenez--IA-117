@@ -1,6 +1,8 @@
 package Model;
 
 import java.util.LinkedList;
+import java.util.Random;
+
 
 import Controler.EventEmitter;
 import View.VistaPrincipal;
@@ -20,7 +22,8 @@ public class Mapa {
 	public static LinkedList<Taxi> TaxiList =new LinkedList<Taxi>();
 	
 	public static LinkedList<Cliente> listaclientes =new LinkedList<Cliente>();
-	public static LinkedList<Character> listacuadras =new LinkedList<Character>(); 
+	public static LinkedList<Character> listahogares =new LinkedList<Character>();
+	public static LinkedList<Character> listatrabajos =new LinkedList<Character>();
 	
 	public static int tiempoactual = 0;
 	public static int tiempodia = 0;
@@ -41,7 +44,14 @@ public class Mapa {
 			else{
 				
 				if (letra != ' ' && letra != '%' && letra != 'T' && letra != 'o' && letra != '#'){
-					listacuadras.add(letra);
+					
+					if (Character.isUpperCase(letra) ){
+						listahogares.add(letra);
+						
+					}else if (Character.isLowerCase(letra)){
+						listatrabajos.add(letra);
+					}
+
 				}
 				
 				mapaciudad[x][y] = (char)letra;
@@ -187,4 +197,103 @@ public class Mapa {
 	public static void setDia(int diasegundos) {	
 		tiempodia = diasegundos;
 	}
+	
+	public static void Clientes(int numeroclientes, int idsgenerales, EventEmitter eventEmitter){
+		
+		int idgeneral = idsgenerales;
+		if (numeroclientes == 0){
+			eliminarClientes();
+			
+		}
+		else {
+			int posicionXrandom;
+			int posicionYrandom;
+			
+			int i = 0;
+			
+			
+			Random random = new Random();
+			while (i < numeroclientes){
+				
+				 posicionXrandom = (int)(random.nextDouble() * (ciudadfilas-1) + 1);
+				 posicionYrandom = (int)(random.nextDouble() * (ciudadcolumnas-1) + 1);
+				 
+				 char cuadrainicial = buscarCuadra(posicionXrandom, posicionYrandom);
+				 
+				 boolean aprovado= false;
+				 for (int j = 0; j<listahogares.size(); j++){
+					 if (listahogares.get(j) == cuadrainicial){
+						 aprovado = true;
+					 }
+					 
+				 }
+	 
+				 if (Mapa.mapaciudad[posicionXrandom][posicionYrandom] == '%' && aprovado == true){
+					 
+					 int numerorandom = (int)(random.nextDouble() * listatrabajos.size() + 0);;
+					 char cuadrafinal = listatrabajos.get(numerorandom);
+					 Mapa.mapaciudad[posicionXrandom][posicionYrandom] = 'o';
+
+			    	Cliente nuevocliente = new Cliente(idgeneral, posicionXrandom, posicionYrandom, cuadrainicial, cuadrafinal, eventEmitter, tiempodia);
+			    	eventEmitter.send("esperando",idgeneral);
+					listaclientes.add(nuevocliente);
+					 i++;
+					 idgeneral++;
+				 }
+		 
+			}
+		}
+		
+	}
+	
+	private static void eliminarClientes() {
+		
+		int i = 0;
+		int j = 0;
+		char posverificar;
+		
+		for( i = 0; i< ciudadfilas; i++){
+			for ( j = 0 ; j< ciudadcolumnas; j++){
+			   
+			   posverificar = Mapa.mapaciudad[i][j];
+				
+				if (posverificar == 'o' ){
+					Mapa.mapaciudad[i][j] = '%';
+				}
+		
+			}
+		}
+		   
+		listaclientes.clear();
+		
+		
+	}
+	
+	private static char buscarCuadra(int nearXposition, int nearYposition) {
+		
+		int i = nearXposition-1;
+		int j = nearYposition-1;
+		char posverificar = ' ';
+		int contador = 0;
+		
+		for (int cantidad = 0; cantidad<9; cantidad++){
+			
+			if (contador == 3){
+				i++;
+				contador = 0;
+				j = nearYposition-1;
+			}
+			posverificar = mapaciudad[i][j];
+			
+			if (posverificar != ' ' && posverificar != '%' && posverificar != 'T' && posverificar != 'o' && posverificar != '*' && posverificar != '#'){
+				return 	posverificar;
+			}
+			
+			contador++;
+			j++;
+		}
+		
+		return posverificar;
+	}
+	
 }

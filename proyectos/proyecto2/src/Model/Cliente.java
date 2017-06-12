@@ -17,13 +17,21 @@ public class Cliente {
 	public int posXdestino;
 	public int posYdestino;
 	public int id;
-	public int horastrabaj;
+	public int horastrabajo;
+	public int horasdescanso;
+	
+	public int horasdescansadas;
+	public int horastrabajadas;
+	public String estadopasado;
 	
 	States state = new States();
 	@SuppressWarnings("serial")
 	public ArrayList<State> STATES = new ArrayList<State>() {{
 	    add(state.new hogar());
 	    add(state.new trabajando());
+	    add(state.new viajando());
+	    add(state.new esperando());
+	    
 	}};
 
     public EventEmitter eventEmiter;
@@ -42,13 +50,17 @@ public class Cliente {
 		destino	= pDestino;
 		
     	int posiciones[] = buscarCuadraPos(destino);
-    	posXdestino = posiciones[0];
-    	posYdestino = posiciones[1];
+    	this.posXdestino = posiciones[0]-1;
+    	this.posYdestino = posiciones[1];
     	
 		this.id = id;
 		this.eventEmiter = eventEmiter;		
-		this.horastrabaj =  (int) (tiempodia*0.35);
+		this.horastrabajo =  (int) (tiempodia*0.30);
+		this.horasdescanso = (int) (tiempodia*0.35);
+		this.horastrabajadas = horastrabajo;
+		this.horasdescansadas = 0;
 		this.fsm = new Fsm(this, this.STATES,id,eventEmiter);
+		this.estadopasado = "hogar";
 	}
 	
 	public char getInicio() {
@@ -76,12 +88,62 @@ public class Cliente {
 	public void setPosY(int pposY) {
 		posY = pposY;
 	}
-	public void esperandoTaxi() {
-		System.out.println("Espernado TAXI");
-	}
+	
 	
 	public void trabajando() {
 		
+		horastrabajadas--;
+		System.out.print(" "+ horastrabajadas);
+		this.estadopasado = "trabajando";
+		
+		if (horastrabajadas <= 0){
+			
+			int temp = 0;
+			temp = posX;
+			posX = this.posXdestino;
+			posXdestino = temp;
+			
+			temp = posY;
+			posY = posYdestino;
+			posYdestino =  temp;
+			
+			char temp2;
+			temp2 = inicio;
+			inicio = destino;
+			destino = temp2;
+
+			Mapa.mapaciudad[posX][posY] = 'o';
+			eventEmiter.send("esperando", this.id);
+		}
+	}
+	
+	public void hogar() {
+
+		horastrabajadas = horastrabajo;
+		this.estadopasado = "hogar";
+		horasdescansadas++;
+		
+		System.out.print(" "+ horasdescansadas);
+		if (horasdescansadas == horasdescanso){
+			
+			int temp = 0;
+			temp = posX;
+			posX = this.posXdestino;
+			posXdestino = temp;
+			
+			temp = posY;
+			posY = posYdestino;
+			posYdestino =  temp;
+			
+			char temp2;
+			temp2 = inicio;
+			inicio = destino;
+			destino = temp2;
+			
+			Mapa.mapaciudad[posX][posY] = 'o';
+			horasdescansadas = 0;
+			eventEmiter.send("esperando", this.id);
+		}
 		
 	}
 	
@@ -103,6 +165,7 @@ public class Cliente {
 	       return new int[] {posX, posY};
 
 	}
+
 
 		
 }

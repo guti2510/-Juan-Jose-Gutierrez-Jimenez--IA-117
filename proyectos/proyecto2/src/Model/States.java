@@ -98,8 +98,33 @@ public class States {
 	    }
 
 		public void onUpdate(Fsm fsm) {
-	        ((Cliente) fsm.owner()).esperandoTaxi();
-	        System.out.println("Cliente" + fsm.id()+"  " + "esperando Taxi");
+	        ((Cliente) fsm.owner()).hogar();
+	        System.out.println("Cliente" + fsm.id()+"  " + "descansando hogar");
+	    }
+
+		@Override
+		public void onExit(Fsm fsm) {
+			// TODO Auto-generated method stub
+			
+		}
+	    
+	}
+	
+	public class esperando implements State{
+		
+		public boolean accepts(String event) {
+	        //criteria to be able to get in that state
+	        return event == "esperando";
+	    }
+
+		public void onEnter(Fsm fsm) {
+			
+	        this.onUpdate(fsm);
+	        
+	    }
+
+		public void onUpdate(Fsm fsm) {
+	        System.out.println("Cliente" + fsm.id()+"  " + " esperando");
 	    }
 
 		@Override
@@ -124,8 +149,33 @@ public class States {
 	    }
 
 		public void onUpdate(Fsm fsm) {
-	        ((Cliente) fsm.owner()).trabajando();
 	        System.out.println("Cliente" + fsm.id()+"  " + " trabajando");
+	        ((Cliente) fsm.owner()).trabajando();
+	    }
+
+		@Override
+		public void onExit(Fsm fsm) {
+			// TODO Auto-generated method stub
+			
+		}
+	    
+	}
+	
+	public class viajando implements State{
+		
+		public boolean accepts(String event) {
+	        //criteria to be able to get in that state
+	        return event == "viajando";
+	    }
+
+		public void onEnter(Fsm fsm) {
+			
+	        this.onUpdate(fsm);
+	        
+	    }
+
+		public void onUpdate(Fsm fsm) {
+	        System.out.println("Cliente" + fsm.id()+"  " + " viajando");
 	    }
 
 		@Override

@@ -11,6 +11,11 @@ import javax.swing.JLayeredPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 import Model.Mapa;
 import Controler.EventEmitter;
@@ -27,6 +32,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JTextArea;
 import java.awt.Color;
+import javax.swing.JTextPane;
 
 public class VistaPrincipal {
 
@@ -39,7 +45,8 @@ public class VistaPrincipal {
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	private static JLabel lblTiempo;
-	private static JTextArea textArea;
+	
+	static JTextPane textPaneMapa;
 	
 	Thread hiloPasear;
 	Thread hiloBuscar;
@@ -79,6 +86,7 @@ public class VistaPrincipal {
 	
 	private PrintStream standardOut;
 	private JTextField TiempoField;
+	static DefaultStyledDocument document;
 	/**
 	 * Launch the application.
 	 */
@@ -114,7 +122,7 @@ public class VistaPrincipal {
 		
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1432, 646);
+		frame.setBounds(100, 100, 1432, 808);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -126,7 +134,6 @@ public class VistaPrincipal {
 		
 		JButton btnNewButton = new JButton("Pasear");
 		btnNewButton.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 					
 				eventEmitter.send("pasear",0);
@@ -138,7 +145,6 @@ public class VistaPrincipal {
 		
 		JButton btnNewButton_1 = new JButton("Buscar");
 		btnNewButton_1.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				eventEmitter.send("buscar",0);	
 			}
@@ -204,8 +210,8 @@ public class VistaPrincipal {
 					
 					mostrar = true;
 					lblNewLabel_4.setText("On");
-					for (int i = 0; i< mapaprincipal.TaxiList.size(); i++){
-						Taxi taxiactual = mapaprincipal.TaxiList.get(i);
+					for (int i = 0; i< Mapa.TaxiList.size(); i++){
+						Taxi taxiactual = Mapa.TaxiList.get(i);
 						taxiactual.Mostrar(mostrar);
 					}
 					
@@ -214,8 +220,8 @@ public class VistaPrincipal {
 					
 					mostrar = false;
 					lblNewLabel_4.setText("Off");
-					for (int i = 0; i< mapaprincipal.TaxiList.size(); i++){
-						Taxi taxiactual = mapaprincipal.TaxiList.get(i);
+					for (int i = 0; i< Mapa.TaxiList.size(); i++){
+						Taxi taxiactual = Mapa.TaxiList.get(i);
 						taxiactual.Mostrar(mostrar);
 					}
 				}
@@ -234,8 +240,8 @@ public class VistaPrincipal {
 					ruta = true;
 					lblNewLabel_3.setText("On");
 					
-					for (int i = 0; i< mapaprincipal.TaxiList.size(); i++){
-						Taxi taxiactual = mapaprincipal.TaxiList.get(i);
+					for (int i = 0; i< Mapa.TaxiList.size(); i++){
+						Taxi taxiactual = Mapa.TaxiList.get(i);
 						taxiactual.Ruta(ruta);
 					}
 
@@ -245,8 +251,8 @@ public class VistaPrincipal {
 					ruta = false;
 					lblNewLabel_3.setText("Off");
 					
-					for (int i = 0; i< mapaprincipal.TaxiList.size(); i++){
-						Taxi taxiactual = mapaprincipal.TaxiList.get(i);
+					for (int i = 0; i< Mapa.TaxiList.size(); i++){
+						Taxi taxiactual = Mapa.TaxiList.get(i);
 						taxiactual.Ruta(ruta);
 					}
 				}
@@ -263,8 +269,9 @@ public class VistaPrincipal {
 				String numclien;
 				numclien = textFieldClientes.getText();
 				int numeroclients = Integer.parseInt(numclien);
-				//taxi.Clientes(numeroclients);
 				
+				Mapa.Clientes(numeroclients,idsgenerales,eventEmitter);
+				idsgenerales+= numeroclients;
 			}
 		});
 		btnNewButton_5.setBounds(30, 285, 97, 25);
@@ -283,7 +290,7 @@ public class VistaPrincipal {
 				char cuadradestfinal = cuadradest.charAt(0);
 				
 				Mapa.Cliente(idsgenerales,cuadrorigenfinal,cuadradestfinal,eventEmitter);
-				eventEmitter.send("hogar",idsgenerales);
+				eventEmitter.send("esperando",idsgenerales);
 				idsgenerales++;
 			}
 			
@@ -305,12 +312,12 @@ public class VistaPrincipal {
 		layeredPane.add(textFieldDestino);
 		textFieldDestino.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Cuadra donde se va colocar el cliente");
+		JLabel lblNewLabel_1 = new JLabel("Casa");
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setBounds(267, 341, 235, 16);
 		layeredPane.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Destino del cliente");
+		JLabel lblNewLabel_2 = new JLabel("Trabajo");
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setBounds(267, 374, 126, 16);
 		layeredPane.add(lblNewLabel_2);
@@ -358,19 +365,6 @@ public class VistaPrincipal {
 		});
 		btnNewButton_8.setBounds(30, 467, 97, 25);
 		layeredPane.add(btnNewButton_8);
-		
-		
-		
-		textArea = new JTextArea();
-		textArea.setForeground(Color.WHITE);
-		textArea.setBackground(new Color(100, 149, 237));
-		textArea.setBounds(495, 101, 907, 464);
-        
-		
-		Font font = textArea.getFont();
-	    float size = font.getSize() + 2.0f;
-	    textArea.setFont( font.deriveFont(size) );
-		layeredPane.add(textArea);
 		
 		
 		
@@ -437,8 +431,19 @@ public class VistaPrincipal {
 		lblTiempo.setForeground(new Color(230, 230, 250));
 		lblTiempo.setBounds(390, 123, 56, 16);
 		layeredPane.add(lblTiempo);
-
 		
+		document = new DefaultStyledDocument();
+		textPaneMapa = new JTextPane(document);
+		textPaneMapa.setEditable(false);
+		textPaneMapa.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		textPaneMapa.setBackground(new Color(100, 149, 237));
+		textPaneMapa.setBounds(495, 94, 907, 619);
+		layeredPane.add(textPaneMapa);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(59, 551, 424, 162);
+		layeredPane.add(textPane);
+
 		initcomponents();
 	}
 
@@ -446,9 +451,9 @@ public class VistaPrincipal {
 	}
 	
 	
-	public static void printMapa(){
+	public static void printMapa() {
 		
-		char mapa[][] =	mapaprincipal.getMapa();
+		char mapa[][] =	Mapa.getMapa();
 		
 		int ciudadfilas = mapaprincipal.getCiudadFilas();
 		int ciudadcolumnas = mapaprincipal.getCiudadColumnas();
@@ -463,197 +468,7 @@ public class VistaPrincipal {
 	    String mapacompleto = "";
 	    
 	    /*
-	    for( i = 0; i< ciudadfilas1; i++){
-		    for ( j = 0 ; j< ciudadcolumnas1; j++){
-			   
-		    	caracter = mapa[i][j];
-		    	
-		    	
-		    	if ( (i == 1 || i == 5 || i == 9 || i == 13) && (j == 29 )){
-			    	
-		    		
-		    	  if (i == 5 || i == 9 || i == 13){
-		    		  
-		    		caract = Character.toString(' ');
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-		    		  
-		    	  }
-		    	  else {
-		    		  
-		    		  caract = Character.toString(' ');
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					fila = fila + caract;
-					
-		    		  
-		    	  }
-			    	
- 	
-			    }
-		    	
-		    	else if (caracter == ' ' && (i == 1 || i == 5 || i == 9 || i == 13)){
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
 
-		    	}
-		    	else if (caracter == ' ' ){
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-		    		
-		    		caract = Character.toString(caracter);
-		    		fila = fila + caract;
-
-		    	}
-		    	else if (caracter == '#'){
-					   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-
-			    	   
-				   }
-		    	else if (caracter == '%'){
-					   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-
-			    	   
-				   }
-		    	else if (caracter == 'T' ){
-					   
-		    		   fila = fila + ' ';
-		    		
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-
-			    	   
-				   }
-		    	else if (caracter == 't'){
-					   
-		    		   fila = fila + ' ';
-		    		
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				   	}
-		    	else if (caracter == '*'){
-					   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				}
-		    	else if (caracter == 'I' ){
-					   
-			    	   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-
-			    	   
-				}
-		    	
-		    	else if (caracter == 'C' || caracter == 'E' || caracter == 'O'  || caracter == 'R' || caracter == 'U' || caracter == 'N' || caracter == 'G' || caracter == 'W' || caracter == 'X'){
-					   
-			    	   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				}
-
-		    	else if (caracter != 't' && caracter != ' ' && caracter != '%' && caracter != 'T' && caracter != '*'){
-					   
-					   caract = Character.toString(caracter);
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				   }
-				   else if (caracter == '0' ){
-					   
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-			    	   caract = Character.toString(' ');
-			    	   fila = fila + caract;
-			    	   
-				   }
-				   
-		    	else{
-		    		
-			    	caract = Character.toString(caracter);
-			    	fila = fila + caract;
-		    	
-		    	}
-		    }
-		    
-		    
-		    fila = fila +'\n';
-		    mapacompleto = mapacompleto + fila;
-		    fila = "";
-	    }
-	   */
-	
 	   for( i = 0; i< ciudadfilas; i++){
 		   for ( j = 0 ; j< ciudadcolumnas; j++){
 			   
@@ -683,9 +498,10 @@ public class VistaPrincipal {
 						 System.out.println("TAXI EN"+ i +" "+ j);
 					     Taxi taxi = new Taxi(idsgenerales,eventEmitter,i,j);
 					     
-					     mapaprincipal.TaxiList.add(taxi);
+					     Mapa.TaxiList.add(taxi);
 					     idsgenerales ++;
 				   }
+
 				   
 				   
 				   caract = Character.toString(caracter);
@@ -697,7 +513,7 @@ public class VistaPrincipal {
 			   }
 			   else{
 				   
-				  
+				   
 				   caract = Character.toString(caracter);
 			       fila = fila + caract;
 
@@ -715,18 +531,174 @@ public class VistaPrincipal {
 	    primeravez = false;
 	   	textArea.setText(mapacompleto);
 		textArea.setEditable(false);
+		
+		*/
+	    
+	    StyleContext context = new StyleContext();
+		// build a style
+		Style style = context.addStyle("azul", null);
+		Style style2 = context.addStyle("amarillo", null);
+		Style style3 = context.addStyle("rojo", null);
+		Style style4 = context.addStyle("amarillo", null);
+		
+		// set some style properties
+	    StyleConstants.setFontFamily(style, "Monospaced");
+	    StyleConstants.setFontSize(style, 20);
+		StyleConstants.setForeground(style, Color.WHITE);	
+
+		StyleConstants.setFontFamily(style2, "Monospaced");
+	    StyleConstants.setFontSize(style2, 20);
+		StyleConstants.setForeground(style2, Color.YELLOW);	
+		
+		StyleConstants.setFontFamily(style3, "Monospaced");
+	    StyleConstants.setFontSize(style3, 20);
+		StyleConstants.setForeground(style3, Color.RED);	
+		
+		StyleConstants.setFontFamily(style4, "Monospaced");
+	    StyleConstants.setFontSize(style4, 20);
+		StyleConstants.setForeground(style4, Color.GREEN);
+		
+		textPaneMapa.setText("");
+	    
+	    
+	    for( i = 0; i< ciudadfilas; i++){
+			   for ( j = 0 ; j< ciudadcolumnas; j++){
+				   
+		    	   
+				   caracter = mapa[i][j];
+				   
+				   if ( caracter == ' ' || caracter =='*'){
+					   
+					  
+					   caract = Character.toString(caracter);
+				       fila = fila + caract;
+
+				   }
+				   else if (caracter == '#' || Character.isLowerCase(caracter) || Character.isUpperCase(caracter) ){
+					   
+					   
+					   if (caracter == 'T' && primeravez == true){
+							 System.out.println("TAXI EN"+ i +" "+ j);
+						     Taxi taxi = new Taxi(idsgenerales,eventEmitter,i,j);
+						     
+						     Mapa.TaxiList.add(taxi);
+						     idsgenerales ++;
+					   }
+
+					   if (caracter == 'T' ){
+						   
+						   for (int contador= 0; contador< Mapa.TaxiList.size(); contador++){
+								Taxi taxiactual = Mapa.TaxiList.get(contador);
+								
+								if (taxiactual.posX == i && taxiactual.posY == j){
+									
+									if (taxiactual.estado == "Disponible"){
+	
+										try {
+											document.insertString(document.getLength(), fila, style);
+										} catch (BadLocationException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										  
+										caract = Character.toString(caracter);
+										
+										try {
+											document.insertString(document.getLength(), caract, style2);
+										} catch (BadLocationException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										fila = "";
+									}
+									else if (taxiactual.estado == "Ocupado"){
+										
+										try {
+											document.insertString(document.getLength(), fila, style);
+										} catch (BadLocationException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										  
+										caract = Character.toString(caracter);
+										
+										try {
+											document.insertString(document.getLength(), caract, style3);
+										} catch (BadLocationException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										fila = "";
+									}
+								}
+
+							}
+					   }
+					   else if(caracter == 'o'){
+						   
+						   try {
+								document.insertString(document.getLength(), fila, style);
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							  
+							caract = Character.toString(caracter);
+							
+							try {
+								document.insertString(document.getLength(), caract, style4);
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							fila = "";
+							
+					   }
+					   else{
+					   
+						   caract = Character.toString(caracter);
+					       fila = fila + caract;
+				       
+					   }
+				   }
+				   else{
+					   
+					   
+					   caract = Character.toString(caracter);
+				       fila = fila + caract;
+
+					   
+					   
+				   }
+	 
+
+			   }
+			   fila = fila +'\n';
+			   
+			   try {
+					document.insertString(document.getLength(), fila, style);
+					} catch (BadLocationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			   mapacompleto = mapacompleto + fila;
+			   fila = "";
+			   
+		   }
+	    
+	    primeravez = false;
 	}
 
 	public static void setTiempo(String tiempo) {
 
 		if (tiempo == "Dia"){
-			textArea.setBackground(new Color(222, 160, 73));
+			textPaneMapa.setBackground(new Color(222, 160, 73));
 			lblTiempo.setText("Día");
 			lblTiempo.setForeground(new Color(222, 160, 73));
 
 		}
 		else if (tiempo == "Noche"){
-			textArea.setBackground(new Color(0, 46, 99));
+			textPaneMapa.setBackground(new Color(0, 46, 99));
 			lblTiempo.setText("Noche");
 			lblTiempo.setForeground(new Color(0, 46, 99));
 		}
