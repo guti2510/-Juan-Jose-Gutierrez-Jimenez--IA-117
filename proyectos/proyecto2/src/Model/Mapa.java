@@ -93,6 +93,7 @@ public class Mapa {
 
 			eventEmitter.send("update",0);	
 
+			VistaPrincipal.calcularEdificios();
 			VistaPrincipal.setTiempo(tiempo);
 			VistaPrincipal.printMapa();
 					
@@ -102,6 +103,7 @@ public class Mapa {
 		
 	}
 	
+
 	public static void printCiudad(){
 		
 		   int i = 0;
@@ -294,6 +296,32 @@ public class Mapa {
 		}
 		
 		return posverificar;
+	}
+	
+	public static void nuevoTaxi(int idsgenerales){
+		
+		Taxi taxi = new Taxi(idsgenerales,eventEmitter,1,1);
+		 Mapa.mapaciudad[1][1] = 'T';
+	     Mapa.TaxiList.add(taxi);
+	     eventEmitter.send("pasear",idsgenerales);
+		
+	}
+	
+	public static int calcularEdificio(char edificio) {
+
+		int cantidad = 0;
+		for (int i=0; i< listaclientes.size() ; i++){
+			Cliente cliente = listaclientes.get(i);
+			
+			if(cliente.inicio == edificio){
+				cantidad++;		
+			}
+
+		}
+		
+		return cantidad;
+		
+		
 	}
 	
 }

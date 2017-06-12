@@ -23,6 +23,7 @@ public class Cliente {
 	public int horasdescansadas;
 	public int horastrabajadas;
 	public String estadopasado;
+	public boolean cambio = false;
 	
 	States state = new States();
 	@SuppressWarnings("serial")
@@ -96,7 +97,18 @@ public class Cliente {
 		System.out.print(" "+ horastrabajadas);
 		this.estadopasado = "trabajando";
 		
+		if (cambio == false){
+			char temp2;
+			temp2 = inicio;
+			inicio = destino;
+			destino = temp2;
+			cambio = true;
+		}
+
+		
 		if (horastrabajadas <= 0){
+			
+			cambio = false;
 			
 			int temp = 0;
 			temp = posX;
@@ -107,13 +119,10 @@ public class Cliente {
 			posY = posYdestino;
 			posYdestino =  temp;
 			
-			char temp2;
-			temp2 = inicio;
-			inicio = destino;
-			destino = temp2;
 
 			Mapa.mapaciudad[posX][posY] = 'o';
 			eventEmiter.send("esperando", this.id);
+			
 		}
 	}
 	
@@ -123,8 +132,18 @@ public class Cliente {
 		this.estadopasado = "hogar";
 		horasdescansadas++;
 		
+		if (cambio == false){
+			char temp2;
+			temp2 = inicio;
+			inicio = destino;
+			destino = temp2;
+			cambio = true;
+		}
+		
 		System.out.print(" "+ horasdescansadas);
 		if (horasdescansadas == horasdescanso){
+			
+			cambio = false;
 			
 			int temp = 0;
 			temp = posX;
@@ -135,10 +154,6 @@ public class Cliente {
 			posY = posYdestino;
 			posYdestino =  temp;
 			
-			char temp2;
-			temp2 = inicio;
-			inicio = destino;
-			destino = temp2;
 			
 			Mapa.mapaciudad[posX][posY] = 'o';
 			horasdescansadas = 0;

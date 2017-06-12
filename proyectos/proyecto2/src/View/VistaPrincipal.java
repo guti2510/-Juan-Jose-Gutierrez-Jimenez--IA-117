@@ -33,6 +33,7 @@ import java.awt.Font;
 import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.JTextPane;
+import javax.swing.JScrollPane;
 
 public class VistaPrincipal {
 
@@ -47,6 +48,7 @@ public class VistaPrincipal {
 	private static JLabel lblTiempo;
 	
 	static JTextPane textPaneMapa;
+	static JTextPane textPaneEdificios;
 	
 	Thread hiloPasear;
 	Thread hiloBuscar;
@@ -86,7 +88,9 @@ public class VistaPrincipal {
 	
 	private PrintStream standardOut;
 	private JTextField TiempoField;
+	
 	static DefaultStyledDocument document;
+	static DefaultStyledDocument document2;
 	/**
 	 * Launch the application.
 	 */
@@ -122,7 +126,7 @@ public class VistaPrincipal {
 		
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1432, 808);
+		frame.setBounds(100, 100, 1606, 808);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -349,21 +353,18 @@ public class VistaPrincipal {
 		lblNewLabel_4.setBounds(156, 225, 56, 16);
 		layeredPane.add(lblNewLabel_4);
 		
-		JLabel lblCambios = new JLabel("Modificaciones");
-		lblCambios.setForeground(Color.WHITE);
-		lblCambios.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblCambios.setBounds(77, 428, 135, 16);
-		layeredPane.add(lblCambios);
-		
 		JButton btnNewButton_8 = new JButton("Taxi Nuevo");
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				//taxi.Taxi2();
+				
+				Mapa.nuevoTaxi(idsgenerales);
+
+			    idsgenerales ++;
 				
 			}
 		});
-		btnNewButton_8.setBounds(30, 467, 97, 25);
+		btnNewButton_8.setBounds(30, 419, 97, 25);
 		layeredPane.add(btnNewButton_8);
 		
 		
@@ -437,12 +438,23 @@ public class VistaPrincipal {
 		textPaneMapa.setEditable(false);
 		textPaneMapa.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		textPaneMapa.setBackground(new Color(100, 149, 237));
-		textPaneMapa.setBounds(495, 94, 907, 619);
+		textPaneMapa.setBounds(509, 94, 907, 619);
 		layeredPane.add(textPaneMapa);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(59, 551, 424, 162);
-		layeredPane.add(textPane);
+		document2 = new DefaultStyledDocument();
+		
+		JLabel lblEdificios = new JLabel("Edificios");
+		lblEdificios.setForeground(Color.WHITE);
+		lblEdificios.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblEdificios.setBounds(1479, 62, 97, 25);
+		layeredPane.add(lblEdificios);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(1442, 94, 134, 625);
+		layeredPane.add(scrollPane);
+		textPaneEdificios = new JTextPane(document2);
+		scrollPane.setViewportView(textPaneEdificios);
+		textPaneEdificios.setEditable(false);
 
 		initcomponents();
 	}
@@ -702,5 +714,57 @@ public class VistaPrincipal {
 			lblTiempo.setText("Noche");
 			lblTiempo.setForeground(new Color(0, 46, 99));
 		}
+	}
+	
+	public static void calcularEdificios(){
+		
+		
+		StyleContext context = new StyleContext();
+		// build a style
+		Style style = context.addStyle("azul", null);
+		
+		// set some style properties
+	    StyleConstants.setFontFamily(style, "Monospaced");
+	    StyleConstants.setFontSize(style, 15);
+		StyleConstants.setForeground(style, Color.BLACK);
+		
+		textPaneEdificios.setText("");
+		
+		for (int i = 0; i< Mapa.listahogares.size(); i++){
+		
+			char edificio = Mapa.listahogares.get(i);
+		    int cantidad = Mapa.calcularEdificio(edificio);
+			String caract = Character.toString(edificio);
+			
+			caract = caract+ " = " + Integer.toString(cantidad);
+
+			caract = caract +'\n';
+			
+			 try {
+				 document2.insertString(document2.getLength(), caract , style);
+			 } catch (BadLocationException e) {
+				// TODO Auto-generated catch blocks
+				e.printStackTrace();
+			 }
+		}
+
+		for (int i = 0; i< Mapa.listatrabajos.size(); i++){
+			
+			char edificio = Mapa.listatrabajos.get(i);
+			int cantidad = Mapa.calcularEdificio(edificio);
+			String caract = Character.toString(edificio);
+			
+			caract = caract+ " = " + Integer.toString(cantidad);
+
+			caract = caract +'\n';
+			
+			 try {
+				 document2.insertString(document2.getLength(), caract , style);
+			 } catch (BadLocationException e) {
+				// TODO Auto-generated catch blocks
+				e.printStackTrace();
+			 }
+		}
+	
 	}
 }
