@@ -1,6 +1,4 @@
-package Model;
-
-import Controler.Fsm;
+package Controler;
 
 public class Action {
 

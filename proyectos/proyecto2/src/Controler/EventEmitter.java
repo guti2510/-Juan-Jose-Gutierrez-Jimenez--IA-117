@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import Model.Action;
-import Model.Event;
-
 public class EventEmitter {
 
 	

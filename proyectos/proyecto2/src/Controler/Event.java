@@ -1,4 +1,4 @@
-package Model;
+package Controler;
 
 
 public class Event {

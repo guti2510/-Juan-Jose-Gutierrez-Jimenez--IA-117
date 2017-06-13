@@ -1,7 +1,6 @@
 package Controler;
 import java.util.ArrayList;
 
-import Model.Event;
 import Model.State;
 import Model.States;
 
