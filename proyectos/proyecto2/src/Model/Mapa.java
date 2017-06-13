@@ -303,7 +303,7 @@ public class Mapa {
 		Taxi taxi = new Taxi(idsgenerales,eventEmitter,1,1);
 		 Mapa.mapaciudad[1][1] = 'T';
 	     Mapa.TaxiList.add(taxi);
-	     eventEmitter.send("pasear",idsgenerales);
+	     eventEmitter.send("buscar",idsgenerales);
 		
 	}
 	

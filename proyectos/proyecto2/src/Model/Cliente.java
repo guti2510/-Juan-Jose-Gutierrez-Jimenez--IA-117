@@ -56,8 +56,8 @@ public class Cliente {
     	
 		this.id = id;
 		this.eventEmiter = eventEmiter;		
-		this.horastrabajo =  (int) (tiempodia*0.30);
-		this.horasdescanso = (int) (tiempodia*0.35);
+		this.horastrabajo =  (int) ((tiempodia/2)*0.30);
+		this.horasdescanso = (int) ((tiempodia/2)*0.30);
 		this.horastrabajadas = horastrabajo;
 		this.horasdescansadas = 0;
 		this.fsm = new Fsm(this, this.STATES,id,eventEmiter);
