@@ -1,21 +1,21 @@
-package Model;
+package Controler;
 
 import java.util.LinkedList;
 import java.util.Random;
 
-
-import Controler.EventEmitter;
+import Model.Cliente;
+import Model.Taxi;
 import View.VistaPrincipal;
 
 public class Mapa {
 
 	
-	static int ciudadfilas = 0;
-	static int ciudadcolumnas = 0;
+	public static int ciudadfilas = 0;
+	public static int ciudadcolumnas = 0;
 	
 	static float tiempoespera;
 	
-	static char[][] mapaciudad = new char[100][100];
+	public static char[][] mapaciudad = new char[100][100];
 	
 	static EventEmitter eventEmitter = EventEmitter.getInstance( );
 	

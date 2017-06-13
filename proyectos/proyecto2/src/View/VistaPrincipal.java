@@ -17,8 +17,8 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import Model.Mapa;
 import Controler.EventEmitter;
+import Controler.Mapa;
 import Controler.Proceso;
 import Model.Taxi;
 

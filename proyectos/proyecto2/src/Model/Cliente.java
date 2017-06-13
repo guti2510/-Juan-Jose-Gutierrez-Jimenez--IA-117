@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Controler.EventEmitter;
 import Controler.Fsm;
+import Controler.Mapa;
 import Model.States.buscar;
 import Model.States.conCliente;
 import Model.States.pasear;

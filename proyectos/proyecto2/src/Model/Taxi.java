@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import Controler.EventEmitter;
 import Controler.Fsm;
+import Controler.Mapa;
 
 
 public class Taxi {

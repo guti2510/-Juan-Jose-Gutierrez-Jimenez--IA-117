@@ -1,7 +1,5 @@
 package Controler;
 
-import Model.Mapa;
-
 public class Proceso extends Thread {
 
 
