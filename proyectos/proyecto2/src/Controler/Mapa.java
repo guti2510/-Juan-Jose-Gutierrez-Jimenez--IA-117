@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import Model.Cliente;
+import Model.Posicion;
 import Model.Taxi;
 import View.VistaPrincipal;
 
@@ -24,6 +25,8 @@ public class Mapa {
 	public static LinkedList<Cliente> listaclientes =new LinkedList<Cliente>();
 	public static LinkedList<Character> listahogares =new LinkedList<Character>();
 	public static LinkedList<Character> listatrabajos =new LinkedList<Character>();
+	
+	public static LinkedList<Posicion> listacongestionamiento =new LinkedList<Posicion>();
 	
 	public static int tiempoactual = 0;
 	public static int tiempodia = 0;
@@ -96,13 +99,32 @@ public class Mapa {
 			VistaPrincipal.calcularEdificios();
 			VistaPrincipal.setTiempo(tiempo);
 			VistaPrincipal.printMapa();
-					
+			reducirCongestionamiento();	
 			Thread.sleep((long) tiempoespera);
 			eventEmitter.update();	
 		}
 		
 	}
 	
+
+	private static void reducirCongestionamiento() {
+		
+		   for (int k = 0; k< Mapa.listacongestionamiento.size(); k++){
+				Posicion posicion = Mapa.listacongestionamiento.get(k);
+				
+				double congesttemp = posicion.congestionamiento - 0.10;
+				
+				if (congesttemp < 0.0){
+					posicion.congestionamiento = 0.0;
+					Mapa.listacongestionamiento.set(k, posicion);
+				}
+				else {
+					posicion.congestionamiento = congesttemp;
+					Mapa.listacongestionamiento.set(k, posicion);
+				}
+			}
+		
+	}
 
 	public static void printCiudad(){
 		
@@ -323,5 +345,6 @@ public class Mapa {
 		
 		
 	}
+	
 	
 }

@@ -10,7 +10,6 @@ import java.awt.BorderLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
@@ -20,17 +19,14 @@ import javax.swing.text.StyleContext;
 import Controler.EventEmitter;
 import Controler.Mapa;
 import Controler.Proceso;
+import Model.Posicion;
 import Model.Taxi;
 
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
-import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
@@ -81,16 +77,18 @@ public class VistaPrincipal {
 	static Taxi taxi;
 	static Mapa mapaprincipal;
 	
+	public static double congestionamiento;
+	
 	static EventEmitter eventEmitter = EventEmitter.getInstance( );
 	
 	private JFileChooser openFileChooser = new JFileChooser();
 	private StringBuilder stringbuilder = new StringBuilder();
 	
-	private PrintStream standardOut;
 	private JTextField TiempoField;
 	
 	static DefaultStyledDocument document;
 	static DefaultStyledDocument document2;
+	private JTextField textFieldCongest;
 	/**
 	 * Launch the application.
 	 */
@@ -144,7 +142,7 @@ public class VistaPrincipal {
 
 			}
 		});
-		btnNewButton.setBounds(107, 158, 97, 25);
+		btnNewButton.setBounds(107, 212, 97, 25);
 		layeredPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Buscar");
@@ -153,7 +151,7 @@ public class VistaPrincipal {
 				eventEmitter.send("buscar",0);	
 			}
 		});
-		btnNewButton_1.setBounds(238, 158, 97, 25);
+		btnNewButton_1.setBounds(238, 212, 97, 25);
 		layeredPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Animar");
@@ -168,6 +166,11 @@ public class VistaPrincipal {
 					String dia;
 					dia = TiempoField.getText();
 					int diasegundos = Integer.parseInt(dia);
+					
+					String congest;
+					congest = textFieldCongest.getText();
+					congestionamiento = Float.parseFloat(congest);
+					
 					
 					Mapa.setDia(diasegundos);
 					
@@ -187,7 +190,7 @@ public class VistaPrincipal {
 
 			}
 		});
-		btnNewButton_2.setBounds(30, 120, 97, 25);
+		btnNewButton_2.setBounds(30, 136, 97, 25);
 		layeredPane.add(btnNewButton_2);
 		
 		JLabel lblTaxi = new JLabel("TAXI");
@@ -232,7 +235,7 @@ public class VistaPrincipal {
 				
 			}
 		});
-		btnNewButton_3.setBounds(56, 221, 97, 25);
+		btnNewButton_3.setBounds(58, 283, 97, 25);
 		layeredPane.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Ruta");
@@ -262,7 +265,7 @@ public class VistaPrincipal {
 				}
 			}
 		});
-		btnNewButton_4.setBounds(281, 221, 97, 25);
+		btnNewButton_4.setBounds(238, 283, 97, 25);
 		layeredPane.add(btnNewButton_4);
 		
 		JButton btnNewButton_5 = new JButton("Clientes");
@@ -278,7 +281,7 @@ public class VistaPrincipal {
 				idsgenerales+= numeroclients;
 			}
 		});
-		btnNewButton_5.setBounds(30, 285, 97, 25);
+		btnNewButton_5.setBounds(30, 346, 97, 25);
 		layeredPane.add(btnNewButton_5);
 		
 		JButton btnNewButton_6 = new JButton("Cliente");
@@ -299,43 +302,43 @@ public class VistaPrincipal {
 			}
 			
 		});
-		btnNewButton_6.setBounds(30, 337, 97, 25);
+		btnNewButton_6.setBounds(30, 384, 97, 25);
 		layeredPane.add(btnNewButton_6);
 		
 		textFieldOrigen = new JTextField();
 		textFieldOrigen.setForeground(Color.WHITE);
 		textFieldOrigen.setBackground(new Color(100, 149, 237));
-		textFieldOrigen.setBounds(139, 338, 116, 22);
+		textFieldOrigen.setBounds(139, 385, 116, 22);
 		layeredPane.add(textFieldOrigen);
 		textFieldOrigen.setColumns(10);
 		
 		textFieldDestino = new JTextField();
 		textFieldDestino.setForeground(Color.WHITE);
 		textFieldDestino.setBackground(new Color(100, 149, 237));
-		textFieldDestino.setBounds(139, 371, 116, 22);
+		textFieldDestino.setBounds(139, 420, 116, 22);
 		layeredPane.add(textFieldDestino);
 		textFieldDestino.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Casa");
 		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBounds(267, 341, 235, 16);
+		lblNewLabel_1.setBounds(262, 388, 235, 16);
 		layeredPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Trabajo");
 		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setBounds(267, 374, 126, 16);
+		lblNewLabel_2.setBounds(267, 423, 126, 16);
 		layeredPane.add(lblNewLabel_2);
 		
 		textFieldClientes = new JTextField();
 		textFieldClientes.setForeground(Color.WHITE);
 		textFieldClientes.setBackground(new Color(100, 149, 237));
-		textFieldClientes.setBounds(139, 286, 116, 22);
+		textFieldClientes.setBounds(139, 347, 116, 22);
 		layeredPane.add(textFieldClientes);
 		textFieldClientes.setColumns(10);
 		
 		JLabel lblNumeroDeClientes = new JLabel("Numero de clientes que desea agregar");
 		lblNumeroDeClientes.setForeground(Color.WHITE);
-		lblNumeroDeClientes.setBounds(265, 289, 252, 16);
+		lblNumeroDeClientes.setBounds(262, 350, 252, 16);
 		layeredPane.add(lblNumeroDeClientes);
 		
 		JLabel lblNanosegundos = new JLabel("Segundos");
@@ -345,12 +348,12 @@ public class VistaPrincipal {
 		
 		lblNewLabel_3 = new JLabel("Off");
 		lblNewLabel_3.setForeground(Color.WHITE);
-		lblNewLabel_3.setBounds(390, 225, 56, 16);
+		lblNewLabel_3.setBounds(358, 287, 56, 16);
 		layeredPane.add(lblNewLabel_3);
 		
 		lblNewLabel_4 = new JLabel("Off");
 		lblNewLabel_4.setForeground(Color.WHITE);
-		lblNewLabel_4.setBounds(156, 225, 56, 16);
+		lblNewLabel_4.setBounds(167, 287, 56, 16);
 		layeredPane.add(lblNewLabel_4);
 		
 		JButton btnNewButton_8 = new JButton("Taxi Nuevo");
@@ -364,7 +367,7 @@ public class VistaPrincipal {
 				
 			}
 		});
-		btnNewButton_8.setBounds(30, 419, 97, 25);
+		btnNewButton_8.setBounds(30, 455, 97, 25);
 		layeredPane.add(btnNewButton_8);
 		
 		
@@ -455,6 +458,19 @@ public class VistaPrincipal {
 		textPaneEdificios = new JTextPane(document2);
 		scrollPane.setViewportView(textPaneEdificios);
 		textPaneEdificios.setEditable(false);
+		
+		textFieldCongest = new JTextField();
+		textFieldCongest.setBackground(new Color(100, 149, 237));
+		textFieldCongest.setForeground(Color.WHITE);
+		textFieldCongest.setBounds(199, 158, 97, 22);
+		layeredPane.add(textFieldCongest);
+		textFieldCongest.setColumns(10);
+		
+		JLabel lblCongestionamiento = new JLabel("Congestionamiento");
+		lblCongestionamiento.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblCongestionamiento.setForeground(Color.WHITE);
+		lblCongestionamiento.setBounds(301, 161, 145, 16);
+		layeredPane.add(lblCongestionamiento);
 
 		initcomponents();
 	}
@@ -475,7 +491,7 @@ public class VistaPrincipal {
 	    int j = 0;
 	    char caracter;
 	    
-	    String caract;
+	    String caract = null;
 	    String fila = "";
 	    String mapacompleto = "";
 	    
@@ -551,7 +567,8 @@ public class VistaPrincipal {
 		Style style = context.addStyle("azul", null);
 		Style style2 = context.addStyle("amarillo", null);
 		Style style3 = context.addStyle("rojo", null);
-		Style style4 = context.addStyle("amarillo", null);
+		Style style4 = context.addStyle("verde", null);
+		Style style5 = context.addStyle("verde", null);
 		
 		// set some style properties
 	    StyleConstants.setFontFamily(style, "Monospaced");
@@ -570,6 +587,13 @@ public class VistaPrincipal {
 	    StyleConstants.setFontSize(style4, 20);
 		StyleConstants.setForeground(style4, Color.GREEN);
 		
+		
+		StyleConstants.setFontFamily(style5, "Monospaced");
+	    StyleConstants.setFontSize(style5, 20);
+		StyleConstants.setForeground(style5, Color.ORANGE);
+		
+		
+		
 		textPaneMapa.setText("");
 	    
 	    
@@ -579,12 +603,120 @@ public class VistaPrincipal {
 		    	   
 				   caracter = mapa[i][j];
 				   
-				   if ( caracter == ' ' || caracter =='*'){
+				   if ( caracter == ' '){
+				       
+					   double congest = 0.0;
+					   if (fila == " "){
+						   
+						   for (int k = 0; k< Mapa.listacongestionamiento.size(); k++){
+								Posicion posicion = Mapa.listacongestionamiento.get(k);
+								
+								if (i ==posicion.posX && j== posicion.posY){
+									congest = posicion.congestionamiento;
+								}
+							}
+						   
+						   
+						   String color = "";
+						   if (congest == 0.0){
+							   caract = Character.toString(caracter);
+							   color = "Normal";
+						   }
+						   else if ( congest <= (congestionamiento*2)){
+							   caract = Character.toString('1');
+							   color = "Verde";
+							   
+						   }else if ( congest > (congestionamiento*2) && congest <= (congestionamiento*4) ){
+							   caract = Character.toString('2');
+							   color = "Naranja";
+						   }
+						   else if ( congest > (congestionamiento*4) ){
+							   
+							   caract = Character.toString('3');
+							   color = "Rojo";
+						   }
+						   
+					
+							
+							try {
+								 if (color == "Normal"){
+									 document.insertString(document.getLength(), caract, style);
+								  }
+								  else if ( color == "Verde" ){
+									  document.insertString(document.getLength(), caract, style4);
+									   
+								  }else if (color == "Naranja" ){
+									  document.insertString(document.getLength(), caract, style5);
+								  }
+								  else if ( color == "Rojo" ){
+									  document.insertString(document.getLength(), caract, style3);
+								  }
+								
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							fila = "";
+						   
+					   }
+					   else{
+						   
 					   
-					  
-					   caract = Character.toString(caracter);
-				       fila = fila + caract;
-
+				       		try {
+								document.insertString(document.getLength(), fila, style);
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+				       		for (int k = 0; k< Mapa.listacongestionamiento.size(); k++){
+								Posicion posicion = Mapa.listacongestionamiento.get(k);
+								
+								if (i ==posicion.posX && j== posicion.posY){
+									congest = posicion.congestionamiento;
+								}
+							}
+						   
+						   
+						   String color = "";
+						   if (congest == 0.0){
+							   caract = Character.toString(caracter);
+							   color = "Normal";
+						   }
+						   else if ( congest <= (congestionamiento*2)){
+							   caract = Character.toString('1');
+							   color = "Verde";
+							   
+						   }else if ( congest > (congestionamiento*2) && congest <= (congestionamiento*4) ){
+							   caract = Character.toString('2');
+							   color = "Naranja";
+						   }
+						   else if ( congest > (congestionamiento*4) ){
+							   
+							   caract = Character.toString('3');
+							   color = "Rojo";
+						   }
+							
+							try {
+								if (color == "Normal"){
+									 document.insertString(document.getLength(), caract, style);
+								  }
+								  else if ( color == "Verde" ){
+									  document.insertString(document.getLength(), caract, style4);
+									   
+								  }else if (color == "Naranja" ){
+									  document.insertString(document.getLength(), caract, style5);
+								  }
+								  else if ( color == "Rojo" ){
+									  document.insertString(document.getLength(), caract, style3);
+								  }
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							fila = "";
+				   		}
+						
 				   }
 				   else if (caracter == '#' || Character.isLowerCase(caracter) || Character.isUpperCase(caracter) ){
 					   
@@ -599,52 +731,134 @@ public class VistaPrincipal {
 
 					   if (caracter == 'T' ){
 						   
-						   for (int contador= 0; contador< Mapa.TaxiList.size(); contador++){
-								Taxi taxiactual = Mapa.TaxiList.get(contador);
-								
-								if (taxiactual.posX == i && taxiactual.posY == j){
+						   int cantidadtaxis = cantTaxisCelda(i, j);
+						   
+						   if (cantidadtaxis == 1){
+							   
+							   for (int contador= 0; contador< Mapa.TaxiList.size(); contador++){
+									Taxi taxiactual = Mapa.TaxiList.get(contador);
 									
-									if (taxiactual.estado == "Disponible"){
+									if (taxiactual.posX == i && taxiactual.posY == j){
+										
+										if (taxiactual.estado == "Disponible"){
+		
+											try {
+												document.insertString(document.getLength(), fila, style);
+											} catch (BadLocationException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											  
+											caract = Character.toString(caracter);
+											
+											try {
+												document.insertString(document.getLength(), caract, style2);
+											} catch (BadLocationException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											fila = "";
+										}
+										else if (taxiactual.estado == "Ocupado"){
+											
+											try {
+												document.insertString(document.getLength(), fila, style);
+											} catch (BadLocationException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											  
+											caract = Character.toString(caracter);
+											
+											try {
+												document.insertString(document.getLength(), caract, style3);
+											} catch (BadLocationException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											fila = "";
+										}
+									}
 	
-										try {
-											document.insertString(document.getLength(), fila, style);
-										} catch (BadLocationException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										  
-										caract = Character.toString(caracter);
-										
-										try {
-											document.insertString(document.getLength(), caract, style2);
-										} catch (BadLocationException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										fila = "";
-									}
-									else if (taxiactual.estado == "Ocupado"){
-										
-										try {
-											document.insertString(document.getLength(), fila, style);
-										} catch (BadLocationException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										  
-										caract = Character.toString(caracter);
-										
-										try {
-											document.insertString(document.getLength(), caract, style3);
-										} catch (BadLocationException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										fila = "";
-									}
 								}
-
-							}
+						   
+						   }
+						   // SI HAY MAS DE UN TAXI EN LA CELDA
+						   else {
+							   
+							   boolean encontrado = false;
+							   
+							   for (int contador = 0; contador< Mapa.listacongestionamiento.size(); contador++){
+									Posicion posicion = Mapa.listacongestionamiento.get(contador);
+									
+									if (i ==posicion.posX && j == posicion.posY){
+										encontrado = true;
+										
+										double congestionamientofinal = congestionamiento*cantidadtaxis;
+										posicion.congestionamiento = congestionamientofinal;
+										Mapa.listacongestionamiento.set(contador, posicion);
+									}
+									
+								}
+							   
+							   if (encontrado == false){
+								   
+								   double congestionamientofinal = congestionamiento*cantidadtaxis;
+								   
+								   Posicion posicion = new Posicion(i,j,congestionamientofinal);
+								   Mapa.listacongestionamiento.add(posicion);
+								   
+							   }
+							   
+							   for (int contador= 0; contador< Mapa.TaxiList.size(); contador++){
+									Taxi taxiactual = Mapa.TaxiList.get(contador);
+									
+									if (taxiactual.posX == i && taxiactual.posY == j){
+										
+										if (taxiactual.estado == "Disponible"){
+		
+											try {
+												document.insertString(document.getLength(), fila, style);
+											} catch (BadLocationException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											  
+											caract = Character.toString(caracter);
+											
+											try {
+												document.insertString(document.getLength(), caract, style2);
+											} catch (BadLocationException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											fila = "";
+										}
+										else if (taxiactual.estado == "Ocupado"){
+											
+											try {
+												document.insertString(document.getLength(), fila, style);
+											} catch (BadLocationException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											  
+											caract = Character.toString(caracter);
+											
+											try {
+												document.insertString(document.getLength(), caract, style3);
+											} catch (BadLocationException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											fila = "";
+										}
+									}
+	
+								}
+							  
+							   
+						   }
 					   }
 					   else if(caracter == 'o'){
 						   
@@ -766,5 +980,20 @@ public class VistaPrincipal {
 			 }
 		}
 	
+	}
+	
+	public static int cantTaxisCelda(int posX, int posY){
+		
+		int cantidadTaxis = 0;
+		
+		for (int i = 0; i< Mapa.TaxiList.size(); i++){
+			Taxi taxiactual = Mapa.TaxiList.get(i);
+			
+			if (posX ==taxiactual.posX && posY == taxiactual.posY){
+				cantidadTaxis++;
+			}
+		}
+		
+		return cantidadTaxis;
 	}
 }
